@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Daftar Pertanyaan')
+@section('title', 'Input Data Pertanyaan')
 @section('section')
 <section class="section">
     <div class="section-header">
         <div class="section-header-back">
             <a href="{{ route('index.pertanyaan') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <h1>Tambah Daftar Pertanyaan</h1>
+        <h1>Tambah Data Pertanyaan</h1>
     </div>
     <div class="section-body">
         <form action="{{ route('store.pertanyaan') }}" method="post">
@@ -35,6 +35,39 @@
                             {{ $message }}
                         </div>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 16px" class="d-block">Bukti Objektif</label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-md">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="sort-handler ui-sortable-handle text-center">
+                                                {{-- <input class="form-check-input" type="checkbox" id="checkAll">
+                                                <label class="form-check-label" for="checkAll"></label> --}}
+                                            </div>
+                                        </th>
+                                        <th>Klausul</th>
+                                        <th>Bukti Objektif</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($objektif as $objektif)
+                                            <tr>
+                                                <td>
+                                                    <div class="sort-handler ui-sortable-handle text-center">
+                                                        <input class="form-check-input checkboxClass" type="checkbox" id="inlineCheckboxx{{ $loop->index+1 }}" name="objektif[]" value={{ $objektif->id }}>
+                                                        <label class="form-check-label" for="inlineCheckboxx{{ $loop->index+1 }}"></label>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $objektif->klausul->nama}}</td>
+                                                <td>{{ $objektif->objektif }}</td>
+                                            </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">

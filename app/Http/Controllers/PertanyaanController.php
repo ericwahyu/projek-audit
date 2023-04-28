@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Iso;
+use App\Models\Objektif;
 use App\Models\Pertanyaan;
 use App\Models\PertanyaanIso;
+use App\Models\PertanyaanObjektif;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,8 +34,8 @@ class PertanyaanController extends Controller
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
         $iso = Iso::all();
-
-        return view('pertanyaan.create', compact('nav', 'menu', 'iso'));
+        $objektif = Objektif::all();
+        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif'));
 
     }
 
@@ -48,6 +50,7 @@ class PertanyaanController extends Controller
             // 'iso' => 'required',
         ]);
         
+        // dd($request);
         $pertanyaan = new Pertanyaan();
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
@@ -58,6 +61,15 @@ class PertanyaanController extends Controller
                 $iso->iso_id = $req_iso;
                 $iso->pertanyaan_id = $pertanyaan->id;
                 $iso->save();
+            }
+        }
+
+        if($request->objektif != null){
+            foreach($request->objektif as $req_obj){
+                $objektif =  new PertanyaanObjektif();
+                $objektif->objektif_id = $req_obj;
+                $objektif->pertanyaan_id = $pertanyaan->id;
+                $objektif->save();
             }
         }
 
@@ -85,8 +97,8 @@ class PertanyaanController extends Controller
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
         $iso = Iso::all();
-
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso'));
+        $objektif = Objektif::all();
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif'));
     }
 
     /**
@@ -102,8 +114,7 @@ class PertanyaanController extends Controller
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
 
-        PertanyaanIso::join('iso', 'pertanyaan_iso.iso_id', '=', 'iso.id')
-        ->where('pertanyaan_iso.pertanyaan_id', $pertanyaan->id)->delete();
+        PertanyaanIso::where('pertanyaan_id', $pertanyaan->id)->delete();
 
         if($request->iso != null){
             foreach($request->iso as $req_iso){
@@ -114,6 +125,17 @@ class PertanyaanController extends Controller
             }
         }
 
+        PertanyaanObjektif::where('pertanyaan_id', $pertanyaan->id)->delete();
+
+        if($request->objektif != null){
+            foreach($request->objektif as $req_obj){
+                $objektif =  new PertanyaanObjektif();
+                $objektif->objektif_id = $req_obj;
+                $objektif->pertanyaan_id = $pertanyaan->id;
+                $objektif->save();
+            }
+        }
+        
         if($pertanyaan){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di ubah !!');
         }else{
@@ -146,5 +168,16 @@ class PertanyaanController extends Controller
             array_push($arr_iso, $iso_arr);
         }
         return $arr_iso;
+    }
+
+    public static function getPertanyaanObjektif($pertanyaan_id){
+        $pertanyaanObjektif = PertanyaanObjektif::join('objektif', 'pertanyaan_objektif.objektif_id', '=', 'objektif.id')
+        ->where('pertanyaan_objektif.pertanyaan_id', $pertanyaan_id)->pluck('objektif.id');
+
+        $arr_objektif = [];
+        foreach($pertanyaanObjektif as $iso_arr){
+            array_push($arr_objektif, $iso_arr);
+        }
+        return $arr_objektif;
     }
 }

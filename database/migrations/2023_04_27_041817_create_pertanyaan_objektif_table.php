@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pertanyaan_iso', function (Blueprint $table) {
+        Schema::create('pertanyaan_objektif', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('iso_id');
-            $table->unsignedBigInteger('pertanyaan_id');
+            $table->unsignedBigInteger('pertanyaan_id')->nullable();
+            $table->unsignedBigInteger('objektif_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('iso_id')->references('id')->on('iso')->onDelete('cascade');
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onDelete('cascade');
+            $table->foreign('objektif_id')->references('id')->on('objektif')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pertanyaan_iso');
+        Schema::dropIfExists('pertanyaan_objektif');
     }
 };

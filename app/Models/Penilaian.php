@@ -24,7 +24,7 @@ class Penilaian extends Model
         return $this->belongsTo(Nilai::class);
     }
 
-    public function objektif(){
-        return $this->hasMany(Objektif::class);
+    public function klausul(){
+        return $this->belongsTo(Klausul::class);
     }
 }

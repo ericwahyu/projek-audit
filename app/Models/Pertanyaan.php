@@ -15,4 +15,8 @@ class Pertanyaan extends Model
     public function pertanyaanIso(){
         return $this->hasMany(PertanyaanIso::class);
     }
+
+    public function pertanyaanObjektif(){
+        return $this->hasMany(PertanyaanObjektif::class);
+    }
 }

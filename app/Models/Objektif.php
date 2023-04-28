@@ -12,7 +12,11 @@ class Objektif extends Model
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function penilaian(){
-        return $this->belongsTo(Penilaian::class);
+    public function klausul(){
+        return $this->belongsTo(Klausul::class);
+    }
+
+    public function pertanyaanObjektif(){
+        return $this->hasMany(PertanyaanObjektif::class);
     }
 }

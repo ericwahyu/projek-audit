@@ -16,6 +16,11 @@ class regionalSeeder extends Seeder
         //
         $regional =[
             [
+                'nama' => 'Kantor Regional 3',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
                 'nama' => 'Regional Jawa',
                 'created_at' => null,
                 'updated_at' => null,
