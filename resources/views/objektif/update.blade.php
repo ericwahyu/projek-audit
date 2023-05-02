@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Edit Data Objektif')
+@section('title', 'Edit Data Vukti Objektif')
 @section('section')
 <section class="section">
     <div class="section-header">
         <div class="section-header-back">
             <a href="{{ route('index.objektif') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <h1>Edit Data Objektif</h1>
+        <h1>Edit Data Vukti Objektif</h1>
     </div>
     <div class="section-body">
         <form action="{{ route('update.objektif', $objektif->id) }}" method="post">
@@ -32,7 +32,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label style="font-size: 16px" class="d-block">Objektif</label>
+                        <label style="font-size: 16px" class="d-block">Bukti Objektif</label>
                         <input type="text" name="objektif" class="form-control @error('objektif') is-invalid @enderror" value="{{ $objektif->objektif }}">
                         @error('objektif')
                         <div class="invalid-feedback">

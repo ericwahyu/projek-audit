@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Data Objektif')
+@section('title', 'Data Bukti Objektif')
 @section('section')
 <section class="section">
     <div class="section-header">
         <h1>Data Objektif</h1>
         <div class="section-header-button">
             <a href="{{ route('create.objektif') }}" class="btn btn-primary"
-                title="Tambah Data Objektif">Tambah</a>
+                title="Tambah Data Bukti Objektif">Tambah</a>
         </div>
     </div>
     <div class="section-body">
@@ -21,7 +21,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Nama Klausul</th>
-                                <th>Nama Objektif</th>
+                                <th>Bukti Objektif</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Input Data Objektif')
+@section('title', 'Input Data Bukti Objektif')
 @section('section')
 <section class="section">
     <div class="section-header">
         <div class="section-header-back">
             <a href="{{ route('index.objektif') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
-        <h1>Tambah Data Objektif</h1>
+        <h1>Tambah Data Bukti Objektif</h1>
     </div>
     <div class="section-body">
         <form action="{{ route('store.objektif') }}" method="post">

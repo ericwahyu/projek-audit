@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class regionalSeeder extends Seeder
+class divisiSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,29 +14,33 @@ class regionalSeeder extends Seeder
     public function run(): void
     {
         //
-        $regional =[
+        $divisi =[
             [
-                'nama' => 'Kantor Regional 3',
+                'divisi' => 'Divisi Komersial',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
-                'nama' => 'Sub Regional Jawa',
+                'divisi' => 'Divisi Operasi',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
-                'nama' => 'Sub Regional Kalimantan',
+                'divisi' => 'Divisi Teknik',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
-                'nama' => 'Sub Regional Bali Nusra',
+                'divisi' => 'Divisi Pelayanan SDM & Umum',
                 'created_at' => null,
                 'updated_at' => null,
             ],
-
+            [
+                'divisi' => 'Divisi Pengelolaan Keuangan dan Perpajakan',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
         ];
-        DB::table('regional')->insert($regional);
+        DB::table('divisi')->insert($divisi);
     }
 }

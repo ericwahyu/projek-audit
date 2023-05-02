@@ -22,7 +22,7 @@
                                 <th class="text-center">#</th>
                                 <th>Daftar Pertanyaan</th>
                                 <th>9001</th>
-                                <th>144001</th>
+                                <th>14001</th>
                                 <th>22301</th>
                                 <th>37001</th>
                                 <th>27001</th>

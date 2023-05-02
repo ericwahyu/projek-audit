@@ -21,7 +21,7 @@ class isoSeeder extends Seeder
                 'updated_at' => null,
             ],
             [
-                'nama' => '144001',
+                'nama' => '14001',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -65,7 +65,6 @@ class isoSeeder extends Seeder
                 'created_at' => null,
                 'updated_at' => null,
             ],
-
         ];
         DB::table('iso')->insert($iso);
     }

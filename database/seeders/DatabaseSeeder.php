@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             unitSubSeeder::class,
             isoSeeder::class,
             nilaiSeeder::class,
+            divisiSeeder::class,
+            departemenSeeder::class,
             // RoleSeeder::class,
             // UserSeeder::class,
             // UnitkerjaSeeder::class,
