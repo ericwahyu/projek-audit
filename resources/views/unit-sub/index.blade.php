@@ -30,6 +30,8 @@
                                     </div>
                                 </td>
 
+                                {{-- <td>{{ is_null($data->nilai) ? 'null' : $data->nilai->nama }}</td>
+                                <td>{{ $data->catatan }}</td> --}}
                                 <td>{{ $data->regional->nama }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>
@@ -41,8 +43,8 @@
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
                                             data-toggle="tooltip" title="Hapus"><i class="far fa-trash-alt"></i>
                                             Delete</button> --}}
-                                        {{-- <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="Ubah"><i class="fa fa-info-circle"></i>
-                                            Data Penilaian</a> --}}
+                                        <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="Ubah"><i class="fa fa-info-circle"></i>
+                                            Data Penilaian</a>
                                     </form>
                                 </td>
                             </tr>

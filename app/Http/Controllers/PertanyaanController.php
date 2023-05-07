@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departemen;
 use App\Models\Iso;
 use App\Models\Objektif;
+use App\Models\Penilaian;
 use App\Models\Pertanyaan;
+use App\Models\PertanyaanDepartemen;
 use App\Models\PertanyaanIso;
 use App\Models\PertanyaanObjektif;
+use App\Models\UnitSub;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +39,8 @@ class PertanyaanController extends Controller
         $menu = 'pertanyaan';
         $iso = Iso::all();
         $objektif = Objektif::all();
-        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif'));
+        $departemen = Departemen::all();
+        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif', 'departemen'));
 
     }
 
@@ -73,7 +78,24 @@ class PertanyaanController extends Controller
             }
         }
 
-        if($pertanyaan){
+        if($request->departemen_id != null){
+            $unitSub = UnitSub::all();
+            foreach($request->departemen_id as $req_depar){
+                $departemen = new PertanyaanDepartemen();
+                $departemen->departemen_id = $req_depar;
+                $departemen->pertanyaan_id = $pertanyaan->id;
+                $departemen->save();
+
+                foreach($unitSub as $unitSub_id){
+                    $penilaian = new Penilaian();
+                    $penilaian->unit_sub_id = $unitSub_id->id;
+                    $penilaian->pertanyaan_departemen_id = $departemen->id;
+                    $penilaian->save();
+                }
+            }
+        }
+
+        if(true){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di tambah !!');
         }else{
             return redirect()->route('create.pertanyaan')->with('error', 'Gagal menambah data !!');
@@ -98,7 +120,8 @@ class PertanyaanController extends Controller
         $menu = 'pertanyaan';
         $iso = Iso::all();
         $objektif = Objektif::all();
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif'));
+        $departemen = Departemen::all();
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif', 'departemen'));
     }
 
     /**
@@ -133,6 +156,24 @@ class PertanyaanController extends Controller
                 $objektif->objektif_id = $req_obj;
                 $objektif->pertanyaan_id = $pertanyaan->id;
                 $objektif->save();
+            }
+        }
+
+        $unitSub = UnitSub::all();
+        PertanyaanDepartemen::where('pertanyaan_id', $pertanyaan->id)->delete();
+        if($request->departemen_id != null){
+            foreach($request->departemen_id as $req_depar){
+                $departemen =  new PertanyaanDepartemen();
+                $departemen->departemen_id = $req_depar;
+                $departemen->pertanyaan_id = $pertanyaan->id;
+                $departemen->save();
+
+                foreach($unitSub as $unitSub){
+                    $penilaian = new Penilaian();
+                    $penilaian->unit_sub_id = $unitSub->id;
+                    $penilaian->pertanyaan_departemen_id = $departemen->id;
+                    $penilaian->save();
+                }
             }
         }
         
@@ -179,5 +220,16 @@ class PertanyaanController extends Controller
             array_push($arr_objektif, $iso_arr);
         }
         return $arr_objektif;
+    }
+
+    public static function getPertanyaanDepartemen($pertanyaan_id){
+        $pertanyaanDepartemen = PertanyaanDepartemen::join('departemen', 'pertanyaan_departemen.departemen_id', '=', 'departemen.id')
+        ->where('pertanyaan_departemen.pertanyaan_id', $pertanyaan_id)->pluck('departemen.id');
+
+        $arr_departemen = [];
+        foreach($pertanyaanDepartemen as $iso_arr){
+            array_push($arr_departemen, $iso_arr);
+        }
+        return $arr_departemen;
     }
 }

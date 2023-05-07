@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penilaian;
 use App\Models\Regional;
 use App\Models\UnitSub;
 use Illuminate\Http\Request;
@@ -14,9 +15,10 @@ class UnitSubController extends Controller
     public function index(Regional $regional)
     {
         //
-        $nav = 'regional';
+        $nav = 'score';
         $menu = $regional->nama;
         $data = UnitSub::where('regional_id', $regional->id)->get();
+        // $data = Penilaian::all();
 
         return view('unit-sub/index', compact('nav', 'menu', 'data'));
         

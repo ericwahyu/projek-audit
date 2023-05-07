@@ -23,6 +23,23 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label style="font-size: 16px" class="d-block">Departemen</label>
+                        <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple>
+                            {{-- <option disabled selected>-- Pilih Departemen --</option> --}}
+                            @foreach ($departemen as $departemen)
+                                <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                            @endforeach
+                        </select>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            Bisa memilih lebih dari satu Departemen, dengan cara tahan CTRL saat memilih Departemen lainnya !!
+                        </small>
+                        @error('departemen_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label style="font-size: 16px" class="d-block">ISO</label>
                         @foreach ($iso as $isoData)
                         <div class="form-check form-check-inline">

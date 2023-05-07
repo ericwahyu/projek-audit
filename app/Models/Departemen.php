@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pertanyaan extends Model
+class Departemen extends Model
 {
     use HasFactory;
-    protected $table = 'pertanyaan';
+    protected $table = 'departemen';
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function pertanyaanIso(){
-        return $this->hasMany(PertanyaanIso::class);
-    }
-
-    public function pertanyaanObjektif(){
-        return $this->hasMany(PertanyaanObjektif::class);
+    public function divisi(){
+        return $this->belongsTo(Divisi::class);
     }
 
     public function pertanyaanDepartemen(){

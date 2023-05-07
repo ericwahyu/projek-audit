@@ -16,15 +16,11 @@ class Penilaian extends Model
         return $this->belongsTo(UnitSub::class);
     }
 
-    public function pertanyaanIso(){
-        return $this->belongsTo(PertanyaanIso::class);
-    }
-
     public function nilai(){
         return $this->belongsTo(Nilai::class);
     }
 
-    public function klausul(){
-        return $this->belongsTo(Klausul::class);
+    public function pertanyaanDepartemen(){
+        return $this->belongsTo(PertanyaanDepartemen::class);
     }
 }

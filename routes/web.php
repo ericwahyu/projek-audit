@@ -23,9 +23,7 @@ Route::get('/', function () {
     return view('blank');
 });
 
-Route::get('/menuRegional', [RegionalController::class, 'index'])->name('menuRegional');
-
-Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('unitSub');
+Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
 
 Route::prefix('/pertanyaan')->group(function () {
     Route::get('/', [PertanyaanController::class, 'index'])->name('index.pertanyaan');
@@ -35,12 +33,19 @@ Route::prefix('/pertanyaan')->group(function () {
     Route::post('/update/{pertanyaan}', [PertanyaanController::class, 'update'])->name('update.pertanyaan');
     Route::delete('/destroy/{pertanyaan}', [PertanyaanController::class, 'destroy'])->name('destroy.pertanyaan');
 });
+Route::prefix('/penilaian')->group(function (){
+    Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
+    Route::post('/store', [PenilaianController::class, 'store'])->name('store.penilaian');
+    Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
+    Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian');
 
-Route::get('/penilaian/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
-Route::get('/penilaian/create/{unitSub}/{pertanyaanIso}', [PenilaianController::class, 'create'])->name('create.penilaian');
-Route::post('/penilaian/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian');
-Route::get('/penilaian/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian');
-Route::post('/penilaian/update/{unitSub}/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
+    
+    Route::get('/getFunction/getDepartemen', [PenilaianController::class, 'getDepartemen'])->name('getDepartemen');
+    Route::get('/getFunction/getPertanyaanDepartemen', [PenilaianController::class, 'getPertanyaanDepartemen'])->name('getPertanyaanDepartemen');
+});
+// Route::get('/penilaian/create/{unitSub}/{pertanyaanIso}', [PenilaianController::class, 'create'])->name('create.penilaian');
+// Route::get('/penilaian/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian');
+// Route::post('/penilaian/update/{unitSub}/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
 
 Route::prefix('/klausul')->group(function (){
     Route::get('/', [KlausulController::class, 'index'])->name('index.klausul');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Regional;
+use App\Models\PertanyaanDepartemen;
 use Illuminate\Http\Request;
 
-class RegionalController extends Controller
+class PertanyaanDepartemenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,16 +13,6 @@ class RegionalController extends Controller
     public function index()
     {
         //
-        $menuRegional = '';
-        $regional = Regional::all();
-        foreach ($regional as $row) {
-            $menuRegional .= '
-                <li id="jawa"><a class="nav-link" href='.route('unitSub', $row->id).'>'.$row->nama.'</a></li>';
-        }
-        $data = array(
-            'data_menuRegional'  => $menuRegional,
-           );
-        echo json_encode($data);
     }
 
     /**
@@ -44,7 +34,7 @@ class RegionalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Regional $regional)
+    public function show(PertanyaanDepartemen $pertanyaanDepartemen)
     {
         //
     }
@@ -52,7 +42,7 @@ class RegionalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Regional $regional)
+    public function edit(PertanyaanDepartemen $pertanyaanDepartemen)
     {
         //
     }
@@ -60,7 +50,7 @@ class RegionalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Regional $regional)
+    public function update(Request $request, PertanyaanDepartemen $pertanyaanDepartemen)
     {
         //
     }
@@ -68,7 +58,7 @@ class RegionalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Regional $regional)
+    public function destroy(PertanyaanDepartemen $pertanyaanDepartemen)
     {
         //
     }

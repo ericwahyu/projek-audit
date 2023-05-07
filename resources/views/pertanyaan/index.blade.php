@@ -21,7 +21,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Daftar Pertanyaan</th>
-                                <th>9001</th>
+                                {{-- <th>9001</th>
                                 <th>14001</th>
                                 <th>22301</th>
                                 <th>37001</th>
@@ -30,8 +30,9 @@
                                 <th>50001</th>
                                 <th>45001</th>
                                 <th>ISPS Code</th>
-                                <th>SMK3</th>
-                                <th style="text-align:center">Bukti Objektif / Klausul</th>
+                                <th>SMK3</th> --}}
+                                <th>Departemen / Divisi</th>
+                                <th>Bukti Objektif / Klausul</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -45,13 +46,23 @@
                                 </td>
 
                                 <td>{{ $data->pertanyaan }}</td>
-                                @for ($i = 1; $i <= $isoCount; $i++)
+                                {{-- @for ($i = 1; $i <= $isoCount; $i++)
                                     @if (in_array($i, App\Http\Controllers\PertanyaanController::getPertanyaanIso($data->id)))
                                         <td>ada</td>
                                     @else
                                         <td>--</td>
                                     @endif
-                                @endfor
+                                @endfor --}}
+                                <td>
+                                    <table>
+                                        @foreach ($data->pertanyaanDepartemen as $perPenilaian)
+                                        <tr>
+                                            <td>{{ $perPenilaian->departemen->departemen }}</td>
+                                            <td>{{ $perPenilaian->departemen->divisi->divisi }}</td>
+                                        </tr>  
+                                        @endforeach
+                                    </table>
+                                </td>
                                 <td>
                                     <table>
                                         @foreach ($data->pertanyaanObjektif as $pertanyaanObjektif)
@@ -66,10 +77,10 @@
                                     <form id="delete" action="{{ route('destroy.pertanyaan', $data->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('edit.pertanyaan', $data->id) }}" class="btn btn-warning" title="Ubah"><i class="far fa-edit"></i>
+                                        <a href="{{ route('edit.pertanyaan', $data->id) }}" class="btn btn-warning" title="Ubah">
                                             Update</a>
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                            data-toggle="tooltip" title="Hapus"><i class="far fa-trash-alt"></i>
+                                            data-toggle="tooltip" title="Hapus">
                                             Delete</button>
                                     </form>
                                 </td>

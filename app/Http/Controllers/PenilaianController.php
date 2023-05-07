@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departemen;
+use App\Models\Divisi;
 use App\Models\Iso;
 use App\Models\Nilai;
 use App\Models\Objektif;
 use App\Models\Penilaian;
+use App\Models\Pertanyaan;
+use App\Models\PertanyaanDepartemen;
 use App\Models\PertanyaanIso;
+use App\Models\PertanyaanObjektif;
 use App\Models\Regional;
 use App\Models\UnitSub;
 use Illuminate\Http\Request;
+use SebastianBergmann\Type\NullType;
+use Symfony\Component\Console\Input\Input;
 
 class PenilaianController extends Controller
 {
@@ -19,57 +26,41 @@ class PenilaianController extends Controller
     public function index(UnitSub $unitSub)
     {
         //
-        $nav = 'regional';
+        $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $iso =  Iso::all();
+        $divisi = Divisi::all();
+        // $pertanyaanDepartemen = PertanyaanDepartemen::all();
+        $getNilai = Nilai::all();
         $penilaian = Penilaian::all();
-        return view('penilaian.index', compact('nav', 'menu', 'unitSub', 'iso', 'penilaian'));
+        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(UnitSub $unitSub, PertanyaanIso $pertanyaanIso)
+    public function create()
     {
         //
-        $nav = 'regional';
-        $menu = $unitSub->regional->nama;
-        $nilai = Nilai::all();
-        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaanIso', 'nilai'));
+        // $nav = 'regional';
+        // $menu = $unitSub->regional->nama;
+        // $nilai = Nilai::all();
+        // return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaanIso', 'nilai'));
+        return redirect()->withInput();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UnitSub $unitSub, Request $request)
+    public function store(Request $request)
     {
-        //
-        $request->validate([
-            'nilai_id' => 'required',
-        ]);
-        
+
         $penilaian = new Penilaian();
-        $penilaian->pertanyaan_iso_id = $request->pertanyaan_iso_id;
-        $penilaian->unit_sub_id = $unitSub->id;
+        $penilaian->unit_sub_id = $request->unitSub_id;
+        $penilaian->pertanyaan_departemen_id = $request->pertanyaanDepartemen_id;
         $penilaian->nilai_id = $request->nilai_id;
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
-
-        if($request->objektif != null){
-            foreach($request->objektif as $insObjektif){
-                $objektif = new Objektif();
-                $objektif->penilaian_id = $penilaian->id;
-                $objektif->objektif = $insObjektif;
-                $objektif->save();
-            }
-        }
-        
-        if($penilaian){
-            return redirect()->route('index.penilaian', $unitSub->id)->with('success', 'Data berhasil di tambah !!');
-        }else{
-            return redirect()->route('create.penilaian', [$unitSub->id, $request->pertanyaan_iso_id])->with('error', 'Gagal menambah data !!');
-        }
-
+        return redirect()->route('index.penilaian', $request->unitSub_id);
     }
 
     /**
@@ -96,46 +87,142 @@ class PenilaianController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UnitSub $unitSub, Penilaian $penilaian)
+    public function update(Request $request, Penilaian $penilaian)
     {
         //
-        $request->validate([
-            'nilai_id' => 'required',
-        ]);
         
+        // $penilaian->unit_sub_id = $request->unitSub_id;
+        // $penilaian->pertanyaan_departemen_id = $request->pertanyaanDepartemen_id;
         $penilaian->nilai_id = $request->nilai_id;
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
 
-        if($request->objektif != null){
-            Objektif::where('penilaian_id', $penilaian->id)->delete();
-            foreach($request->objektif as $insObjektif){
-                $objektif = new Objektif();
-                $objektif->penilaian_id = $penilaian->id;
-                $objektif->objektif = $insObjektif;
-                $objektif->save();
-            }
-        }
         if($penilaian){
-            return redirect()->route('index.penilaian', $unitSub->id)->with('success', 'Data berhasil di tambah !!');
+            return redirect()->route('index.penilaian', $request->unitSub_id);
         }else{
-            return redirect()->route('edit.penilaian', [$unitSub->id, $request->pertanyaan_iso_id])->with('error', 'Gagal menambah data !!');
+            return redirect()->route('edit.penilaian', $request->unitSub_id);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Penilaian $penilaian)
+    public function destroy(Penilaian $penilaian, UnitSub $unitSub)
     {
         //
+        $penilaian->nilai_id = null;
+        $penilaian->catatan = null;
+        $penilaian->save();
+
+        if($penilaian){
+            return redirect()->route('index.penilaian', $unitSub->id);
+        }else{
+            return redirect()->route('index.penilaian', $unitSub->id);
+        }
     }
 
     public static function getPenilaian($unit_sub_id, $pertanyaan_iso_id){
         $penilaian = Penilaian::where('penilaian.unit_sub_id', $unit_sub_id)
         ->where('penilaian.pertanyaan_iso_id', $pertanyaan_iso_id)->get();
-        // dd($penilaian);
-        // $penilaian = Penilaian::all();
         return $penilaian;
+    }
+
+    public function getDepartemen(Request $request){
+        $id = $request->get('divisi_id');
+        $data['departemen'] = Departemen::where('divisi_id', $id)->get();
+        return response()->json($data);
+    }
+
+    public function getPertanyaanDepartemen(Request $request){
+        if($request->ajax()){
+            $departemen_id = $request->get('departemen_id');
+            $unit_sub_id = $request->get('unit_sub_id');
+            $data_table ='';
+            $penilaian = Penilaian::join('pertanyaan_departemen', 'penilaian.pertanyaan_departemen_id', '=', 'pertanyaan_departemen.id')
+                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                        ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
+                        ->get();
+
+            $pertanyaanDepartemen = PertanyaanDepartemen::where('departemen_id', $departemen_id)->get();
+            
+            if($penilaian->count() > 0){
+                foreach($penilaian as $row){
+                    $data_table .= '
+                        <tr>
+                            <td>
+                                <div class="sort-handler ui-sortable-handle text-center">
+                                    <i class="fas fa-th"></i>
+                                </div>
+                            </td>
+                            <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
+                            <td>
+                                <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
+                            </td>
+                            <td>'.$this->getNilai($row->id).'</td>
+                            <td>'.$row->catatan.'</td>
+                            <td>'.$this->getButton($row->id, $unit_sub_id).'</td>
+                        </tr>';
+                }
+               
+            }else{
+                $data_table =
+                    '<tr>
+                        <td align="center" colspan="5">Data tidak ditemukan.</td>
+                    </tr>';
+            }
+            $data = array(
+                'data_table' => $data_table,
+                'subid' => $penilaian,
+               );
+            echo json_encode($data);
+        }
+    }
+
+    public function getPertanyaanObjektif($pertanyaan_id){
+        $text = '';
+        $pertanyaanObjektif = PertanyaanObjektif::where('pertanyaan_id', $pertanyaan_id)->get();
+
+        if($pertanyaanObjektif->count() > 0){
+            foreach($pertanyaanObjektif as $row){
+                $text .= '
+                    <tr>
+                        <td>'.$row->objektif->objektif.'</td>
+                        <td>'.$row->objektif->klausul->nama.'</td>
+                    </tr>';
+            }
+        }else{
+            $text =
+                '';
+        }
+        return $text;
+    }
+
+    public function getNilai($penilaian_id){
+        $text = '';
+        $penilaian = Penilaian::findOrFail($penilaian_id);
+        if($penilaian->nilai_id != null){
+            $text .= $penilaian->nilai->nama;
+        }else{
+            $text .= '--';
+        }
+        return $text;
+    }
+
+    public function getButton($penilaian_id, $unit_sub_id){
+        $text = '';
+        $penilaian = Penilaian::findOrFail($penilaian_id);
+        if($penilaian->nilai_id != null){
+            $text .= '<form action="'.route('destroy.penilaian', [$penilaian->id, $unit_sub_id]).'" method="post">
+                    <input type="hidden" name="_token" value="'.csrf_token().'">
+                    '.method_field('DELETE').'
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updatePenilaian-'.$penilaian->id.'">Update Nilai</button>
+                        <button type="submit" class="btn btn-danger mr-2 show_confirm" data-toggle="tooltip" title="Hapus">Delete Nilai</button>
+                </form>';
+        }else{
+            $text .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inputPenilaian-'.$penilaian->id.'">
+                        Input Score
+                    </button>';
+        }
+        return $text;
     }
 }
