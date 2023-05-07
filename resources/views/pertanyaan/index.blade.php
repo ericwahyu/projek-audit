@@ -19,9 +19,9 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
+                                <th class="text-center">No</th>
                                 <th>Daftar Pertanyaan</th>
-                                {{-- <th>9001</th>
+                                <th>9001</th>
                                 <th>14001</th>
                                 <th>22301</th>
                                 <th>37001</th>
@@ -30,7 +30,7 @@
                                 <th>50001</th>
                                 <th>45001</th>
                                 <th>ISPS Code</th>
-                                <th>SMK3</th> --}}
+                                <th>SMK3</th>
                                 <th>Departemen / Divisi</th>
                                 <th>Bukti Objektif / Klausul</th>
                                 <th>Action</th>
@@ -41,18 +41,18 @@
                             <tr>
                                 <td>
                                     <div class="sort-handler ui-sortable-handle text-center">
-                                        <i class="fas fa-th"></i>
+                                        {{ $loop->index+1 }}
                                     </div>
                                 </td>
 
                                 <td>{{ $data->pertanyaan }}</td>
-                                {{-- @for ($i = 1; $i <= $isoCount; $i++)
+                                @for ($i = 1; $i <= $isoCount; $i++)
                                     @if (in_array($i, App\Http\Controllers\PertanyaanController::getPertanyaanIso($data->id)))
                                         <td>ada</td>
                                     @else
                                         <td>--</td>
                                     @endif
-                                @endfor --}}
+                                @endfor
                                 <td>
                                     <table>
                                         @foreach ($data->pertanyaanDepartemen as $perPenilaian)

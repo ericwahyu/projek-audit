@@ -84,9 +84,9 @@
             </div>
             <ul class="sidebar-menu">
               <li class="menu-header">Menu</li>
-              <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="far fa-folder-open"></i>Klausul</a></li>
-              <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="far fa-folder-open"></i>Bukti Objektif</a></li>
-              <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="far fa-folder-open"></i>Daftar Pertanyaan</a></li>
+              <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="far fa-folder-open"></i><span>Klausul</span></a></li>
+              <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="far fa-folder-open"></i><span>Bukti Objektif</span></a></li>
+              <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="far fa-folder-open"></i><span>Daftar Pertanyaan</span></a></li>
               <li class="dropdown {{ ($nav == 'score') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Scoring</span></a>
                 <ul class="dropdown-menu">

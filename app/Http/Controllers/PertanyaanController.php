@@ -168,9 +168,9 @@ class PertanyaanController extends Controller
                 $departemen->pertanyaan_id = $pertanyaan->id;
                 $departemen->save();
 
-                foreach($unitSub as $unitSub){
+                foreach($unitSub as $unitSub_id){
                     $penilaian = new Penilaian();
-                    $penilaian->unit_sub_id = $unitSub->id;
+                    $penilaian->unit_sub_id = $unitSub_id->id;
                     $penilaian->pertanyaan_departemen_id = $departemen->id;
                     $penilaian->save();
                 }

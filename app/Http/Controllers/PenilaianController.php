@@ -146,14 +146,11 @@ class PenilaianController extends Controller
             $pertanyaanDepartemen = PertanyaanDepartemen::where('departemen_id', $departemen_id)->get();
             
             if($penilaian->count() > 0){
+                $loop = 1;
                 foreach($penilaian as $row){
                     $data_table .= '
                         <tr>
-                            <td>
-                                <div class="sort-handler ui-sortable-handle text-center">
-                                    <i class="fas fa-th"></i>
-                                </div>
-                            </td>
+                            <td class="text-center">'.$loop.'</td>
                             <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
                             <td>
                                 <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
@@ -162,6 +159,7 @@ class PenilaianController extends Controller
                             <td>'.$row->catatan.'</td>
                             <td>'.$this->getButton($row->id, $unit_sub_id).'</td>
                         </tr>';
+                    $loop++;
                 }
                
             }else{

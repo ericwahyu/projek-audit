@@ -40,7 +40,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
+                                <th class="text-center">No</th>
                                 <th>Pertanyaan</th>
                                 <th>Objektif -- Klausul</th>
                                 <th>Nilai</th>
@@ -77,16 +77,16 @@
                                 <select class="form-control" name="nilai_id" id="nilai_id" required>
                                     <option disabled selected>-- Pilih Nilai --</option>
                                     @foreach ($getNilai as $nilai)
-                                        <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} &emsp; {{ $nilai->score }}</option>
+                                        <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} ({{ $nilai->score }})</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="catatan" class="col-form-label">Catatan :</label>
-                                <input type="text" class="form-control" id="catatan" name="catatan">
-                                <small id="passwordHelpBlock" class="form-text text-muted">
+                                <input type="text" class="form-control" id="catatan" name="catatan" required>
+                                {{-- <small id="passwordHelpBlock" class="form-text text-muted">
                                     Masukkan catatan jika ada perlu !!
-                                </small>
+                                </small> --}}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -117,18 +117,18 @@
                             <label style="font-size: 16px" class="d-block">Nilai</label>
                             <select class="form-control" name="nilai_id" id="nilai_id" required>
                                 @if ($data->nilai_id != null)
-                                    <option selected value="{{ $data->nilai->id }}">{{ $data->nilai->nama }} &emsp; {{ $data->nilai->score }}</option>
+                                    <option selected value="{{ $data->nilai->id }}">{{ $nilai->nama }}({{ $nilai->score }})</option>
                                     @foreach ($getNilai as $nilai)
                                         @if ($data->nilai->id == $nilai->id)
                                             @continue
                                         @else
-                                            <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} &emsp; {{ $nilai->score }}</option>    
+                                            <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} ({{ $nilai->score }})</option>    
                                         @endif
                                     @endforeach
                                 @else
                                     <option selected disabled>-- Pilih Nilai ---</option>
                                     @foreach ($getNilai as $nilai)
-                                        <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} &emsp; {{ $nilai->score }}</option>    
+                                        <option value="{{ $nilai->id }}" {{ old('nilai_id') == $nilai->id ? "selected" : "" }}>{{ $nilai->nama }} ({{ $nilai->score }})</option>    
                                     @endforeach
                                     
                                 @endif
@@ -136,10 +136,10 @@
                         </div>
                         <div class="form-group">
                             <label for="catatan" class="col-form-label">Catatan :</label>
-                            <input type="text" class="form-control" id="catatan" name="catatan" value="{{ $data->catatan }}">
-                            <small id="passwordHelpBlock" class="form-text text-muted">
+                            <input type="text" class="form-control" id="catatan" name="catatan" value="{{ $data->catatan }}" required>
+                            {{-- <small id="passwordHelpBlock" class="form-text text-muted">
                                 Masukkan catatan jika ada perlu !!
-                            </small>
+                            </small> --}}
                         </div>
                     </div>
                     <div class="modal-footer">

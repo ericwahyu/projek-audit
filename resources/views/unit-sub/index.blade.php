@@ -1,9 +1,9 @@
 @extends('layout')
-@section('title', 'Unit Sub '.$menu)
+@section('title', 'Unit '.$menu)
 @section('section')
 <section class="section">
     <div class="section-header">
-        <h1>Data Unit Sub <b>{{ $menu }}</b></h1>
+        <h1>Data Unit <b>{{ $menu }}</b></h1>
     </div>
     <div class="section-body">
         <div class="card">
@@ -15,7 +15,7 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
+                                <th class="text-center">No</th>
                                 <th>Nama Regional</th>
                                 <th>Nama Unit Sub</th>
                                 <th>Action</th>
@@ -24,12 +24,9 @@
                         <tbody>
                             @foreach ($data as $data)
                             <tr>
-                                <td>
-                                    <div class="sort-handler ui-sortable-handle text-center">
-                                        <i class="fas fa-th"></i>
-                                    </div>
+                                <td class="text-center">
+                                    {{ $loop->index+1 }}
                                 </td>
-
                                 {{-- <td>{{ is_null($data->nilai) ? 'null' : $data->nilai->nama }}</td>
                                 <td>{{ $data->catatan }}</td> --}}
                                 <td>{{ $data->regional->nama }}</td>

@@ -19,7 +19,7 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th class="text-center">#</th>
+                                <th class="text-center">No</th>
                                 <th>Nama Klausul</th>
                                 <th>Bukti Objektif</th>
                                 <th>Action</th>
@@ -30,7 +30,7 @@
                             <tr>
                                 <td>
                                     <div class="sort-handler ui-sortable-handle text-center">
-                                        <i class="fas fa-th"></i>
+                                        {{ $loop->index+1 }}
                                     </div>
                                 </td>
 
@@ -40,10 +40,10 @@
                                     <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('edit.objektif', $data->id) }}" class="btn btn-warning" title="Ubah"><i class="far fa-edit"></i>
+                                        <a href="{{ route('edit.objektif', $data->id) }}" class="btn btn-warning" title="Ubah">
                                             Update</a>
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                            data-toggle="tooltip" title="Hapus"><i class="far fa-trash-alt"></i>
+                                            data-toggle="tooltip" title="Hapus">
                                             Delete</button>
                                     </form>
                                 </td>
