@@ -39,8 +39,19 @@ class PertanyaanController extends Controller
         $menu = 'pertanyaan';
         $iso = Iso::all();
         $objektif = Objektif::all();
-        $departemen = Departemen::all();
-        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif', 'departemen'));
+        $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->where('divisi.regional_id', 1)->select('departemen.*')->get();
+        $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 2)
+                            ->select('departemen.*')->get();
+        $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 3)
+                            ->select('departemen.*')->get();
+        $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 4)
+                            ->select('departemen.*')->get();
+        // dd($departemenSub);
+        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif', 'departemenKantor', 'departemenSubJawa', 'departemenSubKalimantan', 'departemenSubBali'));
 
     }
 
@@ -120,8 +131,18 @@ class PertanyaanController extends Controller
         $menu = 'pertanyaan';
         $iso = Iso::all();
         $objektif = Objektif::all();
-        $departemen = Departemen::all();
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif', 'departemen'));
+        $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->where('divisi.regional_id', 1)->select('departemen.*')->get();
+        $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 2)
+                            ->select('departemen.*')->get();
+        $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 3)
+                            ->select('departemen.*')->get();
+        $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+                            ->orWhere('divisi.regional_id', 4)
+                            ->select('departemen.*')->get();
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif', 'departemenKantor', 'departemenSubJawa', 'departemenSubKalimantan', 'departemenSubBali'));
     }
 
     /**

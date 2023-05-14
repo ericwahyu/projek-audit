@@ -15,4 +15,8 @@ class Regional extends Model
     public function unitSub(){
         return $this->hasMany(unitSub::class);
     }
+
+    public function divisi(){
+        return $this->hasMany(Divisi::class);
+    }
 }

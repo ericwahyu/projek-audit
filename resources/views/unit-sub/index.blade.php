@@ -40,8 +40,10 @@
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
                                             data-toggle="tooltip" title="Hapus"><i class="far fa-trash-alt"></i>
                                             Delete</button> --}}
-                                        <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="Ubah"><i class="fa fa-info-circle"></i>
+                                        <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
                                             Data Penilaian</a>
+                                        <a href="{{ route('total.penilaian', $data->id) }}" class="btn btn-warning" title="total scoring">
+                                            Total Scoring</a>
                                     </form>
                                 </td>
                             </tr>

@@ -23,9 +23,78 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label style="font-size: 16px" class="d-block">Departemen</label>
+                        <div class="form-group">
+                            <label style="font-size: 16px" class="d-block">Departemen</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label style="font-size: 16px" class="d-block">Kantor Regional 3</label>
+                                    <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple >
+                                        <option disabled selected>-- Pilih Departemen Kantor Regional 3 --</option>
+                                        @foreach ($departemenKantor as $departemen)
+                                            <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label style="font-size: 16px" class="d-block">Sub Regional Jawa</label>
+                                    <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple >
+                                        <option disabled selected>-- Pilih Departemen Sub Regional Jawa --</option>
+                                        @foreach ($departemenSubJawa as $departemen)
+                                            <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label style="font-size: 16px" class="d-block">Sub Regional Kalimantan</label>
+                                    <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple >
+                                        <option disabled selected>-- Pilih Departemen Sub Regional Kalimantan --</option>
+                                        @foreach ($departemenSubKalimantan as $departemen)
+                                            <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label style="font-size: 16px" class="d-block">Sub Regional Bali Nusra</label>
+                                    <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple >
+                                        <option disabled selected>-- Pilih Departemen Sub Regional Bali Nusra --</option>
+                                        @foreach ($departemenSubBali as $departemen)
+                                            <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple rows="50">
+                                <option disabled selected>-- Pilih Departemen --</option>
+                                <option disabled selected>-- Pilih Departemen Kantor Regional 3 --</option>
+                                @foreach ($departemenKantor as $departemen)
+                                    <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                @endforeach
+                                <option disabled selected>-- Pilih Departemen Sub Regional Jawa --</option>
+                                @foreach ($departemenSubJawa as $departemen)
+                                    <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                @endforeach
+                                <option disabled selected>-- Pilih Departemen Sub Regional Kalimantan --</option>
+                                @foreach ($departemenSubKalimantan as $departemen)
+                                    <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                @endforeach
+                                <option disabled selected>-- Pilih Departemen Sub Regional Bali Nusra --</option>
+                                @foreach ($departemenSubBali as $departemen)
+                                    <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
+                                @endforeach
+                            </select> --}}
+                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                Bisa memilih lebih dari satu Departemen, dengan cara tahan CTRL saat memilih Departemen lainnya !!
+                            </small>
+                            @error('departemen_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                        {{-- <label style="font-size: 16px" class="d-block">Departemen</label>
                         <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple>
-                            {{-- <option disabled selected>-- Pilih Departemen --</option> --}}
                             @foreach ($departemen as $departemen)
                                 <option value="{{ $departemen->id }}" {{ (in_array($departemen->id, App\Http\Controllers\PertanyaanController::getPertanyaanDepartemen($pertanyaan->id))) ? 'selected' : '' }}>{{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
                             @endforeach
@@ -37,7 +106,7 @@
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
-                        @enderror
+                        @enderror --}}
                     </div>
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">ISO</label>

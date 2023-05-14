@@ -28,13 +28,20 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $divisi = Divisi::all();
+        $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
         // $pertanyaanDepartemen = PertanyaanDepartemen::all();
         $getNilai = Nilai::all();
         $penilaian = Penilaian::all();
         return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian'));
     }
 
+    public function total(UnitSub $unitSub){
+        $nav = 'score';
+        $menu = $unitSub->regional->nama;
+        $penilaian = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')->get();
+        // dd($penilaian);
+        return view('penilaian.total', compact('nav','menu', 'unitSub'));
+    }
     /**
      * Show the form for creating a new resource.
      */

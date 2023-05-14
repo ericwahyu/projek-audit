@@ -35,6 +35,7 @@ Route::prefix('/pertanyaan')->group(function () {
 });
 Route::prefix('/penilaian')->group(function (){
     Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
+    Route::get('/total/{unitSub}', [PenilaianController::class, 'total'])->name('total.penilaian');
     Route::post('/store', [PenilaianController::class, 'store'])->name('store.penilaian');
     Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
     Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian');

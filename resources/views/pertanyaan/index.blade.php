@@ -31,7 +31,7 @@
                                 <th>45001</th>
                                 <th>ISPS Code</th>
                                 <th>SMK3</th>
-                                <th>Departemen / Divisi</th>
+                                <th>Departemen / Divisi / Regional</th>
                                 <th>Bukti Objektif / Klausul</th>
                                 <th>Action</th>
                             </tr>
@@ -59,6 +59,7 @@
                                         <tr>
                                             <td>{{ $perPenilaian->departemen->departemen }}</td>
                                             <td>{{ $perPenilaian->departemen->divisi->divisi }}</td>
+                                            <td>{{ $perPenilaian->departemen->divisi->regional->nama }}</td>
                                         </tr>  
                                         @endforeach
                                     </table>

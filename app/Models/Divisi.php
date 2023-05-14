@@ -15,4 +15,8 @@ class Divisi extends Model
     public function departemen(){
         return $this->hasMany(Departemen::class);
     }
+
+    public function regional(){
+        return $this->belongsTo(Regional::class);
+    }
 }
