@@ -33,22 +33,23 @@ Route::prefix('/pertanyaan')->group(function () {
     Route::post('/update/{pertanyaan}', [PertanyaanController::class, 'update'])->name('update.pertanyaan');
     Route::delete('/destroy/{pertanyaan}', [PertanyaanController::class, 'destroy'])->name('destroy.pertanyaan');
 });
-Route::prefix('/penilaian')->group(function (){
+Route::prefix('/penilaian')->group(function () {
     Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
     Route::get('/total/{unitSub}', [PenilaianController::class, 'total'])->name('total.penilaian');
     Route::post('/store', [PenilaianController::class, 'store'])->name('store.penilaian');
     Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
     Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian');
 
-    
+
     Route::get('/getFunction/getDepartemen', [PenilaianController::class, 'getDepartemen'])->name('getDepartemen');
     Route::get('/getFunction/getPertanyaanDepartemen', [PenilaianController::class, 'getPertanyaanDepartemen'])->name('getPertanyaanDepartemen');
+    Route::get('/getFunction/getScoring', [PenilaianController::class, 'getScoring'])->name('getScoring');
 });
 // Route::get('/penilaian/create/{unitSub}/{pertanyaanIso}', [PenilaianController::class, 'create'])->name('create.penilaian');
 // Route::get('/penilaian/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian');
 // Route::post('/penilaian/update/{unitSub}/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
 
-Route::prefix('/klausul')->group(function (){
+Route::prefix('/klausul')->group(function () {
     Route::get('/', [KlausulController::class, 'index'])->name('index.klausul');
     Route::get('/create', [KlausulController::class, 'create'])->name('create.klausul');
     Route::post('/store', [KlausulController::class, 'store'])->name('store.klausul');
@@ -57,7 +58,7 @@ Route::prefix('/klausul')->group(function (){
     Route::delete('/destroy/{klausul}', [KlausulController::class, 'destroy'])->name('destroy.klausul');
 });
 
-Route::prefix('/objektif')->group(function (){
+Route::prefix('/objektif')->group(function () {
     Route::get('/', [ObjektifController::class, 'index'])->name('index.objektif');
     Route::get('/create', [ObjektifController::class, 'create'])->name('create.objektif');
     Route::post('/store', [ObjektifController::class, 'store'])->name('store.objektif');

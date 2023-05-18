@@ -38,9 +38,93 @@ class PenilaianController extends Controller
     public function total(UnitSub $unitSub){
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $penilaian = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')->get();
-        // dd($penilaian);
-        return view('penilaian.total', compact('nav','menu', 'unitSub'));
+        $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
+        return view('penilaian.total', compact('nav','menu', 'unitSub', 'divisi'));
+    }
+
+    public function getScoring(Request $request){
+        if($request->ajax()){
+            $departemen_id = $request->get('departemen_id');
+            $unit_sub_id = $request->get('unit_sub_id');
+            $data_table ='';
+            $penilaian = Penilaian::join('pertanyaan_departemen', 'penilaian.pertanyaan_departemen_id', '=', 'pertanyaan_departemen.id')
+                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                        ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
+                        ->get();
+
+            $query = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id);
+
+            $getMA = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                    ->where('penilaian.nilai_id', 1)
+                    ->get();
+            $getMI = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                    ->where('penilaian.nilai_id', 2)
+                    ->get();
+            $getOBS = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                    ->where('penilaian.nilai_id', 3)
+                    ->get();
+            $getOK = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                    ->where('penilaian.nilai_id', 4)
+                    ->get();
+            $getIMP = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                    ->where('penilaian.unit_sub_id', $unit_sub_id)
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                    ->where('penilaian.nilai_id', 5)
+                    ->get();
+            $subTotal = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+                        ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+                        ->where('penilaian.unit_sub_id', $unit_sub_id)
+                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+                        ->sum('nilai.score');
+            
+            if($penilaian->count() > 0){
+                $loop = 1;
+                foreach($penilaian as $row){
+                    $data_table .= '
+                        <tr>
+                            <td class="text-center">'.$loop.'</td>
+                            <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
+                            <td>
+                                <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
+                            </td>
+                            <td>'.$this->getNilai($row->id).'</td>
+                            <td>'.$row->catatan.'</td>
+                        </tr>';
+                    $loop++;
+                }
+               
+            }else{
+                $data_table =
+                    '<tr>
+                        <td align="center" colspan="5">Data tidak ditemukan.</td>
+                    </tr>';
+            }
+            $data = array(
+                'data_table' => $data_table,
+                'getMA' => $getMA->count(),
+                'getMI' => $getMI->count(),
+                'getOBS' => $getOBS->count(),
+                'getOK' => $getOK->count(),
+                'getIMP' => $getIMP->count(),
+               );
+            echo json_encode($data);
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -150,7 +234,7 @@ class PenilaianController extends Controller
                         ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
                         ->get();
 
-            $pertanyaanDepartemen = PertanyaanDepartemen::where('departemen_id', $departemen_id)->get();
+            // $pertanyaanDepartemen = PertanyaanDepartemen::where('departemen_id', $departemen_id)->get();
             
             if($penilaian->count() > 0){
                 $loop = 1;
