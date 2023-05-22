@@ -80,7 +80,7 @@
                                 <tr>
                                     <td>Sub Total (%)</td>
                                     <td>:</td>
-                                    <td>zxcvb</td>
+                                    <td id="subTotalPersentase"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -141,11 +141,18 @@
                 success: function(response) {
                     console.log(response);
                     $('#dataScoring').html(response.data_table);
+                    $('#MA').empty();
+                    $('#MI').empty();
+                    $('#OBS').empty();
+                    $('#OK').empty();
+                    $('#IMP').empty();
+                    $('#subTotalPersentase').empty();
                     $('#MA').append(response.getMA);
                     $('#MI').append(response.getMI);
                     $('#OBS').append(response.getOBS);
                     $('#OK').append(response.getOK);
                     $('#IMP').append(response.getIMP);
+                    $('#subTotalPersentase').append(response.getSubTotalPersentase);
                 }
             });
             }else{

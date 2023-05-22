@@ -55,43 +55,15 @@ class PenilaianController extends Controller
             $query = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
                     ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
                     ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id);
+                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)->get();
 
-            $getMA = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                    ->where('penilaian.nilai_id', 1)
-                    ->get();
-            $getMI = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                    ->where('penilaian.nilai_id', 2)
-                    ->get();
-            $getOBS = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                    ->where('penilaian.nilai_id', 3)
-                    ->get();
-            $getOK = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                    ->where('penilaian.nilai_id', 4)
-                    ->get();
-            $getIMP = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                    ->where('penilaian.nilai_id', 5)
-                    ->get();
-            $subTotal = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                        ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                        ->where('penilaian.unit_sub_id', $unit_sub_id)
-                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                        ->sum('nilai.score');
+            $getMA = $query->where('nilai.id', 1);
+            $getMI = $query->where('nilai.id', 2);
+            $getOBS = $query->where('nilai.id', 3);
+            $getOK = $query->where('nilai.id', 4);
+            $getIMP = $query->where('nilai.id', 5);
+            $subTotal = $query->sum('nilai.score');
+            $subTotalPersentase = $subTotal / ($penilaian->count() * 4) * 100; 
             
             if($penilaian->count() > 0){
                 $loop = 1;
@@ -122,6 +94,7 @@ class PenilaianController extends Controller
                 'getOBS' => $getOBS->count(),
                 'getOK' => $getOK->count(),
                 'getIMP' => $getIMP->count(),
+                'getSubTotalPersentase' => $subTotalPersentase,
                );
             echo json_encode($data);
         }
