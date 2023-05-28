@@ -15,7 +15,8 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Bukti Objektif</label>
-                        <input type="text" name="objektif"  class="form-control @error('objektif') is-invalid @enderror" value="{{ old('objektif') }}">
+                        {{-- <input type="text" name="objektif"  class="form-control @error('objektif') is-invalid @enderror" value="{{ old('objektif') }}"> --}}
+                        <textarea name="objektif" class="form-control @error('objektif') is-invalid @enderror" cols="30" rows="10">{{ old('objektif') }}</textarea>
                         @error('objektif')
                         <div class="invalid-feedback">
                             {{ $message }}
