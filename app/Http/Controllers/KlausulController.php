@@ -37,16 +37,18 @@ class KlausulController extends Controller
     {
         //
         $request->validate([
-            'nama' => 'required'
+            'nama' => 'required',
+            'uraian' => 'required',
         ]);
 
         $klausul = new Klausul();
         $klausul->nama = $request->nama;
+        $klausul->uraian = $request->uraian;
         $klausul->save();
 
-        if($klausul){
+        if ($klausul) {
             return redirect()->route('index.klausul')->with('success', 'Data Berhasil Di Tambah !!');
-        }else{
+        } else {
             return redirect()->route('create.klausul')->with('error', 'Gagal Menambah Data !!');
         }
     }
@@ -57,7 +59,7 @@ class KlausulController extends Controller
     public function show(Klausul $klausul)
     {
         //
-       
+
     }
 
     /**
@@ -78,15 +80,17 @@ class KlausulController extends Controller
     {
         //
         $request->validate([
-            'nama' => 'required'
+            'nama' => 'required',
+            'uraian' => 'required',
         ]);
 
         $klausul->nama = $request->nama;
+        $klausul->uraian = $request->uraian;
         $klausul->save();
 
-        if($klausul){
+        if ($klausul) {
             return redirect()->route('index.klausul')->with('success', 'Data Berhasil Di Tambah !!');
-        }else{
+        } else {
             return redirect()->route('create.klausul')->with('error', 'Gagal Menambah Data !!');
         }
     }
@@ -97,10 +101,10 @@ class KlausulController extends Controller
     public function destroy(Klausul $klausul)
     {
         //
-        if($klausul){
+        if ($klausul) {
             $klausul->delete();
             return redirect()->route('index.klausul')->with('success', 'Data Berhasil Di Tambah !!');
-        }else{
+        } else {
             return redirect()->route('create.klausul')->with('error', 'Gagal Menambah Data !!');
         }
     }

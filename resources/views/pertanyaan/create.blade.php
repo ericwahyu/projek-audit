@@ -22,7 +22,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Departemen</label>
                         <div class="row">
                             <div class="col-md-6">
@@ -64,7 +64,7 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple rows="50">
+                        <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple rows="50">
                             <option disabled selected>-- Pilih Departemen --</option>
                             <option disabled selected>-- Pilih Departemen Kantor Regional 3 --</option>
                             @foreach ($departemenKantor as $departemen)
@@ -82,7 +82,7 @@
                             @foreach ($departemenSubBali as $departemen)
                                 <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
                             @endforeach
-                        </select> --}}
+                        </select>
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Bisa memilih lebih dari satu Departemen, dengan cara tahan CTRL saat memilih Departemen lainnya !!
                         </small>
@@ -114,8 +114,6 @@
                                     <tr>
                                         <th>
                                             <div class="sort-handler ui-sortable-handle text-center">
-                                                {{-- <input class="form-check-input" type="checkbox" id="checkAll">
-                                                <label class="form-check-label" for="checkAll"></label> --}}
                                             </div>
                                         </th>
                                         <th>Klausul</th>
@@ -139,7 +137,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-footer text-right">
                     <button class="btn btn-primary mr-1" type="submit">Submit</button>
                 </div>

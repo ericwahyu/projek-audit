@@ -14,9 +14,18 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label style="font-size: 16px" class="d-block">Nama Klausul</label>
+                        <label style="font-size: 16px" class="d-block">Nama</label>
                         <input type="text" name="nama"  class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
                         @error('nama')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size: 16px" class="d-block">Uraian</label>
+                        <input type="text" name="uraian"  class="form-control @error('uraian') is-invalid @enderror" value="{{ old('uraian') }}">
+                        @error('uraian')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

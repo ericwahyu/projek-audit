@@ -21,7 +21,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Daftar Pertanyaan</th>
-                                <th>9001</th>
+                                {{-- <th>9001</th>
                                 <th>14001</th>
                                 <th>22301</th>
                                 <th>37001</th>
@@ -32,7 +32,7 @@
                                 <th>ISPS Code</th>
                                 <th>SMK3</th>
                                 <th>Departemen / Divisi / Regional</th>
-                                <th>Bukti Objektif / Klausul</th>
+                                <th>Bukti Objektif / Klausul</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -46,7 +46,7 @@
                                 </td>
 
                                 <td>{{ $data->pertanyaan }}</td>
-                                @for ($i = 1; $i <= $isoCount; $i++)
+                                {{-- @for ($i = 1; $i <= $isoCount; $i++)
                                     @if (in_array($i, App\Http\Controllers\PertanyaanController::getPertanyaanIso($data->id)))
                                         <td>ada</td>
                                     @else
@@ -73,7 +73,7 @@
                                         </tr>  
                                         @endforeach
                                     </table>
-                                </td>
+                                </td> --}}
                                 <td>
                                     <form id="delete" action="{{ route('destroy.pertanyaan', $data->id) }}" method="post">
                                         @csrf

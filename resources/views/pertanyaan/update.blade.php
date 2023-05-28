@@ -22,7 +22,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <div class="form-group">
                             <label style="font-size: 16px" class="d-block">Departemen</label>
                             <div class="row">
@@ -64,7 +64,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple rows="50">
                                 <option disabled selected>-- Pilih Departemen --</option>
                                 <option disabled selected>-- Pilih Departemen Kantor Regional 3 --</option>
@@ -84,7 +84,7 @@
                                     <option value="{{ $departemen->id }}" {{ old('departemen_id') == $departemen->id ? "selected" : "" }}>{{ $departemen->divisi->regional->nama }} -- {{ $departemen->divisi->divisi }} -- {{ $departemen->departemen }}</option>
                                 @endforeach
                             </select> --}}
-                            <small id="passwordHelpBlock" class="form-text text-muted">
+                            {{-- <small id="passwordHelpBlock" class="form-text text-muted">
                                 Bisa memilih lebih dari satu Departemen, dengan cara tahan CTRL saat memilih Departemen lainnya !!
                             </small>
                             @error('departemen_id')
@@ -92,7 +92,7 @@
                                 {{ $message }}
                             </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         {{-- <label style="font-size: 16px" class="d-block">Departemen</label>
                         <select class="form-select @error('departemen_id') is-invalid @enderror" name="departemen_id[]" multiple>
                             @foreach ($departemen as $departemen)
@@ -106,9 +106,9 @@
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
-                        @enderror --}}
-                    </div>
-                    <div class="form-group">
+                        @enderror
+                    </div> --}}
+                    {{-- <div class="form-group">
                         <label style="font-size: 16px" class="d-block">ISO</label>
                         @foreach ($iso as $isoData)
                         <div class="form-check form-check-inline">
@@ -121,8 +121,8 @@
                             {{ $message }}
                         </div>
                         @enderror
-                    </div>
-                    <div class="form-group">
+                    </div> --}}
+                    {{-- <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Bukti Objektif</label>
                         <div class="table-responsive">
                             <table class="table table-bordered table-md">
@@ -130,8 +130,6 @@
                                     <tr>
                                         <th>
                                             <div class="sort-handler ui-sortable-handle text-center">
-                                                {{-- <input class="form-check-input" type="checkbox" id="checkAll">
-                                                <label class="form-check-label" for="checkAll"></label> --}}
                                             </div>
                                         </th>
                                         <th>Klausul</th>
@@ -154,7 +152,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-primary mr-1" type="submit">Submit</button>

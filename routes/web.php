@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IsoController;
 use App\Http\Controllers\KlausulController;
 use App\Http\Controllers\ObjektifController;
 use App\Http\Controllers\PenilaianController;
@@ -24,6 +25,15 @@ Route::get('/', function () {
 });
 
 Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
+
+Route::prefix('/iso')->group(function () {
+    Route::get('/', [IsoController::class, 'index'])->name('index.iso');
+    Route::get('/create', [IsoController::class, 'create'])->name('create.iso');
+    Route::post('/store', [IsoController::class, 'store'])->name('store.iso');
+    Route::get('/edit/{iso}', [IsoController::class, 'edit'])->name('edit.iso');
+    Route::post('/update/{iso}', [IsoController::class, 'update'])->name('update.iso');
+    Route::delete('/destroy/{iso}', [IsoController::class, 'destroy'])->name('destroy.iso');
+});
 
 Route::prefix('/pertanyaan')->group(function () {
     Route::get('/', [PertanyaanController::class, 'index'])->name('index.pertanyaan');

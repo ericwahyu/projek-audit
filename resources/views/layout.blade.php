@@ -34,8 +34,12 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-    
 
+    <style type="text/css">
+      .table-select {
+        max-height:300px;
+      }
+    </style>
     <!-- Start GA -->
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script> --}}
@@ -84,9 +88,19 @@
             </div>
             <ul class="sidebar-menu">
               <li class="menu-header">Menu</li>
+              <li class="{{ ($menu == 'iso') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.iso') }}"><i class="fas fa-plug"></i><span>Iso</span></a></li>
               <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="fas fa-plug"></i><span>Klausul</span></a></li>
-              <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="far fa-file-alt"></i><span>Bukti Objektif</span></a></li>
               <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="far fa-folder-open"></i><span>Daftar Pertanyaan</span></a></li>
+              <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="far fa-file-alt"></i><span>Bukti Objektif</span></a></li>
+              <li class="dropdown {{ ($nav == 'audit') ? 'active' : '' }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Area/Wilayah Audit</span></a>
+                <ul class="dropdown-menu">
+                  <li class={{ ($menu == 'Kantor Regional 3') ? 'active' : '' }}><a class="nav-link" href="#">Kantor Regional 3</a></li>
+                  <li class={{ ($menu == 'Sub Regional Jawa') ? 'active' : '' }}><a class="nav-link" href="#">Sub Regional Jawa</a></li>
+                  <li class={{ ($menu == 'Sub Regional Kalimantan') ? 'active' : '' }}><a class="nav-link" href="#">Sub Regional Kalimantan</a></li>
+                  <li class={{ ($menu == 'Sub Regional Bali Nusra') ? 'active' : '' }}><a class="nav-link" href="#">Sub Regional Bali Nusra</a></li>
+                </ul>
+              </li>
               <li class="dropdown {{ ($nav == 'score') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Scoring</span></a>
                 <ul class="dropdown-menu">
@@ -96,6 +110,7 @@
                   <li class="{{ ($menu == 'Sub Regional Bali Nusra') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.unitSub', 4) }}">Sub Regional Bali Nusra</a></li>
                 </ul>
               </li>
+              
               {{-- <li class="{{ ($menu == 'score') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.penilaian') }}"><i class="far fa-folder-open"></i>Scoring</a></li> --}}
             </ul>
         </aside>

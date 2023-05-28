@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Data Klausul')
+@section('title', 'Data Iso')
 @section('section')
 <section class="section">
     <div class="section-header">
-        <h1>Data Klausul</h1>
+        <h1>Data Iso</h1>
         <div class="section-header-button">
-            <a href="{{ route('create.klausul') }}" class="btn btn-primary"
-                title="Tambah Data Klausul">Tambah</a>
+            <a href="{{ route('create.iso') }}" class="btn btn-primary"
+                title="Tambah Data Iso">Tambah</a>
         </div>
     </div>
     <div class="section-body">
@@ -20,8 +20,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Nama Klausul</th>
-                                <th>Uraian Klausul</th>
+                                <th>Nama Iso</th>
+                                <th>Uraian Iso</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,10 +36,10 @@
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
                                 <td>
-                                    <form id="delete" action="{{ route('destroy.klausul', $data->id) }}" method="post">
+                                    <form id="delete" action="{{ route('destroy.iso', $data->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('edit.klausul', $data->id) }}" class="btn btn-warning" title="Ubah">
+                                        <a href="{{ route('edit.iso', $data->id) }}" class="btn btn-warning" title="Ubah">
                                             Update</a>
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
                                             data-toggle="tooltip" title="Hapus">

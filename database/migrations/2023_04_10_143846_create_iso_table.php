@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('iso', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('uraian');
             $table->timestamps();
         });
     }

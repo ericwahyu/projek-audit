@@ -25,8 +25,8 @@ class PertanyaanController extends Controller
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
         $data = Pertanyaan::all();
-        $isoCount = Iso::count();
-        return view('pertanyaan.index', compact('nav', 'menu', 'data', 'isoCount'));
+        // $isoCount = Iso::count();
+        return view('pertanyaan.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -37,21 +37,21 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        $iso = Iso::all();
-        $objektif = Objektif::all();
-        $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->where('divisi.regional_id', 1)->select('departemen.*')->get();
-        $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 2)
-                            ->select('departemen.*')->get();
-        $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 3)
-                            ->select('departemen.*')->get();
-        $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 4)
-                            ->select('departemen.*')->get();
+        // $iso = Iso::all();
+        // $objektif = Objektif::all();
+        // $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->where('divisi.regional_id', 1)->select('departemen.*')->get();
+        // $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 2)
+        //                     ->select('departemen.*')->get();
+        // $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 3)
+        //                     ->select('departemen.*')->get();
+        // $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 4)
+        //                     ->select('departemen.*')->get();
         // dd($departemenSub);
-        return view('pertanyaan.create', compact('nav', 'menu', 'iso', 'objektif', 'departemenKantor', 'departemenSubJawa', 'departemenSubKalimantan', 'departemenSubBali'));
+        return view('pertanyaan.create', compact('nav', 'menu'));
 
     }
 
@@ -71,40 +71,40 @@ class PertanyaanController extends Controller
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
         
-        if($request->iso != null){
-            foreach($request->iso as $req_iso){
-                $iso =  new PertanyaanIso();
-                $iso->iso_id = $req_iso;
-                $iso->pertanyaan_id = $pertanyaan->id;
-                $iso->save();
-            }
-        }
+        // if($request->iso != null){
+        //     foreach($request->iso as $req_iso){
+        //         $iso =  new PertanyaanIso();
+        //         $iso->iso_id = $req_iso;
+        //         $iso->pertanyaan_id = $pertanyaan->id;
+        //         $iso->save();
+        //     }
+        // }
 
-        if($request->objektif != null){
-            foreach($request->objektif as $req_obj){
-                $objektif =  new PertanyaanObjektif();
-                $objektif->objektif_id = $req_obj;
-                $objektif->pertanyaan_id = $pertanyaan->id;
-                $objektif->save();
-            }
-        }
+        // if($request->objektif != null){
+        //     foreach($request->objektif as $req_obj){
+        //         $objektif =  new PertanyaanObjektif();
+        //         $objektif->objektif_id = $req_obj;
+        //         $objektif->pertanyaan_id = $pertanyaan->id;
+        //         $objektif->save();
+        //     }
+        // }
 
-        if($request->departemen_id != null){
-            $unitSub = UnitSub::all();
-            foreach($request->departemen_id as $req_depar){
-                $departemen = new PertanyaanDepartemen();
-                $departemen->departemen_id = $req_depar;
-                $departemen->pertanyaan_id = $pertanyaan->id;
-                $departemen->save();
+        // if($request->departemen_id != null){
+        //     $unitSub = UnitSub::all();
+        //     foreach($request->departemen_id as $req_depar){
+        //         $departemen = new PertanyaanDepartemen();
+        //         $departemen->departemen_id = $req_depar;
+        //         $departemen->pertanyaan_id = $pertanyaan->id;
+        //         $departemen->save();
 
-                foreach($unitSub as $unitSub_id){
-                    $penilaian = new Penilaian();
-                    $penilaian->unit_sub_id = $unitSub_id->id;
-                    $penilaian->pertanyaan_departemen_id = $departemen->id;
-                    $penilaian->save();
-                }
-            }
-        }
+        //         foreach($unitSub as $unitSub_id){
+        //             $penilaian = new Penilaian();
+        //             $penilaian->unit_sub_id = $unitSub_id->id;
+        //             $penilaian->pertanyaan_departemen_id = $departemen->id;
+        //             $penilaian->save();
+        //         }
+        //     }
+        // }
 
         if(true){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di tambah !!');
@@ -129,20 +129,20 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        $iso = Iso::all();
-        $objektif = Objektif::all();
-        $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->where('divisi.regional_id', 1)->select('departemen.*')->get();
-        $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 2)
-                            ->select('departemen.*')->get();
-        $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 3)
-                            ->select('departemen.*')->get();
-        $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-                            ->orWhere('divisi.regional_id', 4)
-                            ->select('departemen.*')->get();
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'iso', 'objektif', 'departemenKantor', 'departemenSubJawa', 'departemenSubKalimantan', 'departemenSubBali'));
+        // $iso = Iso::all();
+        // $objektif = Objektif::all();
+        // $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->where('divisi.regional_id', 1)->select('departemen.*')->get();
+        // $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 2)
+        //                     ->select('departemen.*')->get();
+        // $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 3)
+        //                     ->select('departemen.*')->get();
+        // $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
+        //                     ->orWhere('divisi.regional_id', 4)
+        //                     ->select('departemen.*')->get();
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan'));
     }
 
     /**
@@ -158,45 +158,45 @@ class PertanyaanController extends Controller
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
 
-        PertanyaanIso::where('pertanyaan_id', $pertanyaan->id)->delete();
+        // PertanyaanIso::where('pertanyaan_id', $pertanyaan->id)->delete();
 
-        if($request->iso != null){
-            foreach($request->iso as $req_iso){
-                $iso =  new PertanyaanIso();
-                $iso->iso_id = $req_iso;
-                $iso->pertanyaan_id = $pertanyaan->id;
-                $iso->save();
-            }
-        }
+        // if($request->iso != null){
+        //     foreach($request->iso as $req_iso){
+        //         $iso =  new PertanyaanIso();
+        //         $iso->iso_id = $req_iso;
+        //         $iso->pertanyaan_id = $pertanyaan->id;
+        //         $iso->save();
+        //     }
+        // }
 
-        PertanyaanObjektif::where('pertanyaan_id', $pertanyaan->id)->delete();
+        // PertanyaanObjektif::where('pertanyaan_id', $pertanyaan->id)->delete();
 
-        if($request->objektif != null){
-            foreach($request->objektif as $req_obj){
-                $objektif =  new PertanyaanObjektif();
-                $objektif->objektif_id = $req_obj;
-                $objektif->pertanyaan_id = $pertanyaan->id;
-                $objektif->save();
-            }
-        }
+        // if($request->objektif != null){
+        //     foreach($request->objektif as $req_obj){
+        //         $objektif =  new PertanyaanObjektif();
+        //         $objektif->objektif_id = $req_obj;
+        //         $objektif->pertanyaan_id = $pertanyaan->id;
+        //         $objektif->save();
+        //     }
+        // }
 
-        $unitSub = UnitSub::all();
-        PertanyaanDepartemen::where('pertanyaan_id', $pertanyaan->id)->delete();
-        if($request->departemen_id != null){
-            foreach($request->departemen_id as $req_depar){
-                $departemen =  new PertanyaanDepartemen();
-                $departemen->departemen_id = $req_depar;
-                $departemen->pertanyaan_id = $pertanyaan->id;
-                $departemen->save();
+        // $unitSub = UnitSub::all();
+        // PertanyaanDepartemen::where('pertanyaan_id', $pertanyaan->id)->delete();
+        // if($request->departemen_id != null){
+        //     foreach($request->departemen_id as $req_depar){
+        //         $departemen =  new PertanyaanDepartemen();
+        //         $departemen->departemen_id = $req_depar;
+        //         $departemen->pertanyaan_id = $pertanyaan->id;
+        //         $departemen->save();
 
-                foreach($unitSub as $unitSub_id){
-                    $penilaian = new Penilaian();
-                    $penilaian->unit_sub_id = $unitSub_id->id;
-                    $penilaian->pertanyaan_departemen_id = $departemen->id;
-                    $penilaian->save();
-                }
-            }
-        }
+        //         foreach($unitSub as $unitSub_id){
+        //             $penilaian = new Penilaian();
+        //             $penilaian->unit_sub_id = $unitSub_id->id;
+        //             $penilaian->pertanyaan_departemen_id = $departemen->id;
+        //             $penilaian->save();
+        //         }
+        //     }
+        // }
         
         if($pertanyaan){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di ubah !!');

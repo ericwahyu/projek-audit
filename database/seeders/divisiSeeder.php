@@ -18,6 +18,12 @@ class divisiSeeder extends Seeder
             //kantor regional 3
             [
                 'regional_id' => '1',
+                'divisi' => 'Regional 3',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'regional_id' => '1',
                 'divisi' => 'Divisi Pelayanan SDM & Umum',
                 'created_at' => null,
                 'updated_at' => null,
@@ -55,6 +61,12 @@ class divisiSeeder extends Seeder
             //sub regional jawa
             [
                 'regional_id' => '2',
+                'divisi' => 'Sub Regional Jawa',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'regional_id' => '2',
                 'divisi' => 'Divisi Pelayanan Kapal',
                 'created_at' => null,
                 'updated_at' => null,
@@ -80,6 +92,12 @@ class divisiSeeder extends Seeder
             [
                 'regional_id' => '2',
                 'divisi' => 'Divisi Sumber Daya Manusia dan Umum',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            [
+                'regional_id' => '2',
+                'divisi' => 'Divisi Keuangan',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -138,6 +156,12 @@ class divisiSeeder extends Seeder
                 'updated_at' => null,
             ],
             //sub regional kalimantan
+            [
+                'regional_id' => '3',
+                'divisi' => 'Sub Regional Kalimantan',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
             [
                 'regional_id' => '3',
                 'divisi' => 'Divisi Pelayanan Kapal',
@@ -199,6 +223,12 @@ class divisiSeeder extends Seeder
                 'updated_at' => null,
             ],
             //sub regional bali nusra
+            [
+                'regional_id' => '4',
+                'divisi' => 'Sub Regional Bali Nusra',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
             [
                 'regional_id' => '4',
                 'divisi' => 'Divisi Pelayanan Kapal',
