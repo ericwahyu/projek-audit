@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Iso;
 use App\Models\Klausul;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,8 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
-        return view('klausul.create', compact('nav', 'menu'));
+        $iso = Iso::all();
+        return view('klausul.create', compact('nav', 'menu', 'iso'));
     }
 
     /**
@@ -37,11 +39,13 @@ class KlausulController extends Controller
     {
         //
         $request->validate([
+            'iso_id' => 'required',
             'nama' => 'required',
             'uraian' => 'required',
         ]);
 
         $klausul = new Klausul();
+        $klausul->iso_id = $request->iso_id;
         $klausul->nama = $request->nama;
         $klausul->uraian = $request->uraian;
         $klausul->save();
@@ -70,7 +74,8 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
-        return view('klausul.update', compact('nav', 'menu', 'klausul'));
+        $iso = Iso::all();
+        return view('klausul.update', compact('nav', 'menu', 'klausul', 'iso'));
     }
 
     /**
@@ -80,10 +85,12 @@ class KlausulController extends Controller
     {
         //
         $request->validate([
+            'iso_id' => 'required',
             'nama' => 'required',
             'uraian' => 'required',
         ]);
 
+        $klausul->iso_id = $request->iso_id;
         $klausul->nama = $request->nama;
         $klausul->uraian = $request->uraian;
         $klausul->save();

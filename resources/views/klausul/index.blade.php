@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
+                                <th>Iso</th>
                                 <th>Nama Klausul</th>
                                 <th>Uraian Klausul</th>
                                 <th>Action</th>
@@ -33,6 +34,7 @@
                                         {{ $loop->index+1 }}
                                     </div>
                                 </td>
+                                <td>{{ $data->iso->nama }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
                                 <td>

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('klausul', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('iso_id');
             $table->string('nama');
             $table->string('uraian');
             $table->timestamps();
+
+            $table->foreign('iso_id')->references('id')->on('iso')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

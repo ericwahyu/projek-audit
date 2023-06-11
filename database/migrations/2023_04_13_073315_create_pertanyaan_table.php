@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. 
      */
     public function up(): void
     {
         Schema::create('pertanyaan', function (Blueprint $table) {
             $table->id();
-            $table->string('pertanyaan');
+            $table->text('pertanyaan');
             $table->timestamps();
         });
     }

@@ -15,4 +15,8 @@ class Iso extends Model
     public function pertanyaanIso(){
         return $this->hasMany(PertanyaanIso::class);
     }
+
+    public function Klausul(){
+        return $this->hasMany(Klausul::class);
+    }
 }

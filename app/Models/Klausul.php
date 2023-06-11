@@ -16,7 +16,7 @@ class Klausul extends Model
         return $this->hasMany(Objektif::class);
     }
 
-    public function penilaian(){
-        return $this->hasMany(Penilaian::class);
+    public function iso(){
+        return $this->belongsTo(Iso::class);
     }
 }

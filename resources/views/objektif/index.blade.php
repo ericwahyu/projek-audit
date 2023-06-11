@@ -20,9 +20,9 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
+                                <th>Pertanyaan</th>
                                 <th>Bukti Objektif</th>
                                 <th>Klausul</th>
-                                <th>Pertantaan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -34,9 +34,6 @@
                                         {{ $loop->index+1 }}
                                     </div>
                                 </td>
-
-                                <td>{{ $data->objektif }}</td>
-                                <td>{{ $data->klausul->nama }}</td>
                                 <td>
                                     <table>
                                         @foreach ($data->pertanyaanObjektif as $pertanyaan)
@@ -46,6 +43,8 @@
                                         @endforeach
                                     </table>
                                 </td>
+                                <td><textarea readonly style="border: 0; overflow: auto; outline: none;">{{ $data->objektif }}</textarea></td>
+                                <td>{{ $data->klausul->nama }}</td>
                                 <td>
                                     <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
                                         @csrf

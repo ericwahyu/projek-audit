@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('unit_sub_id')->nullable(); 
             $table->unsignedBigInteger('pertanyaan_departemen_id');
             $table->unsignedBigInteger('nilai_id')->nullable();
-            $table->string('catatan')->nullable();
+            $table->text('catatan')->nullable();
             $table->timestamps();
 
             $table->foreign('unit_sub_id')->references('id')->on('unit_sub')->onDelete('cascade');

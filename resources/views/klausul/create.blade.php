@@ -14,6 +14,20 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
+                        <label style="font-size: 16px" class="d-block">Iso</label>
+                        <select class="form-control @error('iso_id') is-invalid @enderror" name="iso_id">
+                            <option disabled selected>-- Pilih Iso --</option>
+                            @foreach ($iso as $iso)
+                                <option value="{{ $iso->id }}" {{ old('iso_id') == $iso->id ? "selected" : "" }}>{{ $iso->nama }} - {{ $iso->uraian }}</option>
+                            @endforeach
+                          </select>
+                        @error('iso_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Nama</label>
                         <input type="text" name="nama"  class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
                         @error('nama')
