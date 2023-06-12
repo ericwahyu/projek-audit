@@ -27,7 +27,7 @@
                         <select class="form-control @error('klausul_id') is-invalid @enderror" name="klausul_id">
                             <option disabled selected>-- Pilih Klausul --</option>
                             @foreach ($klausul as $klausul)
-                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>{{ $klausul->nama }}</option>
+                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>ISO {{ $klausul->iso->nama }} - {{ $klausul->nama }}-{{ $klausul->uraian }}</option>
                             @endforeach
                           </select>
                         @error('klausul_id')
