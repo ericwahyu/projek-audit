@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Klausul</label>
-                        <select class="form-control @error('klausul_id') is-invalid @enderror" name="klausul_id">
+                        <select class="form-control select2 @error('klausul_id') is-invalid @enderror" name="klausul_id">
                             <option selected value="{{ $objektif->klausul->id }}">ISO {{ $objektif->klausul->iso->nama }} - {{ $objektif->klausul->nama }}-{{ $objektif->klausul->uraian }}</option>
                             @foreach ($klausul as $klausul)
                                 @if ($objektif->klausul->id == $klausul->id)
@@ -35,9 +35,9 @@
                             @endforeach
                           </select>
                         @error('klausul_id')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group">
