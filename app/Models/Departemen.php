@@ -15,8 +15,4 @@ class Departemen extends Model
     public function divisi(){
         return $this->belongsTo(Divisi::class);
     }
-
-    public function pertanyaanDepartemen(){
-        return $this->hasMany(PertanyaanDepartemen::class);
-    }
 }

@@ -12,10 +12,6 @@ class Iso extends Model
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function pertanyaanIso(){
-        return $this->hasMany(PertanyaanIso::class);
-    }
-
     public function Klausul(){
         return $this->hasMany(Klausul::class);
     }

@@ -5,23 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PertanyaanDepartemen extends Model
+class PertanyaanRegional extends Model
 {
     use HasFactory;
-    protected $table = 'pertanyaan_departemen';
+    protected $table = 'pertanyaan_regional';
     protected $primarykey = 'id';
     protected $fillable = [];
-
-    public function departemen(){
-        return $this->belongsTo(Departemen::class);
-    }
 
     public function pertanyaan(){
         return $this->belongsTo(Pertanyaan::class);
     }
 
-    public function penilaian(){
-        return $this->hasMany(Penilaian::class);
+    public function regional(){
+        return $this->belongsTo(Regional::class);
     }
-
 }

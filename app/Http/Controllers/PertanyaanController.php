@@ -37,20 +37,6 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        // $iso = Iso::all();
-        // $objektif = Objektif::all();
-        // $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->where('divisi.regional_id', 1)->select('departemen.*')->get();
-        // $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 2)
-        //                     ->select('departemen.*')->get();
-        // $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 3)
-        //                     ->select('departemen.*')->get();
-        // $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 4)
-        //                     ->select('departemen.*')->get();
-        // dd($departemenSub);
         return view('pertanyaan.create', compact('nav', 'menu'));
 
     }
@@ -70,41 +56,6 @@ class PertanyaanController extends Controller
         $pertanyaan = new Pertanyaan();
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
-        
-        // if($request->iso != null){
-        //     foreach($request->iso as $req_iso){
-        //         $iso =  new PertanyaanIso();
-        //         $iso->iso_id = $req_iso;
-        //         $iso->pertanyaan_id = $pertanyaan->id;
-        //         $iso->save();
-        //     }
-        // }
-
-        // if($request->objektif != null){
-        //     foreach($request->objektif as $req_obj){
-        //         $objektif =  new PertanyaanObjektif();
-        //         $objektif->objektif_id = $req_obj;
-        //         $objektif->pertanyaan_id = $pertanyaan->id;
-        //         $objektif->save();
-        //     }
-        // }
-
-        // if($request->departemen_id != null){
-        //     $unitSub = UnitSub::all();
-        //     foreach($request->departemen_id as $req_depar){
-        //         $departemen = new PertanyaanDepartemen();
-        //         $departemen->departemen_id = $req_depar;
-        //         $departemen->pertanyaan_id = $pertanyaan->id;
-        //         $departemen->save();
-
-        //         foreach($unitSub as $unitSub_id){
-        //             $penilaian = new Penilaian();
-        //             $penilaian->unit_sub_id = $unitSub_id->id;
-        //             $penilaian->pertanyaan_departemen_id = $departemen->id;
-        //             $penilaian->save();
-        //         }
-        //     }
-        // }
 
         if(true){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di tambah !!');
@@ -129,19 +80,6 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        // $iso = Iso::all();
-        // $objektif = Objektif::all();
-        // $departemenKantor = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->where('divisi.regional_id', 1)->select('departemen.*')->get();
-        // $departemenSubJawa = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 2)
-        //                     ->select('departemen.*')->get();
-        // $departemenSubKalimantan = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 3)
-        //                     ->select('departemen.*')->get();
-        // $departemenSubBali = Departemen::join('divisi', 'departemen.divisi_id', '=', 'divisi.id')
-        //                     ->orWhere('divisi.regional_id', 4)
-        //                     ->select('departemen.*')->get();
         return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan'));
     }
 
@@ -157,46 +95,6 @@ class PertanyaanController extends Controller
 
         $pertanyaan->pertanyaan = $request->pertanyaan;
         $pertanyaan->save();
-
-        // PertanyaanIso::where('pertanyaan_id', $pertanyaan->id)->delete();
-
-        // if($request->iso != null){
-        //     foreach($request->iso as $req_iso){
-        //         $iso =  new PertanyaanIso();
-        //         $iso->iso_id = $req_iso;
-        //         $iso->pertanyaan_id = $pertanyaan->id;
-        //         $iso->save();
-        //     }
-        // }
-
-        // PertanyaanObjektif::where('pertanyaan_id', $pertanyaan->id)->delete();
-
-        // if($request->objektif != null){
-        //     foreach($request->objektif as $req_obj){
-        //         $objektif =  new PertanyaanObjektif();
-        //         $objektif->objektif_id = $req_obj;
-        //         $objektif->pertanyaan_id = $pertanyaan->id;
-        //         $objektif->save();
-        //     }
-        // }
-
-        // $unitSub = UnitSub::all();
-        // PertanyaanDepartemen::where('pertanyaan_id', $pertanyaan->id)->delete();
-        // if($request->departemen_id != null){
-        //     foreach($request->departemen_id as $req_depar){
-        //         $departemen =  new PertanyaanDepartemen();
-        //         $departemen->departemen_id = $req_depar;
-        //         $departemen->pertanyaan_id = $pertanyaan->id;
-        //         $departemen->save();
-
-        //         foreach($unitSub as $unitSub_id){
-        //             $penilaian = new Penilaian();
-        //             $penilaian->unit_sub_id = $unitSub_id->id;
-        //             $penilaian->pertanyaan_departemen_id = $departemen->id;
-        //             $penilaian->save();
-        //         }
-        //     }
-        // }
         
         if($pertanyaan){
             return redirect()->route('index.pertanyaan')->with('success', 'Data berhasil di ubah !!');
@@ -218,39 +116,5 @@ class PertanyaanController extends Controller
         }else{
             return redirect()->route('index.pertanyaan')->with('error', 'Gagal menghapus data !!');
         }
-    }
-
-    //get iso from quetions
-    public static function getPertanyaanIso($pertanyaan_id){
-        $iso = PertanyaanIso::join('iso', 'pertanyaan_iso.iso_id', '=', 'iso.id')
-        ->where('pertanyaan_iso.pertanyaan_id', $pertanyaan_id)->pluck('iso.id');
-
-        $arr_iso = [];
-        foreach($iso as $iso_arr){
-            array_push($arr_iso, $iso_arr);
-        }
-        return $arr_iso;
-    }
-
-    public static function getPertanyaanObjektif($pertanyaan_id){
-        $pertanyaanObjektif = PertanyaanObjektif::join('objektif', 'pertanyaan_objektif.objektif_id', '=', 'objektif.id')
-        ->where('pertanyaan_objektif.pertanyaan_id', $pertanyaan_id)->pluck('objektif.id');
-
-        $arr_objektif = [];
-        foreach($pertanyaanObjektif as $iso_arr){
-            array_push($arr_objektif, $iso_arr);
-        }
-        return $arr_objektif;
-    }
-
-    public static function getPertanyaanDepartemen($pertanyaan_id){
-        $pertanyaanDepartemen = PertanyaanDepartemen::join('departemen', 'pertanyaan_departemen.departemen_id', '=', 'departemen.id')
-        ->where('pertanyaan_departemen.pertanyaan_id', $pertanyaan_id)->pluck('departemen.id');
-
-        $arr_departemen = [];
-        foreach($pertanyaanDepartemen as $iso_arr){
-            array_push($arr_departemen, $iso_arr);
-        }
-        return $arr_departemen;
     }
 }

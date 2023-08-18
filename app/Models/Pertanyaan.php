@@ -12,15 +12,13 @@ class Pertanyaan extends Model
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function pertanyaanIso(){
-        return $this->hasMany(PertanyaanIso::class);
-    }
-
     public function pertanyaanObjektif(){
         return $this->hasMany(PertanyaanObjektif::class);
     }
 
-    public function pertanyaanDepartemen(){
-        return $this->hasMany(PertanyaanDepartemen::class);
+    public function pertanyaanRegional(){
+        return $this->hasMany(pertanyaanRegional::class);
     }
+
+
 }

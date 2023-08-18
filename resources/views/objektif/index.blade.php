@@ -23,6 +23,7 @@
                                 <th>Pertanyaan</th>
                                 <th>Bukti Objektif</th>
                                 <th>Klausul</th>
+                                <th>Iso</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                 </td>
                                 <td><textarea readonly style="border: 0; overflow: auto; outline: none;">{{ $data->objektif }}</textarea></td>
                                 <td>{{ $data->klausul->nama }}</td>
+                                <td>{{ $data->klausul->iso->nama }}</td>
                                 <td>
                                     <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
                                         @csrf
