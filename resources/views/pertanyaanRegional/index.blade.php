@@ -45,7 +45,6 @@
                                 <td>
                                     <div class="sort-handler ui-sortable-handle text-center">
                                         {{-- {{ $loop->index+1 }} --}}
-                                        {{-- {{ $data->id }} --}}
                                     </div>
                                 </td>
                                 <td>{{ $data->pertanyaan->pertanyaan }}</td>

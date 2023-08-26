@@ -25,7 +25,7 @@ Route::get('/', function () {
     return view('blank');
 });
 
-Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
+
 
 Route::prefix('/iso')->group(function () {
     Route::get('/', [IsoController::class, 'index'])->name('index.iso');
@@ -73,11 +73,15 @@ Route::prefix('/pertanyaan-Regional')->group(function(){
 });
 
 Route::prefix('/penilaian')->group(function () {
+    Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
     Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
-    Route::get('/total/{unitSub}', [PenilaianController::class, 'total'])->name('total.penilaian');
-    Route::post('/store', [PenilaianController::class, 'store'])->name('store.penilaian');
+    Route::get('/create/{unitSub}/{pertanyaan}', [PenilaianController::class, 'create'])->name('create.penilaian');
+    Route::post('/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian');
+    Route::get('/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian');
     Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian');
     Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian');
+
+    Route::get('/total/{unitSub}', [PenilaianController::class, 'total'])->name('total.penilaian');
 
 
     Route::get('/getFunction/getDepartemen', [PenilaianController::class, 'getDepartemen'])->name('getDepartemen');

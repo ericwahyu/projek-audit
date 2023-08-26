@@ -19,4 +19,8 @@ class Penilaian extends Model
     public function nilai(){
         return $this->belongsTo(Nilai::class);
     }
+
+    public function pertanyaan(){
+        return $this->belongsTo(Pertanyaan::class);
+    }
 }

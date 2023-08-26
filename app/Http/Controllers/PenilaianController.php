@@ -23,16 +23,52 @@ class PenilaianController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(UnitSub $unitSub)
+    public function index(Request $request, UnitSub $unitSub)
     {
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
         $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
-        // $pertanyaanDepartemen = PertanyaanDepartemen::all();
+        $iso = Iso::all();
         $getNilai = Nilai::all();
-        $penilaian = Penilaian::all();
-        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian'));
+        $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
+                        ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+                        ->when($request->iso_id, function ($query) use ($request) {
+                            // $query->where('category_id', $request->category_id);
+                            $query->where('iso.id', $request->iso_id);
+                        })
+                        ->where('penilaian.unit_sub_id', $unitSub->id)
+                        ->select('penilaian.*')
+                        ->distinct()->get();
+
+        //
+        $arrPenilaian = Penilaian::where('unit_sub_id', $unitSub->id)->pluck('pertanyaan_id');
+
+        $arr_pertanyaan = [];
+        foreach($arrPenilaian as $arr_penilaian){
+            array_push($arr_pertanyaan, $arr_penilaian);
+        }
+
+        // $pertanyaan = Pertanyaan::whereNotIn('id', [$arr_pertanyaan])->get();
+        
+        $pertanyaan = Pertanyaan::join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+                        ->when($request->iso_id, function ($query) use ($request) {
+                            // $query->where('category_id', $request->category_id);
+                            $query->where('iso.id', $request->iso_id);
+                        })
+                        ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
+                            $query->whereNotIn('pertanyaan.id', [$arr_pertanyaan]);
+                        })
+                        ->select('pertanyaan.*')
+                        ->distinct()->get();
+        // dd($penilaian);
+        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request'));
     }
 
     public function total(UnitSub $unitSub){
@@ -102,29 +138,35 @@ class PenilaianController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(UnitSub $unitSub, Pertanyaan $pertanyaan)
     {
         //
-        // $nav = 'regional';
-        // $menu = $unitSub->regional->nama;
-        // $nilai = Nilai::all();
-        // return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaanIso', 'nilai'));
-        return redirect()->withInput();
+        $nav = 'score';
+        $menu = $unitSub->regional->nama;
+        $getNilai = Nilai::all();
+        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaan', 'getNilai'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, UnitSub $unitSub)
     {
-
+        //
+        $request->validate([
+            'nilai_id' => 'required',
+        ]);
+        
         $penilaian = new Penilaian();
-        $penilaian->unit_sub_id = $request->unitSub_id;
-        $penilaian->pertanyaan_departemen_id = $request->pertanyaanDepartemen_id;
+        $penilaian->unit_sub_id = $unitSub->id;
+        $penilaian->pertanyaan_id = $request->pertanyaan_id;
         $penilaian->nilai_id = $request->nilai_id;
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
-        return redirect()->route('index.penilaian', $request->unitSub_id);
+
+        if($penilaian){
+            return redirect()->route('index.penilaian', $unitSub->id);
+        }
     }
 
     /**
@@ -141,11 +183,11 @@ class PenilaianController extends Controller
     public function edit(UnitSub $unitSub, Penilaian $penilaian)
     {
         //
-        $nav = 'regional';
+        $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $nilai = Nilai::all();
-        $objektif = Objektif::where('penilaian_id', $penilaian->id)->get();
-        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'nilai', 'objektif'));
+        $getNilai = Nilai::all();
+        // $objektif = Objektif::where('penilaian_id', $penilaian->id)->get();
+        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'getNilai'));
     }
 
     /**
@@ -154,9 +196,6 @@ class PenilaianController extends Controller
     public function update(Request $request, Penilaian $penilaian)
     {
         //
-        
-        // $penilaian->unit_sub_id = $request->unitSub_id;
-        // $penilaian->pertanyaan_departemen_id = $request->pertanyaanDepartemen_id;
         $penilaian->nilai_id = $request->nilai_id;
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
@@ -174,11 +213,8 @@ class PenilaianController extends Controller
     public function destroy(Penilaian $penilaian, UnitSub $unitSub)
     {
         //
-        $penilaian->nilai_id = null;
-        $penilaian->catatan = null;
-        $penilaian->save();
-
         if($penilaian){
+            $penilaian->delete();
             return redirect()->route('index.penilaian', $unitSub->id);
         }else{
             return redirect()->route('index.penilaian', $unitSub->id);

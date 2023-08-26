@@ -8,47 +8,132 @@
                     class="fas fa-arrow-left"></i></a>
         </div>
         <h1>Data Scoring <b>{{ $unitSub->nama }}</b></h1>
-        {{-- <div class="section-header-button">
-            <a href="{{ route('create.penilaian', $unitSub->id) }}" class="btn btn-primary"
-                title="Pengisian Data Penilaian"> Data Penilaian</a>
-        </div> --}}
     </div>
     <div class="section-body">
         <div class="card">
-            {{-- <div class="card-header">
-
-            </div> --}}
             <div class="card-body">
-                <div class="row">
-                    <div class="form-group col-md-3">
-                        <label style="font-size: 16px" class="d-block">Divisi</label>
-                        <select class="form-control" name="" id="divisi">
-                            <option selected disabled>-- Pilih Divisi --</option>
-                            @foreach ($divisi as $divisi)
-                                <option value="{{ $divisi->id }}" {{ old('idDivisi') == $divisi->id ? "selected" : "" }}>{{ $divisi->divisi }}</option>
-                            @endforeach
-                        </select>
+                <form action="" method="get">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label style="font-size: 16px" class="d-block">Iso</label>
+                            <select class="form-control" name="iso_id" id="iso">
+                                <option selected disabled>-- Pilih Iso --</option>
+                                @foreach ($iso as $iso)
+                                    <option value="{{ $iso->id }}" {{ $request->iso_id == $iso->id ? "selected" : "" }}>{{ $iso->nama }} -- {{ $iso->uraian }}</option>
+                                @endforeach
+                                <option value=""><b>Bersihkan Filter</b></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3" style="margin-top: 35px">
+                            <input type="submit" class="btn btn-primary" value="Filter">
+                        </div>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label style="font-size: 16px" class="d-block">Departemen</label>
-                        <select class="form-control" name="" id="departemen">
-                           
-                        </select>
-                    </div>
-                </div>
+                </form>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th class="text-center">No</th>
+                                <th>
+                                    <i class="fas fa-th"></i>
+                                </th>
                                 <th>Pertanyaan</th>
-                                <th>Objektif -- Klausul</th>
+                                <th>Objektif</th>
+                                <th>Klausul</th>
+                                <th>Iso</th>
                                 <th>Nilai</th>
                                 <th>Catatan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="dataPertanyaan"></tbody>
+                        <tbody>
+                            @foreach ($penilaian as $penilaian)
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-th"></i>
+                                    </td>
+                                    <td>{{ $penilaian->pertanyaan->pertanyaan }}</td>
+                                <td>
+                                    <table>
+                                        @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            <tr>
+                                                <td><p> {!! nl2br($pertanyaanObjektif->objektif->objektif) !!} </p></td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            <tr>
+                                                <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            <tr>
+                                                <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </td>
+                                <td>{{ $penilaian->nilai->nama }} -- {{ $penilaian->nilai->score }}</td>
+                                <td>{{ $penilaian->catatan }}</td>
+                                <td>
+                                    <form id="delete" action="{{ route('destroy.penilaian', [$penilaian->id, $unitSub->id]) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <a href="{{ route('edit.penilaian', [$unitSub->id, $penilaian->id]) }}" class="btn btn-primary" title="Update Score"> Update Score</a>
+                                        <button type="submit" class="btn btn-danger mr-2 show_confirm"
+                                            data-toggle="tooltip" title="Hapus">
+                                            Delete</button>
+                                    </form>
+                                </td>
+                                </tr>
+                            @endforeach
+                            @foreach ($pertanyaan as $pertanyaan)
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-th"></i>
+                                    </td>
+                                    <td>{{ $pertanyaan->pertanyaan }}</td>
+                                    <td>
+                                        <table>
+                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                                <tr>
+                                                    <td><p> {!! nl2br($pertanyaanObjektif->objektif->objektif) !!} </p></td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                                <tr>
+                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                                <tr>
+                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a href="{{ route('create.penilaian', [$unitSub->id, $pertanyaan->id]) }}" class="btn btn-warning" title="Input Score"> Input Score</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -56,7 +141,7 @@
     </div>
 </section>
 @endsection
-@section('modal')
+{{-- @section('modal')
     @foreach ($penilaian as $data)
         <div class="modal fade" id="inputPenilaian-{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -84,9 +169,6 @@
                             <div class="form-group">
                                 <label for="catatan" class="col-form-label">Catatan :</label>
                                 <input type="text" class="form-control" id="catatan" name="catatan" required>
-                                {{-- <small id="passwordHelpBlock" class="form-text text-muted">
-                                    Masukkan catatan jika ada perlu !!
-                                </small> --}}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -137,9 +219,6 @@
                         <div class="form-group">
                             <label for="catatan" class="col-form-label">Catatan :</label>
                             <input type="text" class="form-control" id="catatan" name="catatan" value="{{ $data->catatan }}" required>
-                            {{-- <small id="passwordHelpBlock" class="form-text text-muted">
-                                Masukkan catatan jika ada perlu !!
-                            </small> --}}
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -151,7 +230,7 @@
         </div>
     </div>
     @endforeach
-@endsection
+@endsection --}}
 @section('script')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>

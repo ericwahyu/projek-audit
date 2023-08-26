@@ -15,15 +15,23 @@ class unitSubSeeder extends Seeder
     {
         //
         $unitSub =[
+            //Kantor Regional 3
             [
                 'regional_id' => 1,
-                'nama' => 'Kantor Pusat Regional',
+                'nama' => 'Regional 3 Head',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            //Sub Regional Jawa
+            [
+                'regional_id' => 2,
+                'nama' => 'CEO Sub Regional Jawa',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 2,
-                'nama' => 'Terminal Kalimas',
+                'nama' => 'Pelabuhan Kalimas dan GSN',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -35,13 +43,13 @@ class unitSubSeeder extends Seeder
             ],
             [
                 'regional_id' => 2,
-                'nama' => 'Pelabuhan Kalianget',
+                'nama' => 'Pelabuhan Tanjung Tembaga',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 2,
-                'nama' => 'Pelabuhan Tanjung Tembaga',
+                'nama' => 'Pelabuhan Kalianget',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -57,15 +65,10 @@ class unitSubSeeder extends Seeder
                 'created_at' => null,
                 'updated_at' => null,
             ],
+            //Sub Regional Kalimantan
             [
                 'regional_id' => 3,
-                'nama' => 'Pelabuhan Banjarmasin',
-                'created_at' => null,
-                'updated_at' => null,
-            ],
-            [
-                'regional_id' => 3,
-                'nama' => 'Pelabuhan Pulang Pisau',
+                'nama' => 'CEO Sub Regional Kalimantan',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -77,25 +80,26 @@ class unitSubSeeder extends Seeder
             ],
             [
                 'regional_id' => 3,
-                'nama' => 'Pelabuhan Sampit',
+                'nama' => 'Pelabuhan Pulang Pisau',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 3,
-                'nama' => 'Pelabuhan Kumai',
+                'nama' => 'Pelabuhan Batu Licin',
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            //Sub Regional Bali Nursa
+            [
+                'regional_id' => 4,
+                'nama' => 'CEO Sub Regional Bali Nusra',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 4,
                 'nama' => 'Pelabuhan Benoa',
-                'created_at' => null,
-                'updated_at' => null,
-            ],
-            [
-                'regional_id' => 4,
-                'nama' => 'Pelabuhan Tenau Kupang',
                 'created_at' => null,
                 'updated_at' => null,
             ],
@@ -113,25 +117,19 @@ class unitSubSeeder extends Seeder
             ],
             [
                 'regional_id' => 4,
-                'nama' => 'Pelabuhan Maumere',
-                'created_at' => null,
-                'updated_at' => null,
-            ],
-            [
-                'regional_id' => 4,
                 'nama' => 'Pelabuhan Celukan Bawang',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 4,
-                'nama' => 'Terminal Gilimas',
+                'nama' => 'Pelabuhan Maumere',
                 'created_at' => null,
                 'updated_at' => null,
             ],
             [
                 'regional_id' => 4,
-                'nama' => 'Pelabuhan Ende',
+                'nama' => 'Pelabuhan Ende-IPPI',
                 'created_at' => null,
                 'updated_at' => null,
             ],

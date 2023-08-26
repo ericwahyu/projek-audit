@@ -44,7 +44,8 @@
                                         @endforeach
                                     </table>
                                 </td>
-                                <td><textarea readonly style="border: 0; overflow: auto; outline: none;">{{ $data->objektif }}</textarea></td>
+                                {{-- <td><textarea readonly style="border: 0; overflow: auto; outline: none;">{{  }}</textarea></td> --}}
+                                <td><p> {!! nl2br($data->objektif) !!} </p></td>
                                 <td>{{ $data->klausul->nama }}</td>
                                 <td>{{ $data->klausul->iso->nama }}</td>
                                 <td>

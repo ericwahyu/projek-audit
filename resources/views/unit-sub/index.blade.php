@@ -27,8 +27,6 @@
                                 <td class="text-center">
                                     {{ $loop->index+1 }}
                                 </td>
-                                {{-- <td>{{ is_null($data->nilai) ? 'null' : $data->nilai->nama }}</td>
-                                <td>{{ $data->catatan }}</td> --}}
                                 <td>{{ $data->regional->nama }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>
@@ -42,8 +40,8 @@
                                             Delete</button> --}}
                                         <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
                                             Data Penilaian</a>
-                                        <a href="{{ route('total.penilaian', $data->id) }}" class="btn btn-warning" title="total scoring">
-                                            Total Scoring</a>
+                                        {{-- <a href="{{ route('total.penilaian', $data->id) }}" class="btn btn-warning" title="total scoring">
+                                            Total Scoring</a> --}}
                                     </form>
                                 </td>
                             </tr>

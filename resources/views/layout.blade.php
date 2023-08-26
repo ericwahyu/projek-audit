@@ -92,7 +92,7 @@
               <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="fas fa-plug"></i><span>Klausul</span></a></li>
               <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="far fa-folder-open"></i><span>Daftar Pertanyaan</span></a></li>
               <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="far fa-file-alt"></i><span>Bukti Objektif</span></a></li>
-              <li class="dropdown {{ ($nav == 'audit') ? 'active' : '' }}">
+              {{-- <li class="dropdown {{ ($nav == 'audit') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Area/Wilayah Audit</span></a>
                 <ul class="dropdown-menu">
                   <li class={{ ($menu == 'Kantor Regional 3') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 1) }}">Kantor Regional 3</a></li>
@@ -100,7 +100,7 @@
                   <li class={{ ($menu == 'Sub Regional Kalimantan') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 3) }}">Sub Regional Kalimantan</a></li>
                   <li class={{ ($menu == 'Sub Regional Bali Nusra') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 4) }}">Sub Regional Bali Nusra</a></li>
                 </ul>
-              </li>
+              </li> --}}
               <li class="dropdown {{ ($nav == 'score') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Scoring</span></a>
                 <ul class="dropdown-menu">

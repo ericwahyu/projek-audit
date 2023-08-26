@@ -20,5 +20,9 @@ class Pertanyaan extends Model
         return $this->hasMany(pertanyaanRegional::class);
     }
 
+    public function penilaian(){
+        return $this->hasMany(Penilaian::class);
+    }
+
 
 }
