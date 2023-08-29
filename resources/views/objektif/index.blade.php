@@ -22,8 +22,8 @@
                                 <th class="text-center">No</th>
                                 <th>Pertanyaan</th>
                                 <th>Bukti Objektif</th>
-                                <th>Klausul</th>
-                                <th>Iso</th>
+                                <th>Nama Klausul</th>
+                                <th>ISO</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -45,9 +45,9 @@
                                     </table>
                                 </td>
                                 {{-- <td><textarea readonly style="border: 0; overflow: auto; outline: none;">{{  }}</textarea></td> --}}
-                                <td><p> {!! nl2br($data->objektif) !!} </p></td>
+                                <td>{!! nl2br($data->objektif) !!}</td>
                                 <td>{{ $data->klausul->nama }}</td>
-                                <td>{{ $data->klausul->iso->nama }}</td>
+                                <td>ISO {{ $data->klausul->iso->nama }}</td>
                                 <td>
                                     <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
                                         @csrf

@@ -23,8 +23,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Bukti Objektif</th>
-                                    <th scope="col">Klausul</th>
-                                    <th scope="col">Iso</th>
+                                    <th scope="col">Nama Klausul</th>
+                                    <th scope="col">ISO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +51,7 @@
                                         <table>
                                             @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -64,7 +64,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label style="font-size: 16px" class="d-block">Nilai</label>
-                                <select class="form-control @error('nilai_id') is-invalid @enderror" name="nilai_id">
+                                <select class="form-control @error('nilai_id') is-invalid @enderror" name="nilai_id" autofocus>
                                     <option disabled selected>-- Pilih Nilai --</option>
                                     @foreach ($getNilai as $getNilai)
                                         <option value="{{ $getNilai->id }}" {{ old('nilai_id') == $getNilai->id ? "selected" : "" }}>{{ $getNilai->nama }} - {{ $getNilai->score }}</option>

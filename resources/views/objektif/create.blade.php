@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Bukti Objektif</label>
-                        <textarea name="objektif" class="form-control @error('objektif') is-invalid @enderror" cols="30" rows="10">{{ old('objektif') }}</textarea>
+                        <textarea name="objektif" class="form-control @error('objektif') is-invalid @enderror" cols="30" rows="10" autofocus>{{ old('objektif') }}</textarea>
                         @error('objektif')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -27,7 +27,7 @@
                         <select class="form-control select2 @error('klausul_id') is-invalid @enderror" name="klausul_id">
                             <option disabled selected>-- Pilih Klausul --</option>
                             @foreach ($klausul as $klausul)
-                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>ISO {{ $klausul->iso->nama }} - {{ $klausul->nama }}-{{ $klausul->uraian }}</option>
+                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>ISO {{ $klausul->iso->nama }} ({{ $klausul->iso->uraian }}) - {{ $klausul->nama }} - {{ $klausul->uraian }}</option>
                             @endforeach
                         </select>
                         @error('klausul_id')

@@ -15,11 +15,11 @@
                 <form action="" method="get">
                     <div class="row">
                         <div class="form-group col-md-3">
-                            <label style="font-size: 16px" class="d-block">Iso</label>
+                            <label style="font-size: 16px" class="d-block">ISO</label>
                             <select class="form-control" name="iso_id" id="iso">
-                                <option selected disabled>-- Pilih Iso --</option>
+                                <option selected disabled>-- Pilih ISO --</option>
                                 @foreach ($iso as $iso)
-                                    <option value="{{ $iso->id }}" {{ $request->iso_id == $iso->id ? "selected" : "" }}>{{ $iso->nama }} -- {{ $iso->uraian }}</option>
+                                    <option value="{{ $iso->id }}" {{ $request->iso_id == $iso->id ? "selected" : "" }}>ISO {{ $iso->nama }} -- {{ $iso->uraian }}</option>
                                 @endforeach
                                 <option value=""><b>Bersihkan Filter</b></option>
                             </select>
@@ -37,9 +37,9 @@
                                     <i class="fas fa-th"></i>
                                 </th>
                                 <th>Pertanyaan</th>
-                                <th>Objektif</th>
-                                <th>Klausul</th>
-                                <th>Iso</th>
+                                <th>Bukti Objektif</th>
+                                <th>Nama Klausul</th>
+                                <th>ISO</th>
                                 <th>Nilai</th>
                                 <th>Catatan</th>
                                 <th>Action</th>
@@ -56,7 +56,7 @@
                                     <table>
                                         @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                             <tr>
-                                                <td><p> {!! nl2br($pertanyaanObjektif->objektif->objektif) !!} </p></td>
+                                                <td>{!! nl2br($pertanyaanObjektif->objektif->objektif) !!}</td>
                                             </tr>
                                         @endforeach
                                     </table>
@@ -74,18 +74,19 @@
                                     <table>
                                         @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                             <tr>
-                                                <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
                                             </tr>
                                         @endforeach
                                     </table>
                                 </td>
                                 <td>{{ $penilaian->nilai->nama }} -- {{ $penilaian->nilai->score }}</td>
-                                <td>{{ $penilaian->catatan }}</td>
+                                {{-- <td>{{ $penilaian->catatan }}</td> --}}
+                                <td><p> {!! nl2br($penilaian->catatan) !!} </p></td>
                                 <td>
                                     <form id="delete" action="{{ route('destroy.penilaian', [$penilaian->id, $unitSub->id]) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('edit.penilaian', [$unitSub->id, $penilaian->id]) }}" class="btn btn-primary" title="Update Score"> Update Score</a>
+                                        <a href="{{ route('edit.penilaian', [$unitSub->id, $penilaian->id]) }}" class="btn btn-warning" title="Update Score"> Update Score</a>
                                         <button type="submit" class="btn btn-danger mr-2 show_confirm"
                                             data-toggle="tooltip" title="Hapus">
                                             Delete</button>
@@ -103,7 +104,7 @@
                                         <table>
                                             @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                                 <tr>
-                                                    <td><p> {!! nl2br($pertanyaanObjektif->objektif->objektif) !!} </p></td>
+                                                    <td>{!! nl2br($pertanyaanObjektif->objektif->objektif) !!}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -121,7 +122,7 @@
                                         <table>
                                             @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -129,7 +130,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <a href="{{ route('create.penilaian', [$unitSub->id, $pertanyaan->id]) }}" class="btn btn-warning" title="Input Score"> Input Score</a>
+                                        <a href="{{ route('create.penilaian', [$unitSub->id, $pertanyaan->id]) }}" class="btn btn-primary" title="Input Score"> Input Score</a>
                                     </td>
                                 </tr>
                             @endforeach

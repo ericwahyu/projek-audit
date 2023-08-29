@@ -52,7 +52,7 @@ class PenilaianController extends Controller
             array_push($arr_pertanyaan, $arr_penilaian);
         }
 
-        // $pertanyaan = Pertanyaan::whereNotIn('id', [$arr_pertanyaan])->get();
+        // dd($arr_pertanyaan);
         
         $pertanyaan = Pertanyaan::join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
                         ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
@@ -63,7 +63,7 @@ class PenilaianController extends Controller
                             $query->where('iso.id', $request->iso_id);
                         })
                         ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
-                            $query->whereNotIn('pertanyaan.id', [$arr_pertanyaan]);
+                            $query->whereNot('pertanyaan.id', [$arr_pertanyaan]);
                         })
                         ->select('pertanyaan.*')
                         ->distinct()->get();

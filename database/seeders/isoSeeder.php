@@ -66,7 +66,7 @@ class isoSeeder extends Seeder
             ],
             [
                 'nama' => 'ISPS Code',
-                'uraian' => 'Sistem Manajemen Keamanan Kapal dan Fasilitas Pelabuhan/Sistem Manajemen Keamanan Kegiatan Maritim',
+                'uraian' => 'Sistem Manajemen Keamanan Kapal dan Fasilitas Pelabuhan',
                 'created_at' => null,
                 'updated_at' => null,
             ],

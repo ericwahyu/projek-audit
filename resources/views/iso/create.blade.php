@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Nama</label>
-                        <input type="text" name="nama"  class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
+                        <input type="text" name="nama"  class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" autofocus>
                         @error('nama')
                         <div class="invalid-feedback">
                             {{ $message }}

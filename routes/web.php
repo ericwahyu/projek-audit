@@ -5,9 +5,7 @@ use App\Http\Controllers\KlausulController;
 use App\Http\Controllers\ObjektifController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PertanyaanController;
-use App\Http\Controllers\PertanyaanRegionalController;
 use App\Http\Controllers\UnitSubController;
-use App\Models\PertanyaanRegional;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('blank');
-});
+Route::get('/login', function () {return view('login');});
 
 
 
@@ -63,14 +59,6 @@ Route::prefix('/objektif')->group(function () {
     Route::delete('/destroy/{objektif}', [ObjektifController::class, 'destroy'])->name('destroy.objektif');
 });
 
-Route::prefix('/pertanyaan-Regional')->group(function(){
-    Route::get('/{regional}', [PertanyaanRegionalController::class, 'index'])->name('index.pertanyaanRegional');
-    Route::get('/create/{regional}', [PertanyaanRegionalController::class, 'create'])->name('create.pertanyaanRegional');
-    Route::post('/store', [PertanyaanRegionalController::class, 'store'])->name('store.pertanyaanRegional');
-    Route::delete('/destroy/{pertanyaanRegional}', [PertanyaanRegionalController::class, 'destroy'])->name('destroy.pertanyaanRegional');
-
-    Route::get('/getFunction/getPertanyaanRegional', [PertanyaanRegionalController::class, 'getPertanyaanRegional'])->name('getPertanyaanRegional');
-});
 
 Route::prefix('/penilaian')->group(function () {
     Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
@@ -82,7 +70,6 @@ Route::prefix('/penilaian')->group(function () {
     Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian');
 
     Route::get('/total/{unitSub}', [PenilaianController::class, 'total'])->name('total.penilaian');
-
 
     Route::get('/getFunction/getDepartemen', [PenilaianController::class, 'getDepartemen'])->name('getDepartemen');
     Route::get('/getFunction/getPertanyaanDepartemen', [PenilaianController::class, 'getPertanyaanDepartemen'])->name('getPertanyaanDepartemen');

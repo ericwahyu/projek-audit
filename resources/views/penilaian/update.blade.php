@@ -23,8 +23,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Bukti Objektif</th>
-                                    <th scope="col">Klausul</th>
-                                    <th scope="col">Iso</th>
+                                    <th scope="col">Nama Klausul</th>
+                                    <th scope="col">ISO</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +51,7 @@
                                         <table>
                                             @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -64,8 +64,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label style="font-size: 16px" class="d-block">Nilai</label>
-                                <select class="form-control @error('nilai_id') is-invalid @enderror" name="nilai_id">
-                                    {{-- <option disabled selected>-- Pilih Nilai --</option> --}}
+                                <select class="form-control @error('nilai_id') is-invalid @enderror" name="nilai_id" autofocus>
                                     <option selected value="{{ $penilaian->nilai->id }}">{{ $penilaian->nilai->nama }} - {{ $penilaian->nilai->score }}</option>
                                     @foreach ($getNilai as $getNilai)
                                         @if ($penilaian->nilai->id == $getNilai->id)

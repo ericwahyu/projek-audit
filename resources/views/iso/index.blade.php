@@ -20,8 +20,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Nama Iso</th>
-                                <th>Uraian Iso</th>
+                                <th>Nama ISO</th>
+                                <th>Uraian ISO</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -33,7 +33,7 @@
                                         {{ $loop->index+1 }}
                                     </div>
                                 </td>
-                                <td>{{ $data->nama }}</td>
+                                <td>ISO {{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
                                 <td>
                                     <form id="delete" action="{{ route('destroy.iso', $data->id) }}" method="post">
