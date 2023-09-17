@@ -23,4 +23,8 @@ class UnitSub extends Model
     public function pertanyaanUnitSub(){
         return $this->hasMany(PertanyaanUnitSub::class);
     }
+
+    public function buktiAudit(){
+        return $this->hasMany(BuktiAudit::class);
+    }
 }

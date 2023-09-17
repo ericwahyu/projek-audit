@@ -33,15 +33,14 @@
                                     <form id="delete" action="#" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        {{-- <a href="#" class="btn btn-warning" title="Ubah"><i class="far fa-edit"></i>
-                                            Update</a>
-                                        <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                            data-toggle="tooltip" title="Hapus"><i class="far fa-trash-alt"></i>
-                                            Delete</button> --}}
-                                        <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
-                                            Data Penilaian</a>
-                                        {{-- <a href="{{ route('total.penilaian', $data->id) }}" class="btn btn-warning" title="total scoring">
-                                            Total Scoring</a> --}}
+                                        @if ($auth->isAdmin() || $auth->isAuditor())
+                                            <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
+                                                Data Penilaian</a>
+                                        @endif
+                                        <a href="{{ route('detail.penilaian', $data->id) }}" class="btn btn-warning" title="Detail Scoring">
+                                            Detail Scoring</a>
+                                        <a href="{{ route('index.buktiAudit', $data->id) }}" class="btn btn-primary" title="Bukti Audit">
+                                            Bukti Audit</a>
                                     </form>
                                 </td>
                             </tr>

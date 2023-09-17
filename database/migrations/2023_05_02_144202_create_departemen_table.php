@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('departemen');
             $table->timestamps();
 
-            $table->foreign('divisi_id')->references('id')->on('divisi')->onDelete('cascade');
+            $table->foreign('divisi_id')->references('id')->on('divisi')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

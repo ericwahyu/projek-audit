@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_sub', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('regional_id');
-            $table->string('nama');
+            $table->string('role');
             $table->timestamps();
-
-            $table->foreign('regional_id')->references('id')->on('regional')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_unit');
+        Schema::dropIfExists('role');
     }
 };

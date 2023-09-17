@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             nilaiSeeder::class,
             divisiSeeder::class,
             departemenSeeder::class,
+            roleSeeder::class,
             // RoleSeeder::class,
             // UserSeeder::class,
             // UnitkerjaSeeder::class,

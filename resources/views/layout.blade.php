@@ -26,6 +26,9 @@
       <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/modules/ionicons/css/ionicons.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css') }}">
+      <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css') }}">
+
 
       {{-- Summernote --}}
       <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
@@ -67,11 +70,14 @@
           <ul class="navbar-nav navbar-right">
             <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
               {{-- <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1"> --}}
-              <div class="d-sm-none d-lg-inline-block">Hi, EWA</div></a>
+              <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item has-icon text-danger">
-                  <i class="fas fa-sign-out-alt"></i> Logout
+                {{-- <a href="{{ route('logout.login') }}" class="dropdown-item has-icon text-danger"> --}}
+                  <form action="{{ route('logout.login') }}" method="post">
+                    @csrf
+                    <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
                 </a>
               </div>
             </li>
@@ -86,20 +92,17 @@
               <a href="#">IA</a>
             </div>
             <ul class="sidebar-menu">
-              <li class="menu-header">Menu</li>
+              <li class="menu-header">Dashboard</li>
+              <li class="{{ ($menu == 'dashboard') ? 'active' : '' }}"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-chart-bar"></i> <span>Dashboard</span></a></li>
+              @if (Auth::user()->isAdmin())
+                <li class="menu-header">Master Data</li>
+                <li class="{{ ($menu == 'master') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.masterUser') }}"><i class="fas fa-user"></i> <span>Master User</span></a></li>
+              @endif
+              <li class="menu-header">General</li>
               <li class="{{ ($menu == 'iso') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.iso') }}"><i class="fas fa-globe"></i><span>Iso</span></a></li>
               <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="fas fa-plug"></i><span>Klausul</span></a></li>
               <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="fas fa-list-ol"></i><span>Daftar Pertanyaan</span></a></li>
               <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="fas fa-file-alt"></i><span>Bukti Objektif</span></a></li>
-              {{-- <li class="dropdown {{ ($nav == 'audit') ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i> <span>Area/Wilayah Audit</span></a>
-                <ul class="dropdown-menu">
-                  <li class={{ ($menu == 'Kantor Regional 3') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 1) }}">Kantor Regional 3</a></li>
-                  <li class={{ ($menu == 'Sub Regional Jawa') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 2) }}">Sub Regional Jawa</a></li>
-                  <li class={{ ($menu == 'Sub Regional Kalimantan') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 3) }}">Sub Regional Kalimantan</a></li>
-                  <li class={{ ($menu == 'Sub Regional Bali Nusra') ? 'active' : '' }}><a class="nav-link" href="{{ route('index.pertanyaanRegional', 4) }}">Sub Regional Bali Nusra</a></li>
-                </ul>
-              </li> --}}
               <li class="dropdown {{ ($nav == 'score') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-map-pin"></i> <span>Scoring</span></a>
                 <ul class="dropdown-menu">
@@ -109,8 +112,6 @@
                   <li class="{{ ($menu == 'Sub Regional Bali Nusra') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.unitSub', 4) }}">Sub Regional Bali Nusra</a></li>
                 </ul>
               </li>
-              
-              {{-- <li class="{{ ($menu == 'score') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.penilaian') }}"><i class="far fa-folder-open"></i>Scoring</a></li> --}}
             </ul>
         </aside>
         </div>
@@ -164,11 +165,13 @@
     <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
     <script src="{{ asset('assets/js/page/modules-ion-icons.js') }}"></script>
     <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
+    <script src="{{ asset('assets/js/page/modules-slider.js') }}"></script>
     
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>

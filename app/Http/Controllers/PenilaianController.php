@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departemen;
 use App\Models\Divisi;
 use App\Models\Iso;
 use App\Models\Nilai;
-use App\Models\Objektif;
 use App\Models\Penilaian;
 use App\Models\Pertanyaan;
-use App\Models\PertanyaanDepartemen;
-use App\Models\PertanyaanIso;
 use App\Models\PertanyaanObjektif;
 use App\Models\Regional;
 use App\Models\UnitSub;
 use Illuminate\Http\Request;
-use SebastianBergmann\Type\NullType;
-use Symfony\Component\Console\Input\Input;
+use Illuminate\Support\Facades\Auth;
 
 class PenilaianController extends Controller
 {
@@ -28,6 +23,7 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
+        $auth = Auth::user();
         $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
         $iso = Iso::all();
         $getNilai = Nilai::all();
@@ -52,9 +48,8 @@ class PenilaianController extends Controller
             array_push($arr_pertanyaan, $arr_penilaian);
         }
 
-        // dd($arr_pertanyaan);
-        
-        $pertanyaan = Pertanyaan::join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+        $pertanyaan = Pertanyaan::
+                        join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
                         ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
                         ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
                         ->join('iso', 'iso.id', '=', 'klausul.iso_id')
@@ -63,78 +58,74 @@ class PenilaianController extends Controller
                             $query->where('iso.id', $request->iso_id);
                         })
                         ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
-                            $query->whereNot('pertanyaan.id', [$arr_pertanyaan]);
+                            for ($i=0; $i < count($arr_pertanyaan); $i++) { 
+                                # code...
+                                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
+                            }
                         })
                         ->select('pertanyaan.*')
                         ->distinct()->get();
-        // dd($penilaian);
-        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request'));
+
+        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request', 'auth'));
     }
 
-    public function total(UnitSub $unitSub){
-        $nav = 'score';
-        $menu = $unitSub->regional->nama;
-        $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
-        return view('penilaian.total', compact('nav','menu', 'unitSub', 'divisi'));
-    }
+    // public function getScoring(Request $request){
+    //     if($request->ajax()){
+    //         $departemen_id = $request->get('departemen_id');
+    //         $unit_sub_id = $request->get('unit_sub_id');
+    //         $data_table ='';
+    //         $penilaian = Penilaian::join('pertanyaan_departemen', 'penilaian.pertanyaan_departemen_id', '=', 'pertanyaan_departemen.id')
+    //                     ->where('pertanyaan_departemen.departemen_id', $departemen_id)
+    //                     ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
+    //                     ->get();
 
-    public function getScoring(Request $request){
-        if($request->ajax()){
-            $departemen_id = $request->get('departemen_id');
-            $unit_sub_id = $request->get('unit_sub_id');
-            $data_table ='';
-            $penilaian = Penilaian::join('pertanyaan_departemen', 'penilaian.pertanyaan_departemen_id', '=', 'pertanyaan_departemen.id')
-                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                        ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
-                        ->get();
+    //         $query = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
+    //                 ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
+    //                 ->where('penilaian.unit_sub_id', $unit_sub_id)
+    //                 ->where('pertanyaan_departemen.departemen_id', $departemen_id)->get();
 
-            $query = Penilaian::join('nilai', 'nilai.id', '=', 'penilaian.nilai_id')
-                    ->join('pertanyaan_departemen', 'pertanyaan_departemen.id', '=', 'penilaian.pertanyaan_departemen_id')
-                    ->where('penilaian.unit_sub_id', $unit_sub_id)
-                    ->where('pertanyaan_departemen.departemen_id', $departemen_id)->get();
-
-            $getMA = $query->where('nilai.id', 1);
-            $getMI = $query->where('nilai.id', 2);
-            $getOBS = $query->where('nilai.id', 3);
-            $getOK = $query->where('nilai.id', 4);
-            $getIMP = $query->where('nilai.id', 5);
-            $subTotal = $query->sum('nilai.score');
-            $subTotalPersentase = $subTotal / ($penilaian->count() * 4) * 100; 
+    //         $getMA = $query->where('nilai.id', 1);
+    //         $getMI = $query->where('nilai.id', 2);
+    //         $getOBS = $query->where('nilai.id', 3);
+    //         $getOK = $query->where('nilai.id', 4);
+    //         $getIMP = $query->where('nilai.id', 5);
+    //         $subTotal = $query->sum('nilai.score');
+    //         $subTotalPersentase = $subTotal / ($penilaian->count() * 4) * 100; 
             
-            if($penilaian->count() > 0){
-                $loop = 1;
-                foreach($penilaian as $row){
-                    $data_table .= '
-                        <tr>
-                            <td class="text-center">'.$loop.'</td>
-                            <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
-                            <td>
-                                <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
-                            </td>
-                            <td>'.$this->getNilai($row->id).'</td>
-                            <td>'.$row->catatan.'</td>
-                        </tr>';
-                    $loop++;
-                }
+    //         if($penilaian->count() > 0){
+    //             $loop = 1;
+    //             foreach($penilaian as $row){
+    //                 $data_table .= '
+    //                     <tr>
+    //                         <td class="text-center">'.$loop.'</td>
+    //                         <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
+    //                         <td>
+    //                             <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
+    //                         </td>
+    //                         <td>'.$this->getNilai($row->id).'</td>
+    //                         <td>'.$row->catatan.'</td>
+    //                     </tr>';
+    //                 $loop++;
+    //             }
                
-            }else{
-                $data_table =
-                    '<tr>
-                        <td align="center" colspan="5">Data tidak ditemukan.</td>
-                    </tr>';
-            }
-            $data = array(
-                'data_table' => $data_table,
-                'getMA' => $getMA->count(),
-                'getMI' => $getMI->count(),
-                'getOBS' => $getOBS->count(),
-                'getOK' => $getOK->count(),
-                'getIMP' => $getIMP->count(),
-                'getSubTotalPersentase' => $subTotalPersentase,
-               );
-            echo json_encode($data);
-        }
-    }
+    //         }else{
+    //             $data_table =
+    //                 '<tr>
+    //                     <td align="center" colspan="5">Data tidak ditemukan.</td>
+    //                 </tr>';
+    //         }
+    //         $data = array(
+    //             'data_table' => $data_table,
+    //             'getMA' => $getMA->count(),
+    //             'getMI' => $getMI->count(),
+    //             'getOBS' => $getOBS->count(),
+    //             'getOK' => $getOK->count(),
+    //             'getIMP' => $getIMP->count(),
+    //             'getSubTotalPersentase' => $subTotalPersentase,
+    //            );
+    //         echo json_encode($data);
+    //     }
+    // }
     /**
      * Show the form for creating a new resource.
      */
@@ -143,8 +134,9 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
+        $auth = Auth::user();
         $getNilai = Nilai::all();
-        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaan', 'getNilai'));
+        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaan', 'getNilai', 'auth'));
     }
 
     /**
@@ -185,9 +177,10 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
+        $auth = Auth::user();
         $getNilai = Nilai::all();
         // $objektif = Objektif::where('penilaian_id', $penilaian->id)->get();
-        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'getNilai'));
+        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'getNilai', 'auth'));
     }
 
     /**
@@ -227,53 +220,43 @@ class PenilaianController extends Controller
         return $penilaian;
     }
 
-    public function getDepartemen(Request $request){
-        $id = $request->get('divisi_id');
-        $data['departemen'] = Departemen::where('divisi_id', $id)->get();
-        return response()->json($data);
-    }
+    public function detailScoring(Request $request, UnitSub $unitSub)
+    {
+        //
+        $nav = 'score';
+        $menu = $unitSub->regional->nama;
+        $auth = Auth::user();
+        $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
+        $iso = Iso::all();
+        $getNilai = Nilai::all();
+        $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
+                        ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+                        ->when($request->iso_id, function ($query) use ($request) {
+                            // $query->where('category_id', $request->category_id);
+                            $query->where('iso.id', $request->iso_id);
+                        })
+                        ->where('penilaian.unit_sub_id', $unitSub->id)
+                        ->select('penilaian.*')
+                        ->distinct()->get();
 
-    public function getPertanyaanDepartemen(Request $request){
-        if($request->ajax()){
-            $departemen_id = $request->get('departemen_id');
-            $unit_sub_id = $request->get('unit_sub_id');
-            $data_table ='';
-            $penilaian = Penilaian::join('pertanyaan_departemen', 'penilaian.pertanyaan_departemen_id', '=', 'pertanyaan_departemen.id')
-                        ->where('pertanyaan_departemen.departemen_id', $departemen_id)
-                        ->where('penilaian.unit_sub_id', $unit_sub_id)->select('penilaian.*')
-                        ->get();
+        $IMP = count(Penilaian::where('nilai_id', 5)->get());
+        $OK = count(Penilaian::where('nilai_id', 4)->get());
+        $OBS = count(Penilaian::where('nilai_id', 3)->get());
+        $MI = count(Penilaian::where('nilai_id', 2)->get());
+        $MA = count(Penilaian::where('nilai_id', 1)->get());
 
-            // $pertanyaanDepartemen = PertanyaanDepartemen::where('departemen_id', $departemen_id)->get();
-            
-            if($penilaian->count() > 0){
-                $loop = 1;
-                foreach($penilaian as $row){
-                    $data_table .= '
-                        <tr>
-                            <td class="text-center">'.$loop.'</td>
-                            <td>'.$row->pertanyaanDepartemen->pertanyaan->pertanyaan.'</td>
-                            <td>
-                                <table>'.$this->getPertanyaanObjektif($row->pertanyaanDepartemen->pertanyaan->id).'</table>
-                            </td>
-                            <td>'.$this->getNilai($row->id).'</td>
-                            <td>'.$row->catatan.'</td>
-                            <td>'.$this->getButton($row->id, $unit_sub_id).'</td>
-                        </tr>';
-                    $loop++;
-                }
-               
-            }else{
-                $data_table =
-                    '<tr>
-                        <td align="center" colspan="5">Data tidak ditemukan.</td>
-                    </tr>';
-            }
-            $data = array(
-                'data_table' => $data_table,
-                'subid' => $penilaian,
-               );
-            echo json_encode($data);
+        //Average = Jumlah score / Max Score * 100
+        if(count($penilaian) <= 0){
+            $average = 0;
+        }else{
+            $average = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
+                        ->where('unit_sub_id', $unitSub->id)->sum('score') / (count($penilaian) * 4) * 100;
         }
+        
+        return view('penilaian.detail', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA', 'average', 'auth'));
     }
 
     public function getPertanyaanObjektif($pertanyaan_id){

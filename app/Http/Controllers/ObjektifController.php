@@ -7,6 +7,7 @@ use App\Models\Objektif;
 use App\Models\Pertanyaan;
 use App\Models\PertanyaanObjektif;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ObjektifController extends Controller
 {
@@ -18,8 +19,9 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
+        $auth = Auth::user();
         $data = Objektif::all();
-        return view('objektif.index', compact('nav', 'menu', 'data'));
+        return view('objektif.index', compact('nav', 'menu', 'data', 'auth'));
     }
 
     /**
@@ -30,9 +32,10 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
+        $auth = Auth::user();
         $klausul = Klausul::all();
         $pertanyaan = Pertanyaan::all();
-        return view('objektif.create', compact('nav', 'menu', 'klausul', 'pertanyaan'));
+        return view('objektif.create', compact('nav', 'menu', 'klausul', 'pertanyaan', 'auth'));
     }
 
     /**
@@ -85,9 +88,10 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
+        $auth = Auth::user();
         $klausul = Klausul::all();
         $pertanyaan = Pertanyaan::all();
-        return view('objektif.update', compact('nav', 'menu', 'klausul', 'objektif', 'pertanyaan'));
+        return view('objektif.update', compact('nav', 'menu', 'klausul', 'objektif', 'pertanyaan', 'auth'));
     }
 
     /**

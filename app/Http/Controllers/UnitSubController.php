@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Penilaian;
 use App\Models\Regional;
 use App\Models\UnitSub;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UnitSubController extends Controller
 {
@@ -17,10 +17,10 @@ class UnitSubController extends Controller
         //
         $nav = 'score';
         $menu = $regional->nama;
+        $auth = Auth::user();
         $data = UnitSub::where('regional_id', $regional->id)->get();
-        // $data = Penilaian::all();
 
-        return view('unit-sub/index', compact('nav', 'menu', 'data'));
+        return view('unit-sub/index', compact('nav', 'menu', 'data', 'auth'));
         
     }
 

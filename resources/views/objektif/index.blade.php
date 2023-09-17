@@ -4,10 +4,12 @@
 <section class="section">
     <div class="section-header">
         <h1>Data Objektif</h1>
-        <div class="section-header-button">
-            <a href="{{ route('create.objektif') }}" class="btn btn-primary"
-                title="Tambah Data Bukti Objektif">Tambah</a>
-        </div>
+        @if ($auth->isAdmin() || $auth->isAuditor())
+            <div class="section-header-button">
+                <a href="{{ route('create.objektif') }}" class="btn btn-primary"
+                    title="Tambah Data Bukti Objektif">Tambah</a>
+            </div>
+        @endif
     </div>
     <div class="section-body">
         <div class="card">
@@ -24,7 +26,9 @@
                                 <th>Bukti Objektif</th>
                                 <th>Nama Klausul</th>
                                 <th>ISO</th>
-                                <th>Action</th>
+                                @if ($auth->isAdmin() || $auth->isAuditor())
+                                    <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -48,17 +52,19 @@
                                 <td>{!! nl2br($data->objektif) !!}</td>
                                 <td>{{ $data->klausul->nama }}</td>
                                 <td>ISO {{ $data->klausul->iso->nama }}</td>
-                                <td>
-                                    <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <a href="{{ route('edit.objektif', $data->id) }}" class="btn btn-warning" title="Ubah">
-                                            Update</a>
-                                        <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                            data-toggle="tooltip" title="Hapus">
-                                            Delete</button>
-                                    </form>
-                                </td>
+                                @if ($auth->isAdmin() || $auth->isAuditor())
+                                    <td>
+                                        <form id="delete" action="{{ route('destroy.objektif', $data->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="{{ route('edit.objektif', $data->id) }}" class="btn btn-warning" title="Ubah">
+                                                Update</a>
+                                            <button type="submit" class="btn btn-danger mr-2 show_confirm"
+                                                data-toggle="tooltip" title="Hapus">
+                                                Delete</button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

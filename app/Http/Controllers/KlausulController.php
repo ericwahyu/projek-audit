@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Iso;
 use App\Models\Klausul;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KlausulController extends Controller
 {
@@ -16,8 +17,9 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
+        $auth = Auth::user();
         $data = Klausul::all();
-        return view('klausul.index', compact('nav', 'menu', 'data'));
+        return view('klausul.index', compact('nav', 'menu', 'data', 'auth'));
     }
 
     /**
@@ -28,8 +30,9 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
+        $auth = Auth::user();
         $iso = Iso::all();
-        return view('klausul.create', compact('nav', 'menu', 'iso'));
+        return view('klausul.create', compact('nav', 'menu', 'iso', 'auth'));
     }
 
     /**
@@ -74,8 +77,9 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
+        $auth = Auth::user();
         $iso = Iso::all();
-        return view('klausul.update', compact('nav', 'menu', 'klausul', 'iso'));
+        return view('klausul.update', compact('nav', 'menu', 'klausul', 'iso', 'auth'));
     }
 
     /**

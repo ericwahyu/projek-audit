@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_sub', function (Blueprint $table) {
+        Schema::create('bukti_audit', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('regional_id');
-            $table->string('nama');
+            $table->unsignedBigInteger('unit_sub_id');
+            $table->string('judul');
+            $table->string('file');
+            $table->text('deskripsi');
             $table->timestamps();
 
-            $table->foreign('regional_id')->references('id')->on('regional')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('unit_sub_id')->references('id')->on('unit_sub')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_unit');
+        Schema::dropIfExists('bukti_audit');
     }
 };

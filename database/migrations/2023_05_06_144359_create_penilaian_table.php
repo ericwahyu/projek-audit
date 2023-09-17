@@ -19,9 +19,9 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->timestamps();
 
-            $table->foreign('unit_sub_id')->references('id')->on('unit_sub')->onDelete('cascade');
-            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onDelete('cascade');
-            $table->foreign('nilai_id')->references('id')->on('nilai')->onDelete('cascade');
+            $table->foreign('unit_sub_id')->references('id')->on('unit_sub')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('nilai_id')->references('id')->on('nilai')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

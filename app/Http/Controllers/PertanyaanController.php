@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departemen;
-use App\Models\Iso;
-use App\Models\Objektif;
-use App\Models\Penilaian;
+
 use App\Models\Pertanyaan;
-use App\Models\PertanyaanDepartemen;
-use App\Models\PertanyaanIso;
-use App\Models\PertanyaanObjektif;
-use App\Models\UnitSub;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PertanyaanController extends Controller
 {
@@ -24,9 +17,9 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
+        $auth = Auth::user();
         $data = Pertanyaan::all();
-        // $isoCount = Iso::count();
-        return view('pertanyaan.index', compact('nav', 'menu', 'data'));
+        return view('pertanyaan.index', compact('nav', 'menu', 'data', 'auth'));
     }
 
     /**
@@ -37,7 +30,8 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        return view('pertanyaan.create', compact('nav', 'menu'));
+        $auth = Auth::user();
+        return view('pertanyaan.create', compact('nav', 'menu', 'auth'));
 
     }
 
@@ -80,7 +74,8 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan'));
+        $auth = Auth::user();
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'auth'));
     }
 
     /**

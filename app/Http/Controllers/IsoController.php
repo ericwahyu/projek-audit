@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Iso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IsoController extends Controller
 {
@@ -15,8 +16,9 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
+        $auth = Auth::user();
         $data = Iso::all();
-        return view('iso.index', compact('nav', 'menu', 'data'));
+        return view('iso.index', compact('nav', 'menu', 'data', 'auth'));
     }
 
     /**
@@ -27,7 +29,8 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
-        return view('iso.create', compact('nav', 'menu'));
+        $auth = Auth::user();
+        return view('iso.create', compact('nav', 'menu', 'auth'));
     }
 
     /**
@@ -69,7 +72,8 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
-        return view('iso.update', compact('nav', 'menu', 'iso'));
+        $auth = Auth::user();
+        return view('iso.update', compact('nav', 'menu', 'iso', 'auth'));
     }
 
     /**

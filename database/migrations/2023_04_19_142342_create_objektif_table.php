@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('objektif');
             $table->timestamps();
 
-            $table->foreign('klausul_id')->references('id')->on('klausul')->onDelete('cascade');
+            $table->foreign('klausul_id')->references('id')->on('klausul')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

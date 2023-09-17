@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Data Scoring '.$unitSub->nama)
+@section('title', 'Detail Score '.$unitSub->nama)
 @section('section')
 <section class="section">
     <div class="section-header">
@@ -7,12 +7,17 @@
             <a href="{{ route('index.unitSub', $unitSub->regional->id) }}" class="btn btn-icon"><i
                     class="fas fa-arrow-left"></i></a>
         </div>
-        <h1>Data Scoring <b>{{ $unitSub->nama }}</b></h1>
+        <h1>Detail Score <b>{{ $unitSub->nama }}</b></h1>
+        <div class="section-header-button">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detail">
+                Detail Score
+            </button>
+        </div>
     </div>
     <div class="section-body">
         <div class="card">
             <div class="card-body">
-                <form action="" method="get">
+                {{-- <form action="" method="get">
                     <div class="row">
                         <div class="form-group col-md-3">
                             <label style="font-size: 16px" class="d-block">ISO</label>
@@ -28,7 +33,7 @@
                             <input type="submit" class="btn btn-primary" value="Filter">
                         </div>
                     </div>
-                </form>
+                </form> --}}
                 <div class="table-responsive">
                     <table class="table table-striped" id="table-1">
                         <thead>
@@ -42,7 +47,7 @@
                                 <th>ISO</th>
                                 <th>Nilai</th>
                                 <th>Catatan</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -80,9 +85,8 @@
                                         </table>
                                     </td>
                                     <td>{{ $penilaian->nilai->nama }} -- {{ $penilaian->nilai->score }}</td>
-                                    {{-- <td>{{ $penilaian->catatan }}</td> --}}
                                     <td>{!! nl2br($penilaian->catatan) !!}</td>
-                                    <td>
+                                    {{-- <td>
                                         <form id="delete" action="{{ route('destroy.penilaian', [$penilaian->id, $unitSub->id]) }}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -91,47 +95,7 @@
                                                 data-toggle="tooltip" title="Hapus">
                                                 Delete</button>
                                         </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @foreach ($pertanyaan as $pertanyaan)
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-th"></i>
-                                    </td>
-                                    <td>{{ $pertanyaan->pertanyaan }}</td>
-                                    <td>
-                                        <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
-                                                <tr>
-                                                    <td>{!! nl2br($pertanyaanObjektif->objektif->objektif) !!}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
-                                                <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
-                                                <tr>
-                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <a href="{{ route('create.penilaian', [$unitSub->id, $pertanyaan->id]) }}" class="btn btn-primary" title="Input Score"> Input Score</a>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -141,4 +105,92 @@
         </div>
     </div>
 </section>
+@endsection
+@section('modal')
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Score</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">IMP</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ $IMP }}</li>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">OK</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ $OK }}</li>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">OBS</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ $OBS }}</li>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">MI</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ $MI }}</li>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">MA</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ $MA }}</li>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <li class="list-group-item">Total Score</li>
+                        </div>
+                        <div class="col-2">
+                            <li class="list-group-item">:</li>
+                        </div>
+                        <div class="col-5">
+                            <li class="list-group-item">{{ number_format($average, 2) }}</li>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{-- <button type="submit" class="btn btn-primary" id="btnInputScore">Save Score</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
