@@ -9,6 +9,7 @@ use App\Http\Controllers\ObjektifController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PertanyaanController;
 use App\Http\Controllers\UnitSubController;
+use App\Models\UnitSub;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,22 +25,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [LoginController::class, 'index'])->name('index.login');
-Route::post('/login', [LoginController::class, 'store'])->name('store.login');
+Route::get('/user-login', [LoginController::class, 'index'])->name('index.login');
+Route::post('/store-login', [LoginController::class, 'store'])->name('store.login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout.login');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/dashboard', function () {
-        $user = Auth::user();
-        $countUser = User::all();
-        return view('dashboard', array(
-            'user' => 'user',
-            'countUser' => count($countUser),
-            'nav' => 'dashboard',
-            'menu' => 'dashboard',
-        ));
-    })->name('dashboard');
     
     Route::prefix('/master-admin')->group(function () {
         Route::get('/', [MasterUserController::class, 'index'])->name('index.masterUser')->middleware('checkRole:admin');
@@ -51,7 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::prefix('/iso')->group(function () {
-        Route::get('/', [IsoController::class, 'index'])->name('index.iso');
+        
         Route::get('/create', [IsoController::class, 'create'])->name('create.iso')->middleware('checkRole:admin,auditor');
         Route::post('/store', [IsoController::class, 'store'])->name('store.iso')->middleware('checkRole:admin,auditor');
         Route::get('/edit/{iso}', [IsoController::class, 'edit'])->name('edit.iso')->middleware('checkRole:admin,auditor');
@@ -60,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     
     Route::prefix('/pertanyaan')->group(function () {
-        Route::get('/', [PertanyaanController::class, 'index'])->name('index.pertanyaan');
+        
         Route::get('/create', [PertanyaanController::class, 'create'])->name('create.pertanyaan')->middleware('checkRole:admin,auditor');
         Route::post('/store', [PertanyaanController::class, 'store'])->name('store.pertanyaan')->middleware('checkRole:admin,auditor');
         Route::get('/edit/{pertanyaan}', [PertanyaanController::class, 'edit'])->name('edit.pertanyaan')->middleware('checkRole:admin,auditor');
@@ -69,7 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     
     Route::prefix('/klausul')->group(function () {
-        Route::get('/', [KlausulController::class, 'index'])->name('index.klausul');
+        
         Route::get('/create', [KlausulController::class, 'create'])->name('create.klausul')->middleware('checkRole:admin,auditor');
         Route::post('/store', [KlausulController::class, 'store'])->name('store.klausul')->middleware('checkRole:admin,auditor');
         Route::get('/edit/{klausul}', [KlausulController::class, 'edit'])->name('edit.klausul')->middleware('checkRole:admin,auditor');
@@ -78,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     
     Route::prefix('/objektif')->group(function () {
-        Route::get('/', [ObjektifController::class, 'index'])->name('index.objektif');
+        
         Route::get('/create', [ObjektifController::class, 'create'])->name('create.objektif')->middleware('checkRole:admin,auditor');
         Route::post('/store', [ObjektifController::class, 'store'])->name('store.objektif')->middleware('checkRole:admin,auditor');
         Route::get('/edit/{objektif}', [ObjektifController::class, 'edit'])->name('edit.objektif')->middleware('checkRole:admin,auditor');
@@ -88,20 +79,19 @@ Route::group(['middleware' => ['auth']], function () {
     
     
     Route::prefix('/penilaian')->group(function () {
-        Route::get('/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
-        Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian');
-        Route::get('/create/{unitSub}/{pertanyaan}', [PenilaianController::class, 'create'])->name('create.penilaian')->middleware('checkRole:admin,auditor');
-        Route::post('/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian')->middleware('checkRole:admin,auditor');
+        Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian')->middleware('checkRole:admin');
+        Route::get('/create/{unitSub}/{pertanyaan}', [PenilaianController::class, 'create'])->name('create.penilaian')->middleware('checkRole:admin');
+        Route::post('/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian')->middleware('checkRole:admin');
+        Route::get('/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian')->middleware('checkRole:admin');
+        Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian')->middleware('checkRole:admin');
+        Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian')->middleware('checkRole:admin');
         
-        Route::get('/detail-scoring/{unitSub}', [PenilaianController::class, 'detailScoring'])->name('detail.penilaian');
+        
     
     });
 
     Route::prefix('/bukti-audit')->group(function () {
-        Route::get('/{unitSub}', [BuktiAuditController::class, 'index'])->name('index.buktiAudit');
+       
         Route::get('/create/{unitSub}', [BuktiAuditController::class, 'create'])->name('create.buktiAudit')->middleware('checkRole:admin,auditor');
         Route::post('/store', [BuktiAuditController::class, 'store'])->name('store.buktiAudit')->middleware('checkRole:admin,auditor');
         Route::get('/edit/{unitSub}/{buktiAudit}', [BuktiAuditController::class, 'edit'])->name('edit.buktiAudit')->middleware('checkRole:admin,auditor');
@@ -110,4 +100,28 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
+Route::get('/', function () {
+    $countUser = User::all();
+    $countKantorRegional3 = UnitSub::where('regional_id', 1)->get();
+    $countKantorRegionalJawa = UnitSub::where('regional_id', 2)->get();
+    $countKantorRegionalKalimantan = UnitSub::where('regional_id', 3)->get();
+    $countKantorRegionalBaliNusra = UnitSub::where('regional_id', 4)->get();
+    // dd(count($countKantorRegional3));
+    return view('dashboard', array(
+        'countUser' => count($countUser),
+        'countKantorRegional3' => count($countKantorRegional3),
+        'countKantorRegionalJawa' => count($countKantorRegionalJawa),
+        'countKantorRegionalKalimantan' => count($countKantorRegionalKalimantan),
+        'countKantorRegionalBaliNusra' => count($countKantorRegionalBaliNusra),
+        'nav' => 'dashboard',
+        'menu' => 'dashboard',
+    ));})->name('dashboard');
+Route::get('/iso/', [IsoController::class, 'index'])->name('index.iso');
+Route::get('/pertanyaan/', [PertanyaanController::class, 'index'])->name('index.pertanyaan');
+Route::get('/klausul/', [KlausulController::class, 'index'])->name('index.klausul');
+Route::get('/objektif/', [ObjektifController::class, 'index'])->name('index.objektif');
+Route::get('/penilaian/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
+
+Route::get('/penilaian/detail-scoring/{unitSub}', [PenilaianController::class, 'detailScoring'])->name('detail.penilaian');
+Route::get('/bukti-audit/{unitSub}', [BuktiAuditController::class, 'index'])->name('index.buktiAudit');
 

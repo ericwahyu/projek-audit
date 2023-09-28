@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Klausul;
 use App\Models\Objektif;
+use App\Models\ObjektifKlausul;
 use App\Models\Pertanyaan;
 use App\Models\PertanyaanObjektif;
 use Illuminate\Http\Request;
@@ -19,9 +20,8 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
-        $auth = Auth::user();
         $data = Objektif::all();
-        return view('objektif.index', compact('nav', 'menu', 'data', 'auth'));
+        return view('objektif.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -32,10 +32,9 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
-        $auth = Auth::user();
         $klausul = Klausul::all();
         $pertanyaan = Pertanyaan::all();
-        return view('objektif.create', compact('nav', 'menu', 'klausul', 'pertanyaan', 'auth'));
+        return view('objektif.create', compact('nav', 'menu', 'klausul', 'pertanyaan'));
     }
 
     /**
@@ -51,8 +50,8 @@ class ObjektifController extends Controller
             'pertanyaan_id' => 'required',
         ]);
 
+        // dd($request);
         $objektif = new Objektif();
-        $objektif->klausul_id = $request->klausul_id;
         $objektif->objektif = $request->objektif;
         $objektif->save();
 
@@ -62,6 +61,15 @@ class ObjektifController extends Controller
                 $PertanyaanObjektif->objektif_id = $objektif->id;
                 $PertanyaanObjektif->pertanyaan_id = $pertanyaan_id;
                 $PertanyaanObjektif->save();
+            }
+        }
+
+        if($request->klausul_id != null){
+            foreach($request->klausul_id as $klausul_id){
+                $objektifKlausul =  new ObjektifKlausul();
+                $objektifKlausul->objektif_id = $objektif->id;
+                $objektifKlausul->klausul_id = $klausul_id;
+                $objektifKlausul->save();
             }
         }
 
@@ -88,10 +96,9 @@ class ObjektifController extends Controller
         //
         $nav = 'objektif';
         $menu = 'objektif';
-        $auth = Auth::user();
         $klausul = Klausul::all();
         $pertanyaan = Pertanyaan::all();
-        return view('objektif.update', compact('nav', 'menu', 'klausul', 'objektif', 'pertanyaan', 'auth'));
+        return view('objektif.update', compact('nav', 'menu', 'klausul', 'objektif', 'pertanyaan'));
     }
 
     /**
@@ -105,7 +112,6 @@ class ObjektifController extends Controller
             'objektif' => 'required',
         ]);
 
-        $objektif->klausul_id = $request->klausul_id;
         $objektif->objektif = $request->objektif;
         $objektif->save();
 
@@ -117,6 +123,17 @@ class ObjektifController extends Controller
                 $pertanyaanObjektif->objektif_id = $objektif->id;
                 $pertanyaanObjektif->pertanyaan_id = $pertanyaan_id;
                 $pertanyaanObjektif->save();
+            }
+        }
+
+        ObjektifKlausul::where('objektif_id', $objektif->id)->delete();
+
+        if($request->klausul_id != null){
+            foreach($request->klausul_id as $klausul_id){
+                $objektifKlausul =  new ObjektifKlausul();
+                $objektifKlausul->objektif_id = $objektif->id;
+                $objektifKlausul->klausul_id = $klausul_id;
+                $objektifKlausul->save();
             }
         }
 
@@ -143,12 +160,22 @@ class ObjektifController extends Controller
     }
 
     public static function getPertanyaan($objektif_id){
-        $perObjektif = PertanyaanObjektif::where('pertanyaan_objektif.objektif_id', $objektif_id)->pluck('pertanyaan_objektif.pertanyaan_id');
+        $perObjektif = PertanyaanObjektif::where('objektif_id', $objektif_id)->pluck('pertanyaan_id');
 
         $arr_pertanyaan = [];
         foreach($perObjektif as $perObjektif_arr){
             array_push($arr_pertanyaan, $perObjektif_arr);
         }
         return $arr_pertanyaan;
+    }
+
+    public static function getKlausul($objektif_id){
+        $perObjektif = ObjektifKlausul::where('objektif_id', $objektif_id)->pluck('klausul_id');
+
+        $arr_klausul = [];
+        foreach($perObjektif as $perObjektif_arr){
+            array_push($arr_klausul, $perObjektif_arr);
+        }
+        return $arr_klausul;
     }
 }

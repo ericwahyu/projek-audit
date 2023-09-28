@@ -25,11 +25,6 @@ class roleSeeder extends Seeder
                 'created_at' => null,
                 'updated_at' => null,
             ],
-            [
-                'role' => 'user',
-                'created_at' => null,
-                'updated_at' => null,
-            ],
         ];
         DB::table('role')->insert($role);
     }

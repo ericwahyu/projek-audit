@@ -33,9 +33,11 @@
                                     <form id="delete" action="#" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        @if ($auth->isAdmin() || $auth->isAuditor())
-                                            <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
-                                                Data Penilaian</a>
+                                        @if (Auth::user())
+                                            @if (Auth::user()->isAdmin())
+                                                <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
+                                                    Data Penilaian</a>
+                                            @endif
                                         @endif
                                         <a href="{{ route('detail.penilaian', $data->id) }}" class="btn btn-warning" title="Detail Scoring">
                                             Detail Scoring</a>

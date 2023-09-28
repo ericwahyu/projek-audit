@@ -1,14 +1,16 @@
 @extends('layout')
-@section('title', 'Data Iso')
+@section('title', 'Data ISO')
 @section('section')
 <section class="section">
     <div class="section-header">
-        <h1>Data Iso</h1>
-        @if ($auth->isAdmin() || $auth->isAuditor())
-            <div class="section-header-button">
-                <a href="{{ route('create.iso') }}" class="btn btn-primary"
-                    title="Tambah Data Iso">Tambah</a>
-            </div>
+        <h1>Data ISO</h1>
+        @if (Auth::user())
+            @if (Auth::user()->isAdmin() || Auth::user()->isAuditor()) 
+                <div class="section-header-button">
+                    <a href="{{ route('create.iso') }}" class="btn btn-primary"
+                        title="Tambah Data Iso">Tambah</a>
+                </div>
+            @endif
         @endif
     </div>
     <div class="section-body">
@@ -24,8 +26,10 @@
                                 <th class="text-center">No</th>
                                 <th>Nama ISO</th>
                                 <th>Uraian ISO</th>
-                                @if ($auth->isAdmin() || $auth->isAuditor())
-                                    <th>Action</th>
+                                @if (Auth::user())
+                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                        <th>Action</th>
+                                    @endif
                                 @endif
                             </tr>
                         </thead>
@@ -39,18 +43,20 @@
                                 </td>
                                 <td>ISO {{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
-                                @if ($auth->isAdmin() || $auth->isAuditor())
-                                    <td>
-                                        <form id="delete" action="{{ route('destroy.iso', $data->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <a href="{{ route('edit.iso', $data->id) }}" class="btn btn-warning" title="Ubah">
-                                                Update</a>
-                                            <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                                data-toggle="tooltip" title="Hapus">
-                                                Delete</button>
-                                        </form>
-                                    </td>
+                                @if (Auth::user())
+                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                        <td>
+                                            <form id="delete" action="{{ route('destroy.iso', $data->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="{{ route('edit.iso', $data->id) }}" class="btn btn-warning" title="Ubah">
+                                                    Update</a>
+                                                <button type="submit" class="btn btn-danger mr-2 show_confirm"
+                                                    data-toggle="tooltip" title="Hapus">
+                                                    Delete</button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 @endif
                             </tr>
                             @endforeach

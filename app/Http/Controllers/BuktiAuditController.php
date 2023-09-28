@@ -18,9 +18,8 @@ class BuktiAuditController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
         $data = BuktiAudit::where('unit_sub_id', $unitSub->id)->get();
-        return view('bukti-audit.index', compact('nav', 'menu', 'unitSub', 'data', 'auth'));
+        return view('bukti-audit.index', compact('nav', 'menu', 'unitSub', 'data'));
     }
 
     /**
@@ -31,8 +30,7 @@ class BuktiAuditController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
-        return view('bukti-audit.create', compact('nav', 'menu', 'unitSub', 'auth'));
+        return view('bukti-audit.create', compact('nav', 'menu', 'unitSub'));
     }
 
     /**
@@ -81,8 +79,7 @@ class BuktiAuditController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
-        return view('bukti-audit.update', compact('nav', 'menu', 'unitSub', 'buktiAudit', 'auth'));
+        return view('bukti-audit.update', compact('nav', 'menu', 'unitSub', 'buktiAudit'));
     }
 
     /**

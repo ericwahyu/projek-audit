@@ -33,9 +33,7 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th>
-                                    <i class="fas fa-th"></i>
-                                </th>
+                                <th class="text-center">No</th>
                                 <th>Pertanyaan</th>
                                 <th>Bukti Objektif</th>
                                 <th>Nama Klausul</th>
@@ -49,7 +47,9 @@
                             @foreach ($penilaian as $penilaian)
                                 <tr>
                                     <td>
-                                        <i class="fas fa-th"></i>
+                                        <div class="sort-handler ui-sortable-handle text-center">
+                                            {{ $loop->index+1 }}
+                                        </div>
                                     </td>
                                     <td>{{ $penilaian->pertanyaan->pertanyaan }}</td>
                                     <td>
@@ -63,24 +63,47 @@
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
+                                                    <td>{{ $klausul->klausul->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($penilaian->pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $klausul->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
                                     </td>
-                                    <td>{{ $penilaian->nilai->nama }} -- {{ $penilaian->nilai->score }}</td>
-                                    {{-- <td>{{ $penilaian->catatan }}</td> --}}
+                                    <td>
+                                        @switch($penilaian->nilai->score)
+                                            @case(4)
+                                                <span class="badge badge-success">{{ $penilaian->nilai->nama }}</span>
+                                                <span class="badge badge-dark">{{ $penilaian->nilai->score }}</span>
+                                                @break
+                                            @case(3)
+                                                <span class="badge badge-success">{{ $penilaian->nilai->nama }}</span>
+                                                <span class="badge badge-dark">{{ $penilaian->nilai->score }}</span>
+                                                @break
+                                            @case(2)
+                                                <span class="badge badge-warning">{{ $penilaian->nilai->nama }}</span>
+                                                <span class="badge badge-dark">{{ $penilaian->nilai->score }}</span>
+                                                @break
+                                            @case(1)
+                                                <span class="badge badge-danger">{{ $penilaian->nilai->nama }}</span>
+                                                <span class="badge badge-dark">{{ $penilaian->nilai->score }}</span>
+                                                @break
+                                            @case(0)
+                                                <span class="badge badge-danger">{{ $penilaian->nilai->nama }}</span>
+                                                <span class="badge badge-dark">{{ $penilaian->nilai->score }}</span>
+                                                @break
+                                            @default
+                                        @endswitch
+                                    </td>
                                     <td>{!! nl2br($penilaian->catatan) !!}</td>
                                     <td>
                                         <form id="delete" action="{{ route('destroy.penilaian', [$penilaian->id, $unitSub->id]) }}" method="post">
@@ -97,7 +120,9 @@
                             @foreach ($pertanyaan as $pertanyaan)
                                 <tr>
                                     <td>
-                                        <i class="fas fa-th"></i>
+                                        <div class="sort-handler ui-sortable-handle text-center">
+                                            {{ $loop->index+1 }}
+                                        </div>
                                     </td>
                                     <td>{{ $pertanyaan->pertanyaan }}</td>
                                     <td>
@@ -111,18 +136,18 @@
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
+                                                    <td>{{ $klausul->klausul->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $klausul->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>

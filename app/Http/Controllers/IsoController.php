@@ -16,9 +16,8 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
-        $auth = Auth::user();
         $data = Iso::all();
-        return view('iso.index', compact('nav', 'menu', 'data', 'auth'));
+        return view('iso.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -29,8 +28,7 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
-        $auth = Auth::user();
-        return view('iso.create', compact('nav', 'menu', 'auth'));
+        return view('iso.create', compact('nav', 'menu'));
     }
 
     /**
@@ -72,8 +70,7 @@ class IsoController extends Controller
         //
         $nav = 'iso';
         $menu = 'iso';
-        $auth = Auth::user();
-        return view('iso.update', compact('nav', 'menu', 'iso', 'auth'));
+        return view('iso.update', compact('nav', 'menu', 'iso'));
     }
 
     /**

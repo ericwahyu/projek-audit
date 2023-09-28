@@ -4,11 +4,13 @@
 <section class="section">
     <div class="section-header">
         <h1>Data Klausul</h1>
-        @if ($auth->isAdmin() || $auth->isAuditor())
-            <div class="section-header-button">
-                <a href="{{ route('create.klausul') }}" class="btn btn-primary"
-                    title="Tambah Data Klausul">Tambah</a>
-            </div>
+        @if (Auth::user())
+            @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                <div class="section-header-button">
+                    <a href="{{ route('create.klausul') }}" class="btn btn-primary"
+                        title="Tambah Data Klausul">Tambah</a>
+                </div>
+            @endif
         @endif
     </div>
     <div class="section-body">
@@ -25,8 +27,10 @@
                                 <th>ISO</th>
                                 <th>Nama Klausul</th>
                                 <th>Uraian Klausul</th>
-                                @if ($auth->isAdmin() || $auth->isAuditor())
-                                    <th>Action</th>
+                                @if (Auth::user())
+                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                        <th>Action</th>
+                                    @endif
                                 @endif
                             </tr>
                         </thead>
@@ -41,18 +45,20 @@
                                 <td>ISO {{ $data->iso->nama }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
-                                @if ($auth->isAdmin() || $auth->isAuditor())
-                                    <td>
-                                        <form id="delete" action="{{ route('destroy.klausul', $data->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <a href="{{ route('edit.klausul', $data->id) }}" class="btn btn-warning" title="Ubah">
-                                                Update</a>
-                                            <button type="submit" class="btn btn-danger mr-2 show_confirm"
-                                                data-toggle="tooltip" title="Hapus">
-                                                Delete</button>
-                                        </form>
-                                    </td>
+                                @if (Auth::user())
+                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                        <td>
+                                            <form id="delete" action="{{ route('destroy.klausul', $data->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="{{ route('edit.klausul', $data->id) }}" class="btn btn-warning" title="Ubah">
+                                                    Update</a>
+                                                <button type="submit" class="btn btn-danger mr-2 show_confirm"
+                                                    data-toggle="tooltip" title="Hapus">
+                                                    Delete</button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 @endif
                             </tr>
                             @endforeach

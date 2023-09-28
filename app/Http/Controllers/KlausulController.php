@@ -17,9 +17,8 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
-        $auth = Auth::user();
         $data = Klausul::all();
-        return view('klausul.index', compact('nav', 'menu', 'data', 'auth'));
+        return view('klausul.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -30,9 +29,8 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
-        $auth = Auth::user();
         $iso = Iso::all();
-        return view('klausul.create', compact('nav', 'menu', 'iso', 'auth'));
+        return view('klausul.create', compact('nav', 'menu', 'iso'));
     }
 
     /**
@@ -77,9 +75,8 @@ class KlausulController extends Controller
         //
         $nav = 'klausul';
         $menu = 'klausul';
-        $auth = Auth::user();
         $iso = Iso::all();
-        return view('klausul.update', compact('nav', 'menu', 'klausul', 'iso', 'auth'));
+        return view('klausul.update', compact('nav', 'menu', 'klausul', 'iso'));
     }
 
     /**

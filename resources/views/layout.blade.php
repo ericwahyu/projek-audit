@@ -67,21 +67,21 @@
             {{-- <div class="search-element">
             </div> --}}
           </form>
-          <ul class="navbar-nav navbar-right">
-            <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-              {{-- <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1"> --}}
-              <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-divider"></div>
-                {{-- <a href="{{ route('logout.login') }}" class="dropdown-item has-icon text-danger"> --}}
-                  <form action="{{ route('logout.login') }}" method="post">
-                    @csrf
-                    <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </form>
-                </a>
-              </div>
-            </li>
-          </ul>
+          @if (Auth::user())
+            <ul class="navbar-nav navbar-right">
+              <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-divider"></div>
+                    <form action="{{ route('logout.login') }}" method="post">
+                      @csrf
+                      <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                  </form>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          @endif
         </nav>
         <div class="main-sidebar sidebar-style-2">
           <aside id="sidebar-wrapper">
@@ -94,12 +94,12 @@
             <ul class="sidebar-menu">
               <li class="menu-header">Dashboard</li>
               <li class="{{ ($menu == 'dashboard') ? 'active' : '' }}"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-chart-bar"></i> <span>Dashboard</span></a></li>
-              @if (Auth::user()->isAdmin())
+              @if (Auth::user() && Auth::user()->isAdmin())
                 <li class="menu-header">Master Data</li>
                 <li class="{{ ($menu == 'master') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.masterUser') }}"><i class="fas fa-user"></i> <span>Master User</span></a></li>
               @endif
               <li class="menu-header">General</li>
-              <li class="{{ ($menu == 'iso') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.iso') }}"><i class="fas fa-globe"></i><span>Iso</span></a></li>
+              <li class="{{ ($menu == 'iso') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.iso') }}"><i class="fas fa-globe"></i><span>ISO</span></a></li>
               <li class="{{ ($menu == 'klausul') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.klausul') }}"><i class="fas fa-plug"></i><span>Klausul</span></a></li>
               <li class="{{ ($menu == 'pertanyaan') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.pertanyaan') }}"><i class="fas fa-list-ol"></i><span>Daftar Pertanyaan</span></a></li>
               <li class="{{ ($menu == 'objektif') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index.objektif') }}"><i class="fas fa-file-alt"></i><span>Bukti Objektif</span></a></li>

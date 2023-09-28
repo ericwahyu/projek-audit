@@ -23,14 +23,14 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
         $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
         $iso = Iso::all();
         $getNilai = Nilai::all();
         $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
                         ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
                         ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
                         ->join('iso', 'iso.id', '=', 'klausul.iso_id')
                         ->when($request->iso_id, function ($query) use ($request) {
                             // $query->where('category_id', $request->category_id);
@@ -41,6 +41,7 @@ class PenilaianController extends Controller
                         ->distinct()->get();
 
         //
+        // dd($penilaian);
         $arrPenilaian = Penilaian::where('unit_sub_id', $unitSub->id)->pluck('pertanyaan_id');
 
         $arr_pertanyaan = [];
@@ -51,7 +52,8 @@ class PenilaianController extends Controller
         $pertanyaan = Pertanyaan::
                         join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
                         ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
                         ->join('iso', 'iso.id', '=', 'klausul.iso_id')
                         ->when($request->iso_id, function ($query) use ($request) {
                             // $query->where('category_id', $request->category_id);
@@ -65,8 +67,8 @@ class PenilaianController extends Controller
                         })
                         ->select('pertanyaan.*')
                         ->distinct()->get();
-
-        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request', 'auth'));
+        // dd($pertanyaan);
+        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request'));
     }
 
     // public function getScoring(Request $request){
@@ -134,9 +136,8 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
         $getNilai = Nilai::all();
-        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaan', 'getNilai', 'auth'));
+        return view('penilaian.create', compact('nav', 'menu', 'unitSub', 'pertanyaan', 'getNilai'));
     }
 
     /**
@@ -177,10 +178,9 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
         $getNilai = Nilai::all();
         // $objektif = Objektif::where('penilaian_id', $penilaian->id)->get();
-        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'getNilai', 'auth'));
+        return view('penilaian.update', compact('nav', 'menu', 'unitSub', 'penilaian', 'getNilai'));
     }
 
     /**
@@ -225,14 +225,14 @@ class PenilaianController extends Controller
         //
         $nav = 'score';
         $menu = $unitSub->regional->nama;
-        $auth = Auth::user();
         $divisi = Divisi::where('regional_id', $unitSub->regional->id)->get();
         $iso = Iso::all();
         $getNilai = Nilai::all();
         $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
                         ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
                         ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif.klausul_id')
+                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
                         ->join('iso', 'iso.id', '=', 'klausul.iso_id')
                         ->when($request->iso_id, function ($query) use ($request) {
                             // $query->where('category_id', $request->category_id);
@@ -241,13 +241,39 @@ class PenilaianController extends Controller
                         ->where('penilaian.unit_sub_id', $unitSub->id)
                         ->select('penilaian.*')
                         ->distinct()->get();
+        
+        $arrPenilaian = Penilaian::where('unit_sub_id', $unitSub->id)->pluck('pertanyaan_id');
 
-        $IMP = count(Penilaian::where('nilai_id', 5)->get());
-        $OK = count(Penilaian::where('nilai_id', 4)->get());
-        $OBS = count(Penilaian::where('nilai_id', 3)->get());
-        $MI = count(Penilaian::where('nilai_id', 2)->get());
-        $MA = count(Penilaian::where('nilai_id', 1)->get());
+        $arr_pertanyaan = [];
+        foreach($arrPenilaian as $arr_penilaian){
+            array_push($arr_pertanyaan, $arr_penilaian);
+        }
 
+        $pertanyaan = Pertanyaan::
+                        join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
+                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+                        ->when($request->iso_id, function ($query) use ($request) {
+                            // $query->where('category_id', $request->category_id);
+                            $query->where('iso.id', $request->iso_id);
+                        })
+                        ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
+                            for ($i=0; $i < count($arr_pertanyaan); $i++) { 
+                                # code...
+                                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
+                            }
+                        })
+                        ->select('pertanyaan.*')
+                        ->distinct()->get();
+        $IMP = count(Penilaian::where('nilai_id', 5)->where('unit_sub_id', $unitSub->id)->get());
+        $OK = count(Penilaian::where('nilai_id', 4)->where('unit_sub_id', $unitSub->id)->get());
+        $OBS = count(Penilaian::where('nilai_id', 3)->where('unit_sub_id', $unitSub->id)->get());
+        $MI = count(Penilaian::where('nilai_id', 2)->where('unit_sub_id', $unitSub->id)->get());
+        $MA = count(Penilaian::where('nilai_id', 1)->where('unit_sub_id', $unitSub->id)->get());
+        $subTotal = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
+                    ->where('unit_sub_id', $unitSub->id)->sum('nilai.Score');
         //Average = Jumlah score / Max Score * 100
         if(count($penilaian) <= 0){
             $average = 0;
@@ -256,7 +282,7 @@ class PenilaianController extends Controller
                         ->where('unit_sub_id', $unitSub->id)->sum('score') / (count($penilaian) * 4) * 100;
         }
         
-        return view('penilaian.detail', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA', 'average', 'auth'));
+        return view('penilaian.detail', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian','pertanyaan', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA','subTotal', 'average'));
     }
 
     public function getPertanyaanObjektif($pertanyaan_id){

@@ -17,9 +17,8 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        $auth = Auth::user();
         $data = Pertanyaan::all();
-        return view('pertanyaan.index', compact('nav', 'menu', 'data', 'auth'));
+        return view('pertanyaan.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -30,8 +29,7 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        $auth = Auth::user();
-        return view('pertanyaan.create', compact('nav', 'menu', 'auth'));
+        return view('pertanyaan.create', compact('nav', 'menu'));
 
     }
 
@@ -74,8 +72,7 @@ class PertanyaanController extends Controller
         //
         $nav = 'pertanyaan';
         $menu = 'pertanyaan';
-        $auth = Auth::user();
-        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan', 'auth'));
+        return view('pertanyaan.update', compact('nav', 'menu', 'pertanyaan'));
     }
 
     /**

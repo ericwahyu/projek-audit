@@ -18,9 +18,8 @@ class MasterUserController extends Controller
         //
         $nav = 'master';
         $menu = 'master';
-        $auth = Auth::user();
         $data = User::all();
-        return view('master-user.index', compact('nav', 'menu', 'data', 'auth'));
+        return view('master-user.index', compact('nav', 'menu', 'data'));
     }
 
     /**
@@ -31,9 +30,8 @@ class MasterUserController extends Controller
         //
         $nav = 'master';
         $menu = 'master';
-        $auth = Auth::user();
         $role = Role::all();
-        return view('master-user.create', compact('nav', 'menu', 'role', 'auth'));
+        return view('master-user.create', compact('nav', 'menu', 'role'));
     }
 
     /**
@@ -82,9 +80,8 @@ class MasterUserController extends Controller
         //
         $nav = 'master';
         $menu = 'master';
-        $auth = Auth::user();
         $role = Role::all();
-        return view('master-user.update', compact('nav', 'menu', 'role', 'user', 'auth'));
+        return view('master-user.update', compact('nav', 'menu', 'role', 'user'));
     }
 
     /**

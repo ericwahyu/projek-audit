@@ -34,24 +34,25 @@
                                             @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
                                                 <tr>
                                                     <td><p> {!! nl2br($pertanyaanObjektif->objektif->objektif) !!} </p></td>
+
                                                 </tr>
                                             @endforeach
                                         </table>
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>{{ $pertanyaanObjektif->objektif->klausul->nama }}</td>
+                                                    <td>{{ $klausul->klausul->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>
                                     </td>
                                     <td>
                                         <table>
-                                            @foreach ($pertanyaan->pertanyaanObjektif as $pertanyaanObjektif)
+                                            @foreach ($pertanyaanObjektif->objektif->objektifKlausul as $klausul)
                                                 <tr>
-                                                    <td>ISO {{ $pertanyaanObjektif->objektif->klausul->iso->nama }}</td>
+                                                    <td>ISO {{ $klausul->klausul->iso->nama }}</td>
                                                 </tr>
                                             @endforeach
                                         </table>

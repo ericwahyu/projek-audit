@@ -12,8 +12,8 @@ class Klausul extends Model
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function objektif(){
-        return $this->hasMany(Objektif::class);
+    public function objektifKlausul(){
+        return $this->hasMany(ObjektifKlausul::class);
     }
 
     public function iso(){

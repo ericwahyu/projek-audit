@@ -17,10 +17,9 @@ class UnitSubController extends Controller
         //
         $nav = 'score';
         $menu = $regional->nama;
-        $auth = Auth::user();
         $data = UnitSub::where('regional_id', $regional->id)->get();
 
-        return view('unit-sub/index', compact('nav', 'menu', 'data', 'auth'));
+        return view('unit-sub/index', compact('nav', 'menu', 'data'));
         
     }
 

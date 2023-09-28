@@ -12,8 +12,8 @@ class Objektif extends Model
     protected $primarykey = 'id';
     protected $fillable = [];
 
-    public function klausul(){
-        return $this->belongsTo(Klausul::class);
+    public function objektifKlausul(){
+        return $this->hasMany(ObjektifKlausul::class);
     }
 
     public function pertanyaanObjektif(){
