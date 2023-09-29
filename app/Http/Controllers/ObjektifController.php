@@ -50,7 +50,7 @@ class ObjektifController extends Controller
             'pertanyaan_id' => 'required',
         ]);
 
-        // dd($request);
+        dd($request);
         $objektif = new Objektif();
         $objektif->objektif = $request->objektif;
         $objektif->save();
@@ -91,7 +91,7 @@ class ObjektifController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Objektif $objektif)
+    public function edit(Objektif $objektif, Request $request)
     {
         //
         $nav = 'objektif';
@@ -177,5 +177,93 @@ class ObjektifController extends Controller
             array_push($arr_klausul, $perObjektif_arr);
         }
         return $arr_klausul;
+    }
+
+    public function searchKlausul(Request $request){
+        if($request->ajax()){
+            
+            //SEARCH Klausul
+            $dataKlausul = '';
+            $search = $request->get('query');
+            $klausul = Klausul::join('iso' , 'klausul.iso_id', '=', 'iso.id')
+                        ->where(function($query) use($search){
+                            $query->where('klausul.nama', 'like' , '%'. $search .'%')
+                                ->orwhere('klausul.uraian', 'LIKE','%'.$search.'%')
+                                ->orwhere('iso.nama', 'LIKE','%'.$search.'%')
+                                ->orwhere('iso.uraian', 'LIKE','%'.$search.'%');
+                        })
+                        ->select('klausul.*')
+                        ->get();
+
+            if($klausul->count() > 0){
+                $index = 1 ;
+                foreach($klausul as $row){
+                    $dataKlausul .= '
+                        <tr>
+                            <td>
+                                <div class="custom-checkbox custom-control">
+                                    <input type="checkbox" data-checkboxes="mygroupK" class="custom-control-input" id="checkboxK-'. $index .'" name="klausul_id[]" value='. $row->id .'>
+                                    <label for="checkboxK-'. $index .'" class="custom-control-label">&nbsp;</label>
+                                </div>
+                            </td>
+                            <td>ISO '. $row->iso->nama .'</td>
+                            <td>'. $row->iso->uraian .'</td>
+                            <td>'. $row->nama .'</td>
+                            <td>'. $row->uraian .'</td>
+                        </tr>';
+                $index++;
+                }
+            }else{
+                $dataKlausul =
+                    '<tr>
+                        <td align="center" colspan="5">Data tidak ditemukan.</td>
+                    </tr>';
+            }
+
+            $data = array(
+                'table_data_klausul'  => $dataKlausul,
+               );
+            echo json_encode($data);
+        }
+    }
+
+    public function searchPertanyaan(Request $request){
+        if($request->ajax()){
+
+            //SEARCH Pertanyaan
+            $dataPertanyaan = '';
+            $search = $request->get('query');
+            $pertanyaaan = Pertanyaan::where(function($query) use($search){
+                            $query->where('pertanyaan.pertanyaan', 'like' , '%'. $search .'%');
+                        })
+                        ->get();
+
+            if($pertanyaaan->count() > 0){
+                $index = 1 ;
+                foreach($pertanyaaan as $row){
+                    $dataPertanyaan .= '
+                        <tr>
+                            <td>
+                                <div class="custom-checkbox custom-control">
+                                    <input type="checkbox" data-checkboxes="mygroupP" class="custom-control-input" id="checkboxP-'. $index .'" name="pertanyaan_id[]" value='. $row->id .'>
+                                    <label for="checkboxP-'. $index .'" class="custom-control-label">&nbsp;</label>
+                                </div>
+                            </td>
+                            <td>'. $row->pertanyaan .'</td>
+                        </tr>';
+                $index++;
+                }
+            }else{
+                $dataPertanyaan =
+                    '<tr>
+                        <td align="center" colspan="5">Data tidak ditemukan.</td>
+                    </tr>';
+            }
+
+            $data = array(
+                'table_data_pertanyaan'  => $dataPertanyaan,
+               );
+            echo json_encode($data);
+        }
     }
 }

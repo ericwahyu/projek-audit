@@ -5,7 +5,7 @@
     <div class="section-header">
         <h1>Data ISO</h1>
         @if (Auth::user())
-            @if (Auth::user()->isAdmin() || Auth::user()->isAuditor()) 
+            @if (Auth::user()->isAdmin()) 
                 <div class="section-header-button">
                     <a href="{{ route('create.iso') }}" class="btn btn-primary"
                         title="Tambah Data Iso">Tambah</a>
@@ -27,7 +27,7 @@
                                 <th>Nama ISO</th>
                                 <th>Uraian ISO</th>
                                 @if (Auth::user())
-                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                    @if (Auth::user()->isAdmin())
                                         <th>Action</th>
                                     @endif
                                 @endif
@@ -44,7 +44,7 @@
                                 <td>ISO {{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
                                 @if (Auth::user())
-                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                    @if (Auth::user()->isAdmin())
                                         <td>
                                             <form id="delete" action="{{ route('destroy.iso', $data->id) }}" method="post">
                                                 @csrf

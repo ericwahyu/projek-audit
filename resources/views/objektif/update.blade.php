@@ -22,24 +22,6 @@
                         </div>
                         @enderror
                     </div>
-                    {{-- <div class="form-group">
-                        <label style="font-size: 16px" class="d-block">Klausul</label>
-                        <select class="form-control select2 @error('klausul_id') is-invalid @enderror" name="klausul_id">
-                            <option selected value="{{ $objektif->klausul->id }}">ISO {{ $objektif->klausul->iso->nama }} ({{ $objektif->klausul->iso->uraian }}) - {{ $objektif->klausul->nama }} - {{ $objektif->klausul->uraian }}</option>
-                            @foreach ($klausul as $klausul)
-                                @if ($objektif->klausul->id == $klausul->id)
-                                    @continue
-                                @else
-                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>ISO {{ $klausul->iso->nama }} ({{ $klausul->iso->uraian }}) - {{ $klausul->nama }} - {{ $klausul->uraian }}</option>
-                                @endif
-                            @endforeach
-                          </select>
-                        @error('klausul_id')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div> --}}
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Klausul</label>
                         <div class="table" style="overflow-y:scroll; height:400px;">

@@ -42,61 +42,61 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::prefix('/iso')->group(function () {
-        
-        Route::get('/create', [IsoController::class, 'create'])->name('create.iso')->middleware('checkRole:admin,auditor');
-        Route::post('/store', [IsoController::class, 'store'])->name('store.iso')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{iso}', [IsoController::class, 'edit'])->name('edit.iso')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{iso}', [IsoController::class, 'update'])->name('update.iso')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{iso}', [IsoController::class, 'destroy'])->name('destroy.iso')->middleware('checkRole:admin,auditor');
+        Route::get('/', [IsoController::class, 'index'])->name('index.iso');
+        Route::get('/create', [IsoController::class, 'create'])->name('create.iso')->middleware('checkRole:admin');
+        Route::post('/store', [IsoController::class, 'store'])->name('store.iso')->middleware('checkRole:admin');
+        Route::get('/edit/{iso}', [IsoController::class, 'edit'])->name('edit.iso')->middleware('checkRole:admin');
+        Route::post('/update/{iso}', [IsoController::class, 'update'])->name('update.iso')->middleware('checkRole:admin');
+        Route::delete('/destroy/{iso}', [IsoController::class, 'destroy'])->name('destroy.iso')->middleware('checkRole:admin');
     });
     
     Route::prefix('/pertanyaan')->group(function () {
-        
-        Route::get('/create', [PertanyaanController::class, 'create'])->name('create.pertanyaan')->middleware('checkRole:admin,auditor');
-        Route::post('/store', [PertanyaanController::class, 'store'])->name('store.pertanyaan')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{pertanyaan}', [PertanyaanController::class, 'edit'])->name('edit.pertanyaan')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{pertanyaan}', [PertanyaanController::class, 'update'])->name('update.pertanyaan')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{pertanyaan}', [PertanyaanController::class, 'destroy'])->name('destroy.pertanyaan')->middleware('checkRole:admin,auditor');
+        Route::get('/', [PertanyaanController::class, 'index'])->name('index.pertanyaan')->middleware('checkRole:admin');
+        Route::get('/create', [PertanyaanController::class, 'create'])->name('create.pertanyaan')->middleware('checkRole:admin');
+        Route::post('/store', [PertanyaanController::class, 'store'])->name('store.pertanyaan')->middleware('checkRole:admin');
+        Route::get('/edit/{pertanyaan}', [PertanyaanController::class, 'edit'])->name('edit.pertanyaan')->middleware('checkRole:admin');
+        Route::post('/update/{pertanyaan}', [PertanyaanController::class, 'update'])->name('update.pertanyaan')->middleware('checkRole:admin');
+        Route::delete('/destroy/{pertanyaan}', [PertanyaanController::class, 'destroy'])->name('destroy.pertanyaan')->middleware('checkRole:admin');
     });
     
     Route::prefix('/klausul')->group(function () {
-        
-        Route::get('/create', [KlausulController::class, 'create'])->name('create.klausul')->middleware('checkRole:admin,auditor');
-        Route::post('/store', [KlausulController::class, 'store'])->name('store.klausul')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{klausul}', [KlausulController::class, 'edit'])->name('edit.klausul')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{klausul}', [KlausulController::class, 'update'])->name('update.klausul')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{klausul}', [KlausulController::class, 'destroy'])->name('destroy.klausul')->middleware('checkRole:admin,auditor');
+        Route::get('/', [KlausulController::class, 'index'])->name('index.klausul');
+        Route::get('/create', [KlausulController::class, 'create'])->name('create.klausul')->middleware('checkRole:admin');
+        Route::post('/store', [KlausulController::class, 'store'])->name('store.klausul')->middleware('checkRole:admin');
+        Route::get('/edit/{klausul}', [KlausulController::class, 'edit'])->name('edit.klausul')->middleware('checkRole:admin');
+        Route::post('/update/{klausul}', [KlausulController::class, 'update'])->name('update.klausul')->middleware('checkRole:admin');
+        Route::delete('/destroy/{klausul}', [KlausulController::class, 'destroy'])->name('destroy.klausul')->middleware('checkRole:admin');
     });
     
     Route::prefix('/objektif')->group(function () {
-        
-        Route::get('/create', [ObjektifController::class, 'create'])->name('create.objektif')->middleware('checkRole:admin,auditor');
-        Route::post('/store', [ObjektifController::class, 'store'])->name('store.objektif')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{objektif}', [ObjektifController::class, 'edit'])->name('edit.objektif')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{objektif}', [ObjektifController::class, 'update'])->name('update.objektif')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{objektif}', [ObjektifController::class, 'destroy'])->name('destroy.objektif')->middleware('checkRole:admin,auditor');
+        Route::get('/', [ObjektifController::class, 'index'])->name('index.objektif')->middleware('checkRole:admin');
+        Route::get('/create', [ObjektifController::class, 'create'])->name('create.objektif')->middleware('checkRole:admin');
+        Route::post('/store', [ObjektifController::class, 'store'])->name('store.objektif')->middleware('checkRole:admin');
+        Route::get('/edit/{objektif}', [ObjektifController::class, 'edit'])->name('edit.objektif')->middleware('checkRole:admin');
+        Route::post('/update/{objektif}', [ObjektifController::class, 'update'])->name('update.objektif')->middleware('checkRole:admin');
+        Route::delete('/destroy/{objektif}', [ObjektifController::class, 'destroy'])->name('destroy.objektif')->middleware('checkRole:admin');
     });
+
+    Route::get('/search-klausul', [ObjektifController::class, 'searchKlausul'])->name('searchKlausul');
+    Route::get('/search-pertanyaan', [ObjektifController::class, 'searchPertanyaan'])->name('searchPertanyaan');
     
     
     Route::prefix('/penilaian')->group(function () {
-        Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian')->middleware('checkRole:admin');
-        Route::get('/create/{unitSub}/{pertanyaan}', [PenilaianController::class, 'create'])->name('create.penilaian')->middleware('checkRole:admin');
-        Route::post('/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian')->middleware('checkRole:admin');
-        Route::get('/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian')->middleware('checkRole:admin');
-        Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian')->middleware('checkRole:admin');
-        Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian')->middleware('checkRole:admin');
-        
-        
-    
+        Route::get('/index/{unitSub}', [PenilaianController::class, 'index'])->name('index.penilaian')->middleware('checkRole:auditor');
+        Route::get('/create/{unitSub}/{pertanyaan}', [PenilaianController::class, 'create'])->name('create.penilaian')->middleware('checkRole:auditor');
+        Route::post('/store/{unitSub}', [PenilaianController::class, 'store'])->name('store.penilaian')->middleware('checkRole:auditor');
+        Route::get('/edit/{unitSub}/{penilaian}', [PenilaianController::class, 'edit'])->name('edit.penilaian')->middleware('checkRole:auditor');
+        Route::post('/update/{penilaian}', [PenilaianController::class, 'update'])->name('update.penilaian')->middleware('checkRole:auditor');
+        Route::delete('/destroy/{penilaian}/{unitSub}', [PenilaianController::class, 'destroy'])->name('destroy.penilaian')->middleware('checkRole:auditor');
     });
 
     Route::prefix('/bukti-audit')->group(function () {
        
-        Route::get('/create/{unitSub}', [BuktiAuditController::class, 'create'])->name('create.buktiAudit')->middleware('checkRole:admin,auditor');
-        Route::post('/store', [BuktiAuditController::class, 'store'])->name('store.buktiAudit')->middleware('checkRole:admin,auditor');
-        Route::get('/edit/{unitSub}/{buktiAudit}', [BuktiAuditController::class, 'edit'])->name('edit.buktiAudit')->middleware('checkRole:admin,auditor');
-        Route::post('/update/{buktiAudit}', [BuktiAuditController::class, 'update'])->name('update.buktiAudit')->middleware('checkRole:admin,auditor');
-        Route::delete('/destroy/{unitSub}/{buktiAudit}', [BuktiAuditController::class, 'destroy'])->name('destroy.buktiAudit')->middleware('checkRole:admin,auditor');
+        Route::get('/create/{unitSub}', [BuktiAuditController::class, 'create'])->name('create.buktiAudit')->middleware('checkRole:auditor');
+        Route::post('/store', [BuktiAuditController::class, 'store'])->name('store.buktiAudit')->middleware('checkRole:auditor');
+        Route::get('/edit/{unitSub}/{buktiAudit}', [BuktiAuditController::class, 'edit'])->name('edit.buktiAudit')->middleware('checkRole:auditor');
+        Route::post('/update/{buktiAudit}', [BuktiAuditController::class, 'update'])->name('update.buktiAudit')->middleware('checkRole:auditor');
+        Route::delete('/destroy/{unitSub}/{buktiAudit}', [BuktiAuditController::class, 'destroy'])->name('destroy.buktiAudit')->middleware('checkRole:auditor');
     });
 });
 
@@ -116,12 +116,8 @@ Route::get('/', function () {
         'nav' => 'dashboard',
         'menu' => 'dashboard',
     ));})->name('dashboard');
-Route::get('/iso/', [IsoController::class, 'index'])->name('index.iso');
-Route::get('/pertanyaan/', [PertanyaanController::class, 'index'])->name('index.pertanyaan');
-Route::get('/klausul/', [KlausulController::class, 'index'])->name('index.klausul');
-Route::get('/objektif/', [ObjektifController::class, 'index'])->name('index.objektif');
-Route::get('/penilaian/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
 
+Route::get('/penilaian/sub_unit/{regional}', [UnitSubController::class, 'index'])->name('index.unitSub');
 Route::get('/penilaian/detail-scoring/{unitSub}', [PenilaianController::class, 'detailScoring'])->name('detail.penilaian');
 Route::get('/bukti-audit/{unitSub}', [BuktiAuditController::class, 'index'])->name('index.buktiAudit');
 

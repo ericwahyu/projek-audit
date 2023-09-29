@@ -5,7 +5,7 @@
     <div class="section-header">
         <h1>Daftar Pertanyaan</h1>
         @if (Auth::user())
-            @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+            @if (Auth::user()->isAdmin())
                 <div class="section-header-button">
                     <a href="{{ route('create.pertanyaan') }}" class="btn btn-primary"
                         title="Tambah Daftar Pertanyaan">Tambah</a>
@@ -22,7 +22,11 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Daftar Pertanyaan</th>
-                                <th>Action</th>
+                                @if (Auth::user())
+                                    @if (Auth::user()->isAdmin())
+                                        <th>Action</th>
+                                    @endif
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -35,7 +39,7 @@
                                 </td>
                                 <td>{{ $data->pertanyaan }}</td>
                                 @if (Auth::user())
-                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                    @if (Auth::user()->isAdmin())
                                         <td>
                                             <form id="delete" action="{{ route('destroy.pertanyaan', $data->id) }}" method="post">
                                                 @csrf

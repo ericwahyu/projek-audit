@@ -22,80 +22,69 @@
                         </div>
                         @enderror
                     </div>
-                    {{-- <div class="form-group">
-                        <label style="font-size: 16px" class="d-block">Klausul</label>
-                        <select class="form-control select2 @error('klausul_id') is-invalid @enderror" name="klausul_id">
-                            <option disabled selected>-- Pilih Klausul --</option>
-                            @foreach ($klausul as $klausul)
-                                <option value="{{ $klausul->id }}" {{ old('klausul_id') == $klausul->id ? "selected" : "" }}>ISO {{ $klausul->iso->nama }} ({{ $klausul->iso->uraian }}) - {{ $klausul->nama }} - {{ $klausul->uraian }}</option>
-                            @endforeach
-                        </select>
-                        @error('klausul_id')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div> --}}
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Klausul</label>
-                        <div class="table" style="overflow-y:scroll; height:400px;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" data-checkboxes="mygroupK" data-checkbox-role="dad" class="custom-control-input" id="checkbox-allK">
-                                                <label for="checkbox-allK" class="custom-control-label">&nbsp;</label>
-                                            </div>
-                                        </th>
-                                        <th>Klausul</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($klausul as $klausul)
+                        <div class="card">
+                            <div class="card-header">
+                                <h4></h4>
+                                <div class="card-header-form">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="search" id="searchK" placeholder="Search">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive" style="overflow-y:scroll; height:700px;">
+                                    <table class="table table-striped">
                                         <tr>
-                                            <td>
+                                            <th>
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroupK" class="custom-control-input" id="checkboxK-{{ $loop->index+1 }}" name="klausul_id[]" value={{ $klausul->id }}>
-                                                    <label for="checkboxK-{{ $loop->index+1 }}" class="custom-control-label">&nbsp;</label>
+                                                    <input type="checkbox" data-checkboxes="mygroupK" data-checkbox-role="dad" class="custom-control-input" id="checkbox-allK">
+                                                    <label for="checkbox-allK" class="custom-control-label">&nbsp;</label>
                                                 </div>
-                                            </td>
-                                            <td>ISO {{ $klausul->iso->nama }} ({{ $klausul->iso->uraian }}) - {{ $klausul->nama }} - {{ $klausul->uraian }}</td>
+                                            </th>
+                                            <th>Nama ISO</th>
+                                            <th>Uraian ISO</th>
+                                            <th>Nama Klausul</th>
+                                            <th>Uraian Klausul</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        <tbody id="dataKlausul"></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label style="font-size: 16px" class="d-block">Pertanyaan</label>
-                        <div class="table" style="overflow-y:scroll; height:400px;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" data-checkboxes="mygroupP" data-checkbox-role="dad" class="custom-control-input" id="checkbox-allP">
-                                                <label for="checkbox-allP" class="custom-control-label">&nbsp;</label>
-                                            </div>
-                                        </th>
-                                        <th>Pertanyaan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($pertanyaan as $pertanyaan)
+                        <div class="card">
+                            <div class="card-header">
+                                <h4></h4>
+                                <div class="card-header-form">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="search" id="searchP" placeholder="Search">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive" style="overflow-y:scroll; height:700px;">
+                                    <table class="table table-striped">
                                         <tr>
-                                            <td>
+                                            <th>
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroupP" class="custom-control-input" id="checkboxP-{{ $loop->index+1 }}" name="pertanyaan_id[]" value={{ $pertanyaan->id }}>
-                                                    <label for="checkboxP-{{ $loop->index+1 }}" class="custom-control-label">&nbsp;</label>
+                                                    <input type="checkbox" data-checkboxes="mygroupP" data-checkbox-role="dad" class="custom-control-input" id="checkbox-allP">
+                                                    <label for="checkbox-allP" class="custom-control-label">&nbsp;</label>
                                                 </div>
-                                            </td>
-                                            <td>{{ $pertanyaan->pertanyaan}}</td>
+                                            </th>
+                                            <th>Pertanyaan</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        <tbody id="dataPertanyaan"></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,4 +95,72 @@
         </form>
     </div>
 </section>
+@endsection
+@section('script')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            fetch_customer_data();
+            function fetch_customer_data(query=''){
+                $.ajax({
+                    url:"{{ route('searchKlausul') }}",
+                    method:'GET',
+                    data:{query:query},
+                    dataType:'json',
+                    success:function(data){
+                        console.log(data);
+                        $('#dataKlausul').html(data.table_data_klausul);
+                    }
+                });
+            };
+        });
+        $(document).on('keyup', '#searchK', function(){
+            $query = $(this).val().toLowerCase();
+            $.ajax({
+                url: "{{ route('searchKlausul') }}",
+                method: 'GET',
+                data: {
+                    'query': $query
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    $('#dataKlausul').html(data.table_data_klausul);
+                }
+            });
+        });
+    </script>
+    {{-- pertanyaan --}}
+    <script>
+        $(document).ready(function(){
+            fetch_customer_data();
+            function fetch_customer_data(query=''){
+                $.ajax({
+                    url:"{{ route('searchPertanyaan') }}",
+                    method:'GET',
+                    data:{query:query},
+                    dataType:'json',
+                    success:function(data){
+                        console.log(data);
+                        $('#dataPertanyaan').html(data.table_data_pertanyaan);
+                    }
+                });
+            };
+        });
+        $(document).on('keyup', '#searchP', function(){
+            $query = $(this).val().toLowerCase();
+            $.ajax({
+                url: "{{ route('searchPertanyaan') }}",
+                method: 'GET',
+                data: {
+                    'query': $query
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    $('#dataPertanyaan').html(data.table_data_pertanyaan);
+                }
+            });
+        });
+    </script>
 @endsection

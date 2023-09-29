@@ -5,7 +5,7 @@
     <div class="section-header">
         <h1>Data Klausul</h1>
         @if (Auth::user())
-            @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+            @if (Auth::user()->isAdmin())
                 <div class="section-header-button">
                     <a href="{{ route('create.klausul') }}" class="btn btn-primary"
                         title="Tambah Data Klausul">Tambah</a>
@@ -28,7 +28,7 @@
                                 <th>Nama Klausul</th>
                                 <th>Uraian Klausul</th>
                                 @if (Auth::user())
-                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                    @if (Auth::user()->isAdmin())
                                         <th>Action</th>
                                     @endif
                                 @endif
@@ -46,7 +46,7 @@
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->uraian }}</td>
                                 @if (Auth::user())
-                                    @if (Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                    @if (Auth::user()->isAdmin())
                                         <td>
                                             <form id="delete" action="{{ route('destroy.klausul', $data->id) }}" method="post">
                                                 @csrf

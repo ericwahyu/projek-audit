@@ -38,9 +38,7 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr>
-                                <th>
-                                    <i class="fas fa-th"></i>
-                                </th>
+                                <th class="text-center">No</th>
                                 <th>Pertanyaan</th>
                                 <th>Bukti Objektif</th>
                                 <th>Nama Klausul</th>
@@ -172,73 +170,51 @@
                 </button>
             </div>
             <div class="modal-body">
+                <table class="table table-striped">
+                    <tHead>
+                        <tr>
+                            <th>Jumlah Temuan</th>
+                            <th>MA</th>
+                            <th>MI</th>
+                            <th>OBS</th>
+                            <th>OK</th>
+                            <th>IMP</th>
+                        </tr>
+                    </tHead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>{{ $MA }}</td>
+                            <td>{{ $MI }}</td>
+                            <td>{{ $OBS }}</td>
+                            <td>{{ $OK }}</td>
+                            <td>{{ $IMP }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <tHead>
+                        <tr>
+                            <th>Sub Total</th>
+                            <th>MA</th>
+                            <th>MI</th>
+                            <th>OBS</th>
+                            <th>OK</th>
+                            <th>IMP</th>
+                        </tr>
+                    </tHead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>{{ $MA*0 }}</td>
+                            <td>{{ $MI*1 }}</td>
+                            <td>{{ $OBS*2 }}</td>
+                            <td>{{ $OK*3 }}</td>
+                            <td>{{ $IMP*4 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <ul class="list-group">
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">MA</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $MA }}</li>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">MI</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $MI }}</li>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">OBS</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $OBS }}</li>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">OK</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $OK }}</li>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">IMP</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $IMP }}</li>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-5">
-                            <li class="list-group-item">Sub Total</li>
-                        </div>
-                        <div class="col-2">
-                            <li class="list-group-item">:</li>
-                        </div>
-                        <div class="col-5">
-                            <li class="list-group-item">{{ $subTotal }}</li>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-5">
                             <li class="list-group-item">Total Score</li>
@@ -247,7 +223,7 @@
                             <li class="list-group-item">:</li>
                         </div>
                         <div class="col-5">
-                            <li class="list-group-item">{{ number_format($average, 2) }}</li>
+                            <li class="list-group-item">{{ number_format($average, 2) }} %</li>
                         </div>
                     </div>
                 </ul>

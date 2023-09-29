@@ -34,7 +34,7 @@
                                         @csrf
                                         @method('DELETE')
                                         @if (Auth::user())
-                                            @if (Auth::user()->isAdmin())
+                                            @if (Auth::user()->isAuditor())
                                                 <a href="{{ route('index.penilaian', $data->id) }}" class="btn btn-info" title="data penilaian">
                                                     Data Penilaian</a>
                                             @endif

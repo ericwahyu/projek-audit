@@ -27,48 +27,47 @@ class PenilaianController extends Controller
         $iso = Iso::all();
         $getNilai = Nilai::all();
         $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
-                        ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
-                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
-                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
-                        ->when($request->iso_id, function ($query) use ($request) {
-                            // $query->where('category_id', $request->category_id);
-                            $query->where('iso.id', $request->iso_id);
-                        })
-                        ->where('penilaian.unit_sub_id', $unitSub->id)
-                        ->select('penilaian.*')
-                        ->distinct()->get();
+            ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+            ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+            ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+            ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
+            ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+            ->when($request->iso_id, function ($query) use ($request) {
+                // $query->where('category_id', $request->category_id);
+                $query->where('iso.id', $request->iso_id);
+            })
+            ->where('penilaian.unit_sub_id', $unitSub->id)
+            ->select('penilaian.*')
+            ->distinct()->get();
 
         //
         // dd($penilaian);
         $arrPenilaian = Penilaian::where('unit_sub_id', $unitSub->id)->pluck('pertanyaan_id');
 
         $arr_pertanyaan = [];
-        foreach($arrPenilaian as $arr_penilaian){
+        foreach ($arrPenilaian as $arr_penilaian) {
             array_push($arr_pertanyaan, $arr_penilaian);
         }
 
-        $pertanyaan = Pertanyaan::
-                        join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
-                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
-                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
-                        ->when($request->iso_id, function ($query) use ($request) {
-                            // $query->where('category_id', $request->category_id);
-                            $query->where('iso.id', $request->iso_id);
-                        })
-                        ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
-                            for ($i=0; $i < count($arr_pertanyaan); $i++) { 
-                                # code...
-                                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
-                            }
-                        })
-                        ->select('pertanyaan.*')
-                        ->distinct()->get();
+        $pertanyaan = Pertanyaan::join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+            ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+            ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+            ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
+            ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+            ->when($request->iso_id, function ($query) use ($request) {
+                // $query->where('category_id', $request->category_id);
+                $query->where('iso.id', $request->iso_id);
+            })
+            ->when($arr_pertanyaan != null, function ($query) use ($arr_pertanyaan) {
+                for ($i = 0; $i < count($arr_pertanyaan); $i++) {
+                    # code...
+                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
+                }
+            })
+            ->select('pertanyaan.*')
+            ->distinct()->get();
         // dd($pertanyaan);
-        return view('penilaian.index', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request'));
+        return view('penilaian.index', compact('nav', 'menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request'));
     }
 
     // public function getScoring(Request $request){
@@ -93,7 +92,7 @@ class PenilaianController extends Controller
     //         $getIMP = $query->where('nilai.id', 5);
     //         $subTotal = $query->sum('nilai.score');
     //         $subTotalPersentase = $subTotal / ($penilaian->count() * 4) * 100; 
-            
+
     //         if($penilaian->count() > 0){
     //             $loop = 1;
     //             foreach($penilaian as $row){
@@ -109,7 +108,7 @@ class PenilaianController extends Controller
     //                     </tr>';
     //                 $loop++;
     //             }
-               
+
     //         }else{
     //             $data_table =
     //                 '<tr>
@@ -149,7 +148,7 @@ class PenilaianController extends Controller
         $request->validate([
             'nilai_id' => 'required',
         ]);
-        
+
         $penilaian = new Penilaian();
         $penilaian->unit_sub_id = $unitSub->id;
         $penilaian->pertanyaan_id = $request->pertanyaan_id;
@@ -157,7 +156,7 @@ class PenilaianController extends Controller
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
 
-        if($penilaian){
+        if ($penilaian) {
             return redirect()->route('index.penilaian', $unitSub->id);
         }
     }
@@ -193,9 +192,9 @@ class PenilaianController extends Controller
         $penilaian->catatan = $request->catatan;
         $penilaian->save();
 
-        if($penilaian){
+        if ($penilaian) {
             return redirect()->route('index.penilaian', $request->unitSub_id);
-        }else{
+        } else {
             return redirect()->route('edit.penilaian', $request->unitSub_id);
         }
     }
@@ -206,17 +205,18 @@ class PenilaianController extends Controller
     public function destroy(Penilaian $penilaian, UnitSub $unitSub)
     {
         //
-        if($penilaian){
+        if ($penilaian) {
             $penilaian->delete();
             return redirect()->route('index.penilaian', $unitSub->id);
-        }else{
+        } else {
             return redirect()->route('index.penilaian', $unitSub->id);
         }
     }
 
-    public static function getPenilaian($unit_sub_id, $pertanyaan_iso_id){
+    public static function getPenilaian($unit_sub_id, $pertanyaan_iso_id)
+    {
         $penilaian = Penilaian::where('penilaian.unit_sub_id', $unit_sub_id)
-        ->where('penilaian.pertanyaan_iso_id', $pertanyaan_iso_id)->get();
+            ->where('penilaian.pertanyaan_iso_id', $pertanyaan_iso_id)->get();
         return $penilaian;
     }
 
@@ -229,104 +229,106 @@ class PenilaianController extends Controller
         $iso = Iso::all();
         $getNilai = Nilai::all();
         $penilaian = Penilaian::join('pertanyaan', 'penilaian.pertanyaan_id', '=', 'pertanyaan.id')
-                        ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
-                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
-                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
-                        ->when($request->iso_id, function ($query) use ($request) {
-                            // $query->where('category_id', $request->category_id);
-                            $query->where('iso.id', $request->iso_id);
-                        })
-                        ->where('penilaian.unit_sub_id', $unitSub->id)
-                        ->select('penilaian.*')
-                        ->distinct()->get();
-        
+            ->join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+            ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+            ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+            ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
+            ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+            ->when($request->iso_id, function ($query) use ($request) {
+                // $query->where('category_id', $request->category_id);
+                $query->where('iso.id', $request->iso_id);
+            })
+            ->where('penilaian.unit_sub_id', $unitSub->id)
+            ->select('penilaian.*')
+            ->distinct()->get();
+
         $arrPenilaian = Penilaian::where('unit_sub_id', $unitSub->id)->pluck('pertanyaan_id');
 
         $arr_pertanyaan = [];
-        foreach($arrPenilaian as $arr_penilaian){
+        foreach ($arrPenilaian as $arr_penilaian) {
             array_push($arr_pertanyaan, $arr_penilaian);
         }
 
-        $pertanyaan = Pertanyaan::
-                        join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
-                        ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
-                        ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
-                        ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
-                        ->join('iso', 'iso.id', '=', 'klausul.iso_id')
-                        ->when($request->iso_id, function ($query) use ($request) {
-                            // $query->where('category_id', $request->category_id);
-                            $query->where('iso.id', $request->iso_id);
-                        })
-                        ->when($arr_pertanyaan != null, function($query) use ($arr_pertanyaan){
-                            for ($i=0; $i < count($arr_pertanyaan); $i++) { 
-                                # code...
-                                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
-                            }
-                        })
-                        ->select('pertanyaan.*')
-                        ->distinct()->get();
+        $pertanyaan = Pertanyaan::join('pertanyaan_objektif', 'pertanyaan.id', '=', 'pertanyaan_objektif.pertanyaan_id')
+            ->join('objektif', 'objektif.id', '=', 'pertanyaan_objektif.objektif_id')
+            ->join('objektif_klausul', 'objektif.id', '=', 'objektif_klausul.objektif_id')
+            ->join('klausul', 'klausul.id', '=', 'objektif_klausul.klausul_id')
+            ->join('iso', 'iso.id', '=', 'klausul.iso_id')
+            ->when($request->iso_id, function ($query) use ($request) {
+                // $query->where('category_id', $request->category_id);
+                $query->where('iso.id', $request->iso_id);
+            })
+            ->when($arr_pertanyaan != null, function ($query) use ($arr_pertanyaan) {
+                for ($i = 0; $i < count($arr_pertanyaan); $i++) {
+                    # code...
+                    $query->whereNot('pertanyaan.id', $arr_pertanyaan[$i]);
+                }
+            })
+            ->select('pertanyaan.*')
+            ->distinct()->get();
         $IMP = count(Penilaian::where('nilai_id', 5)->where('unit_sub_id', $unitSub->id)->get());
         $OK = count(Penilaian::where('nilai_id', 4)->where('unit_sub_id', $unitSub->id)->get());
         $OBS = count(Penilaian::where('nilai_id', 3)->where('unit_sub_id', $unitSub->id)->get());
         $MI = count(Penilaian::where('nilai_id', 2)->where('unit_sub_id', $unitSub->id)->get());
         $MA = count(Penilaian::where('nilai_id', 1)->where('unit_sub_id', $unitSub->id)->get());
         $subTotal = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
-                    ->where('unit_sub_id', $unitSub->id)->sum('nilai.Score');
+            ->where('unit_sub_id', $unitSub->id)->sum('nilai.Score');
         //Average = Jumlah score / Max Score * 100
-        if(count($penilaian) <= 0){
+        if (count($penilaian) <= 0) {
             $average = 0;
-        }else{
+        } else {
             $average = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
-                        ->where('unit_sub_id', $unitSub->id)->sum('score') / (count($penilaian) * 4) * 100;
+                ->where('unit_sub_id', $unitSub->id)->sum('score') / (count($penilaian) * 4) * 100;
         }
-        
-        return view('penilaian.detail', compact('nav','menu', 'divisi', 'unitSub', 'getNilai', 'penilaian','pertanyaan', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA','subTotal', 'average'));
+
+        return view('penilaian.detail', compact('nav', 'menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA', 'subTotal', 'average'));
     }
 
-    public function getPertanyaanObjektif($pertanyaan_id){
+    public function getPertanyaanObjektif($pertanyaan_id)
+    {
         $text = '';
         $pertanyaanObjektif = PertanyaanObjektif::where('pertanyaan_id', $pertanyaan_id)->get();
 
-        if($pertanyaanObjektif->count() > 0){
-            foreach($pertanyaanObjektif as $row){
+        if ($pertanyaanObjektif->count() > 0) {
+            foreach ($pertanyaanObjektif as $row) {
                 $text .= '
                     <tr>
-                        <td>'.$row->objektif->objektif.'</td>
-                        <td>'.$row->objektif->klausul->nama.'</td>
+                        <td>' . $row->objektif->objektif . '</td>
+                        <td>' . $row->objektif->klausul->nama . '</td>
                     </tr>';
             }
-        }else{
+        } else {
             $text =
                 '';
         }
         return $text;
     }
 
-    public function getNilai($penilaian_id){
+    public function getNilai($penilaian_id)
+    {
         $text = '';
         $penilaian = Penilaian::findOrFail($penilaian_id);
-        if($penilaian->nilai_id != null){
+        if ($penilaian->nilai_id != null) {
             $text .= $penilaian->nilai->nama;
-        }else{
+        } else {
             $text .= '--';
         }
         return $text;
     }
 
-    public function getButton($penilaian_id, $unit_sub_id){
+    public function getButton($penilaian_id, $unit_sub_id)
+    {
         $text = '';
         $penilaian = Penilaian::findOrFail($penilaian_id);
-        if($penilaian->nilai_id != null){
-            $text .= '<form action="'.route('destroy.penilaian', [$penilaian->id, $unit_sub_id]).'" method="post">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
-                    '.method_field('DELETE').'
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updatePenilaian-'.$penilaian->id.'">Update Nilai</button>
+        if ($penilaian->nilai_id != null) {
+            $text .= '<form action="' . route('destroy.penilaian', [$penilaian->id, $unit_sub_id]) . '" method="post">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    ' . method_field('DELETE') . '
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updatePenilaian-' . $penilaian->id . '">Update Nilai</button>
                         <button type="submit" class="btn btn-danger mr-2 show_confirm" data-toggle="tooltip" title="Hapus">Delete Nilai</button>
                 </form>';
-        }else{
-            $text .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inputPenilaian-'.$penilaian->id.'">
+        } else {
+            $text .= '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inputPenilaian-' . $penilaian->id . '">
                         Input Score
                     </button>';
         }

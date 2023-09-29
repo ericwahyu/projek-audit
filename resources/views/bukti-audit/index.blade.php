@@ -7,7 +7,7 @@
                 <a href="{{ route('index.unitSub', $unitSub->regional->id) }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
             </div>
             <h1>Data Bukti Audit <b>{{ $unitSub->nama }}</b></h1>
-            @if (Auth::user() && Auth::user()->isAdmin() || Auth::user()->isAuditor())
+            @if (Auth::user() && Auth::user()->isAuditor())
                 <div class="section-header-button">
                     <a href="{{ route('create.buktiAudit', $unitSub->id) }}" class="btn btn-primary"
                         title="Tambah Data Klausul">Tambah</a>
@@ -29,7 +29,7 @@
                                             </div>
                                         </div>
                                         <div class="col-1">
-                                            @if (Auth::user() && Auth::user()->isAdmin() || Auth::user()->isAuditor())
+                                            @if (Auth::user() && Auth::user()->isAuditor())
                                                 <div class="dropdown dropup">
                                                     <a href="#" data-toggle="dropdown" class="badge badge-warning dropdown-toggle">Options</a>
                                                     <div class="dropdown-menu">
