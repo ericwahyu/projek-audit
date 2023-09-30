@@ -271,17 +271,18 @@ class PenilaianController extends Controller
         $OBS = count(Penilaian::where('nilai_id', 3)->where('unit_sub_id', $unitSub->id)->get());
         $MI = count(Penilaian::where('nilai_id', 2)->where('unit_sub_id', $unitSub->id)->get());
         $MA = count(Penilaian::where('nilai_id', 1)->where('unit_sub_id', $unitSub->id)->get());
-        $subTotal = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
-            ->where('unit_sub_id', $unitSub->id)->sum('nilai.Score');
-        //Average = Jumlah score / Max Score * 100
+       
+        //Average = Jumlah sub total / (jumlah temuan * 3) * 100
         if (count($penilaian) <= 0) {
             $average = 0;
         } else {
-            $average = Penilaian::join('nilai', 'penilaian.nilai_id', '=', 'nilai.id')
-                ->where('unit_sub_id', $unitSub->id)->sum('score') / (count($penilaian) * 4) * 100;
+            $jumlahSubTotal = ($IMP * 4) + ($OK * 3) + ($OBS * 2) + ($MI * 1) + ($MA * 0);
+            $jumlahTemuan = $IMP + $OK + $OBS + $MI + $MA;
+            $average = $jumlahSubTotal / ($jumlahTemuan * 3) * 100;
         }
 
-        return view('penilaian.detail', compact('nav', 'menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA', 'subTotal', 'average'));
+        // dd($jumlahTemuan);
+        return view('penilaian.detail', compact('nav', 'menu', 'divisi', 'unitSub', 'getNilai', 'penilaian', 'pertanyaan', 'iso', 'request', 'IMP', 'OK', 'OBS', 'MI', 'MA', 'average'));
     }
 
     public function getPertanyaanObjektif($pertanyaan_id)
